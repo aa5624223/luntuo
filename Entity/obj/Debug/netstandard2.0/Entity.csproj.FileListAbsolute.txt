@@ -1,0 +1,12 @@
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.AssemblyInfoInputs.cache
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.AssemblyInfo.cs
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.csproj.CoreCompileInputs.cache
+D:\WorkSpace\luntuo\Entity\bin\Debug\netstandard2.0\Entity.deps.json
+D:\WorkSpace\luntuo\Entity\bin\Debug\netstandard2.0\Entity.dll
+D:\WorkSpace\luntuo\Entity\bin\Debug\netstandard2.0\Entity.pdb
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.dll
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.pdb
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.csprojAssemblyReference.cache
+D:\WorkSpace\luntuo\Entity\bin\Debug\netstandard2.0\project_Lw_Utils.dll
+D:\WorkSpace\luntuo\Entity\bin\Debug\netstandard2.0\project_Lw_Utils.pdb
+D:\WorkSpace\luntuo\Entity\obj\Debug\netstandard2.0\Entity.csproj.CopyComplete

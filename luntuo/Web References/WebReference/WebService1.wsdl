@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">轮拖排产系统与SAP接口</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Cgxufj">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bNew" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="iTbcount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CgxufjResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CgxufjResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MySoapHeader" type="tns:MySoapHeader" />
+      <s:complexType name="MySoapHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="Bjxufj">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="bNew" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="iTbcount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BjxufjResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="BjxufjResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Jjxufj">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="bNew" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="iTbcount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="JjxufjResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="JjxufjResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CgxufjSoapIn">
+    <wsdl:part name="parameters" element="tns:Cgxufj" />
+  </wsdl:message>
+  <wsdl:message name="CgxufjSoapOut">
+    <wsdl:part name="parameters" element="tns:CgxufjResponse" />
+  </wsdl:message>
+  <wsdl:message name="CgxufjMySoapHeader">
+    <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="BjxufjSoapIn">
+    <wsdl:part name="parameters" element="tns:Bjxufj" />
+  </wsdl:message>
+  <wsdl:message name="BjxufjSoapOut">
+    <wsdl:part name="parameters" element="tns:BjxufjResponse" />
+  </wsdl:message>
+  <wsdl:message name="BjxufjMySoapHeader">
+    <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
+  </wsdl:message>
+  <wsdl:message name="JjxufjSoapIn">
+    <wsdl:part name="parameters" element="tns:Jjxufj" />
+  </wsdl:message>
+  <wsdl:message name="JjxufjSoapOut">
+    <wsdl:part name="parameters" element="tns:JjxufjResponse" />
+  </wsdl:message>
+  <wsdl:message name="JjxufjMySoapHeader">
+    <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
+  </wsdl:message>
+  <wsdl:portType name="LTPCwebserviceSoap">
+    <wsdl:operation name="Cgxufj">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">采购需求分解</wsdl:documentation>
+      <wsdl:input message="tns:CgxufjSoapIn" />
+      <wsdl:output message="tns:CgxufjSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Bjxufj">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">钣金需求分解</wsdl:documentation>
+      <wsdl:input message="tns:BjxufjSoapIn" />
+      <wsdl:output message="tns:BjxufjSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Jjxufj">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">机加需求分解</wsdl:documentation>
+      <wsdl:input message="tns:JjxufjSoapIn" />
+      <wsdl:output message="tns:JjxufjSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LTPCwebserviceSoap" type="tns:LTPCwebserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Cgxufj">
+      <soap:operation soapAction="http://tempuri.org/Cgxufj" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:CgxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Bjxufj">
+      <soap:operation soapAction="http://tempuri.org/Bjxufj" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:BjxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Jjxufj">
+      <soap:operation soapAction="http://tempuri.org/Jjxufj" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:JjxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LTPCwebserviceSoap12" type="tns:LTPCwebserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Cgxufj">
+      <soap12:operation soapAction="http://tempuri.org/Cgxufj" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:CgxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Bjxufj">
+      <soap12:operation soapAction="http://tempuri.org/Bjxufj" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:BjxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Jjxufj">
+      <soap12:operation soapAction="http://tempuri.org/Jjxufj" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:JjxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LTPCwebservice">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">轮拖排产系统与SAP接口</wsdl:documentation>
+    <wsdl:port name="LTPCwebserviceSoap" binding="tns:LTPCwebserviceSoap">
+      <soap:address location="http://172.31.5.129:750/luntuoPC/WebService1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LTPCwebserviceSoap12" binding="tns:LTPCwebserviceSoap12">
+      <soap12:address location="http://172.31.5.129:750/luntuoPC/WebService1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

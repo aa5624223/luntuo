@@ -1,0 +1,6 @@
+{
+  "ConnectStr": {
+    //可能有多个连接对象
+    "CommonStr": "data source=db16a.changfanz.net;database=LuntuoPcfj;user id=LuntuoPcfj;pwd=LuntuoPcfj123;Max Pool Size=1024;"
+  }
+}
