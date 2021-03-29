@@ -147,11 +147,11 @@
     <Content Include="luntuo\css\reset.css" />
     <Content Include="luntuo\favicon.ico" />
     <Content Include="luntuo\index.html" />
-    <Content Include="luntuo\static\css\2.41c5e8c8.chunk.css" />
+    <Content Include="luntuo\static\css\2.e0a402fc.chunk.css" />
     <Content Include="luntuo\static\css\main.df89f105.chunk.css" />
     <Content Include="luntuo\static\js\2.e1843d2e.chunk.js" />
     <Content Include="luntuo\static\js\2.e1843d2e.chunk.js.LICENSE.txt" />
-    <Content Include="luntuo\static\js\main.21abc757.chunk.js" />
+    <Content Include="luntuo\static\js\main.547ff68f.chunk.js" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js" />
     <Content Include="luntuo\static\media\999.b9883ce8.png" />
     <Content Include="luntuo\static\media\cf_b.7b69f992.jpg" />
@@ -167,10 +167,10 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="log4net.config" />
     <Content Include="luntuo\asset-manifest.json" />
-    <Content Include="luntuo\static\css\2.41c5e8c8.chunk.css.map" />
+    <Content Include="luntuo\static\css\2.e0a402fc.chunk.css.map" />
     <Content Include="luntuo\static\css\main.df89f105.chunk.css.map" />
     <Content Include="luntuo\static\js\2.e1843d2e.chunk.js.map" />
-    <Content Include="luntuo\static\js\main.21abc757.chunk.js.map" />
+    <Content Include="luntuo\static\js\main.547ff68f.chunk.js.map" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

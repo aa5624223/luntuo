@@ -586,6 +586,7 @@ namespace luntuo.Controllers
         {
             JObject msg = new JObject();
             #region 获取数据
+            string OptUserCode = fc["OptUserCode"];
             V_LogInfo bean = new V_LogInfo();
             int page = 1;
             int pageSize = 20;
@@ -600,7 +601,10 @@ namespace luntuo.Controllers
             string str1 = fc["DateTime1[0]"];
             string str2 = fc["DateTime1[1]"];
             bean.UserName = fc["UserName"];
-
+            if (OptUserCode!="sys")
+            {
+                bean.UserCode = OptUserCode;
+            }
 
             #endregion
 
@@ -608,7 +612,7 @@ namespace luntuo.Controllers
 
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql = Common.find<V_LogInfo>(bean);
-            if (string.IsNullOrEmpty(bean.TypeName) && string.IsNullOrEmpty(bean.UserName))
+            if (string.IsNullOrEmpty(bean.TypeName) && string.IsNullOrEmpty(bean.UserName) && string.IsNullOrEmpty(bean.UserCode))
             {
                 if (!string.IsNullOrEmpty(str1) && !string.IsNullOrEmpty(str2)) {
                     sql +=  $"WHERE DateTime1 BETWEEN '{str1}' AND '{str2}'";
@@ -616,6 +620,7 @@ namespace luntuo.Controllers
                 else if (!string.IsNullOrEmpty(str1))
                 {
                     sql +=  $"WHERE DateTime1 <= '{str1}'";
+                    sql += $" AND UserCode ='{OptUserCode}'";
                 } else if (!string.IsNullOrEmpty(str2)) {
                     sql +=  $"WHERE DateTime1 >= '{str2}'";
                 }

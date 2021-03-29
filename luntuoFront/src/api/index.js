@@ -48,9 +48,12 @@ export const getV_CgInfo = (formdata) =>{
 }
 //getUploadInfo
 export const getUploadInfo = (formdata) =>ajax(BASE+'Home/getUploadInfo',formdata,'POST');
-//
-export const getLogInfo = (formdata) =>ajax(BASE+'Home/getLogInfo',formdata,'POST');
-//
+
+export const getLogInfo = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getLogInfo',formdata,'POST')
+}
 export const getBjImp = (formdata) =>{
     const user = localStore.getUser();
     formdata.append("OptUserCode",user.UserCode);
