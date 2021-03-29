@@ -54,7 +54,7 @@ export default class Report4 extends Component {
         }
         this.setState({Fuc_ExelOut})
     }
-    ModalExcelOut = ()=>{
+    ModalExcelOut = async ()=>{
         const {dataSource} = this.state; 
         const ColumsWch = [
           {wch:20},
@@ -71,7 +71,14 @@ export default class Report4 extends Component {
           {wch:20},
           {wch:15},
         ]
-        downloadExcel(dataSource,V_CgInfo_columns,ColumsWch,"采购需求单");
+        let formData = {...this.SearchDataTemp,...{page:1,pageSize:99999}};
+        formData = ConvertFomrData(formData);
+        const result = await getV_CgInfo(formData);
+        if(result.status===0){
+            const {V_CgInfo} = result.data;
+            downloadExcel(V_CgInfo,V_CgInfo_columns,ColumsWch,"采购需求单");
+        }
+        
     }
     render() {
         const { dataSource, loading,V_CgInfo_columns,Fuc_ExelOut,current,dataTotal} = this.state;

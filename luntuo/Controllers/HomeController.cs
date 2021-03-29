@@ -454,6 +454,16 @@ namespace luntuo.Controllers
         {
             JObject msg = new JObject();
             #region 获取数据
+            int page = 1;
+            int pageSize = 50;
+            if (!string.IsNullOrEmpty(fc["page"]))
+            {
+                page = int.Parse(fc["page"]);
+            }
+            if (!string.IsNullOrEmpty(fc["pageSize"]))
+            {
+                pageSize = int.Parse(fc["pageSize"]);
+            }
             V_BjInfo bean = new V_BjInfo();
             string OptUserCode = fc["OptUserCode"];
             bean.UserCode = OptUserCode;
@@ -463,7 +473,7 @@ namespace luntuo.Controllers
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql = Common.find<V_BjInfo>(bean);
             //查询所有数据
-            JObject result = Common.findCommond(sql, typeof(V_BjInfo), 1, 9999, ServerPath);
+            JObject result = Common.findCommond(sql, typeof(V_BjInfo), page, pageSize, ServerPath);
             #endregion
 
             #region 处理数据
@@ -483,6 +493,16 @@ namespace luntuo.Controllers
             #region 获取数据
             V_JjInfo bean = new V_JjInfo();
             string OptUserCode = fc["OptUserCode"];
+            int page = 1;
+            int pageSize = 50;
+            if (!string.IsNullOrEmpty(fc["page"]))
+            {
+                page = int.Parse(fc["page"]);
+            }
+            if (!string.IsNullOrEmpty(fc["pageSize"]))
+            {
+                pageSize = int.Parse(fc["pageSize"]);
+            }
             bean.UserCode = OptUserCode;
             //型号 子件编号、子件名称、
             bean.Series = fc["Series"];
@@ -494,7 +514,7 @@ namespace luntuo.Controllers
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql = Common.find<V_JjInfo>(bean);
             //查询所有数据
-            JObject result = Common.findCommond(sql, typeof(V_JjInfo), 1, 9999, ServerPath);
+            JObject result = Common.findCommond(sql, typeof(V_JjInfo), page, pageSize, ServerPath);
             #endregion
 
             #region 处理数据
@@ -515,6 +535,16 @@ namespace luntuo.Controllers
             string OptUserCode = fc["OptUserCode"];
             bean.UserCode = OptUserCode;
             //物料编码、物料描述、需求日期、供应商代码、供应商名称
+            int page = 1;
+            int pageSize = 50;
+            if (!string.IsNullOrEmpty(fc["page"]))
+            {
+                page = int.Parse(fc["page"]);
+            }
+            if (!string.IsNullOrEmpty(fc["pageSize"]))
+            {
+                pageSize = int.Parse(fc["pageSize"]);
+            }
             bean.Matnr = fc["Matnr"];
             bean.Maktx = fc["Maktx"];
             bean.MRP = fc["MRP"];
@@ -537,7 +567,7 @@ namespace luntuo.Controllers
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql = Common.find<V_CgInfo>(bean);
             //查询所有数据
-            JObject result = Common.findCommond(sql, typeof(V_CgInfo), 1, 9999, ServerPath);
+            JObject result = Common.findCommond(sql, typeof(V_CgInfo), page, pageSize, ServerPath);
             #endregion
 
             #region 处理数据
@@ -634,7 +664,7 @@ namespace luntuo.Controllers
                 else if (!string.IsNullOrEmpty(str1))
                 {
                     sql += $" AND DateTime1 <= '{str1}'";
-                }
+                } 
                 else if (!string.IsNullOrEmpty(str2))
                 {
                     sql +=  $" AND DateTime1 >= '{str2}'";

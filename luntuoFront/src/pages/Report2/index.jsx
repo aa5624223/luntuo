@@ -51,7 +51,7 @@ export default class Report2 extends Component {
         }
         this.setState({Fuc_ExelOut})
     }
-    ModalExcelOut = ()=>{
+    ModalExcelOut = async ()=>{
         const {dataSource} = this.state; 
         const ColumsWch = [
           {wch:20},
@@ -66,7 +66,13 @@ export default class Report2 extends Component {
           {wch:45},
           {wch:10},
         ]
-        downloadExcel(dataSource,V_BjInfo_columns,ColumsWch,"钣金需求单");
+        let formData = {...this.SearchDataTemp,...{page:1,pageSize:99999}};
+        formData = ConvertFomrData(formData);
+        const result = await getV_BjInfo(formData);
+        if(result.status===0){
+            const {V_BjInfo} = result.data;
+            downloadExcel(V_BjInfo,V_BjInfo_columns,ColumsWch,"钣金需求单");
+        }
     }
     
     render() {
