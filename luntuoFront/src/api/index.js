@@ -4,7 +4,6 @@ import ajax from './ajax'
 import localStore from '../utils/storageUtils'
 //import Base from 'antd/lib/typography/Base'
 const BASE = window.location.origin+"/";
-
 /* 获取数据 */ 
 //登录
 export const reqLogin = (formData)=>ajax(BASE+'Home/Login',formData,'POST')
@@ -46,6 +45,11 @@ export const getV_CgInfo = (formdata) =>{
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/getV_CgInfo',formdata,'POST')
 }
+export const getDdOrder = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getDdOrder',formdata,'POST')
+}
 //getUploadInfo
 export const getUploadInfo = (formdata) =>ajax(BASE+'Home/getUploadInfo',formdata,'POST');
 
@@ -70,6 +74,28 @@ export const getCgImp = (formdata) =>{
     const user = localStore.getUser();
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/getCgImp',formdata,'POST')
+}
+
+export const getV_DdOrder_Det = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getV_DdOrder_Det',formdata,'POST')
+}
+
+export const getV_Sum_Num_JiInfo = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getV_Sum_Num_JiInfo',formdata,'POST')
+}
+export const getV_Sum_Num_CgInfo = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getV_Sum_Num_CgInfo',formdata,'POST')
+}
+export const getV_Sum_Num_BjInfo = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getV_Sum_Num_BjInfo',formdata,'POST')
 }
 
 /* 获取数据End */
@@ -125,6 +151,17 @@ export const editMRPInfo = (formdata) =>{
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/editMRPInfo',formdata,'POST')
 }
+//修改调度单 editDdOrder
+export const editDdOrder = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/editDdOrder',formdata,'POST')
+}
+export const editDdOrder_status = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/editDdOrder_status',formdata,'POST')
+}
 /* 修改End */
 /* 删除 */
 //删除用户
@@ -169,7 +206,12 @@ export const delWBInfos = (formdata) =>{
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/delWBInfos',formdata,'POST')
 }
-
+//删除调度单版本2
+export const delDdOrder = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/delDdOrder',formdata,'POST')
+}
 /* 提交更新请求  */
 //提交钣金需求分解更新
 export const submitBjImp = (formdata) =>{
@@ -194,4 +236,16 @@ export const submitWBInfo = (formdata) =>{
     const user = localStore.getUser();
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/submitWBInfo',formdata,'POST')
+}
+//提交调度单
+export const submitDdOrder = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/submitDdOrder',formdata,'POST')
+}
+//调度单需求计划执行
+export const demantExe = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/demantExe',formdata,'POST')
 }

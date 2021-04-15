@@ -61,6 +61,17 @@ namespace Entity.luntuo
         [Property()]
         public string UserCode { get; set; }
 
+        /// <summary>
+        /// 调度单
+        /// </summary>
+        [Property(Model = 3)]
+        public long DID { get; set; }
+
+        /// <summary>
+        /// 投产日期
+        /// </summary>
+        public DateTime Datetime1 { get; set; }
+
         #endregion
     }
 }

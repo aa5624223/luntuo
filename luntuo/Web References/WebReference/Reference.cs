@@ -31,11 +31,15 @@ namespace luntuo.WebReference {
         
         private MySoapHeader mySoapHeaderValueField;
         
+        private System.Threading.SendOrPostCallback DddxqfjOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CgxufjOperationCompleted;
         
         private System.Threading.SendOrPostCallback BjxufjOperationCompleted;
         
         private System.Threading.SendOrPostCallback JjxufjOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ChkSapOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -85,6 +89,9 @@ namespace luntuo.WebReference {
         }
         
         /// <remarks/>
+        public event DddxqfjCompletedEventHandler DddxqfjCompleted;
+        
+        /// <remarks/>
         public event CgxufjCompletedEventHandler CgxufjCompleted;
         
         /// <remarks/>
@@ -94,32 +101,65 @@ namespace luntuo.WebReference {
         public event JjxufjCompletedEventHandler JjxufjCompleted;
         
         /// <remarks/>
+        public event ChkSapCompletedEventHandler ChkSapCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Dddxqfj", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string Dddxqfj(string strDate, int iDID) {
+            object[] results = this.Invoke("Dddxqfj", new object[] {
+                        strDate,
+                        iDID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DddxqfjAsync(string strDate, int iDID) {
+            this.DddxqfjAsync(strDate, iDID, null);
+        }
+        
+        /// <remarks/>
+        public void DddxqfjAsync(string strDate, int iDID, object userState) {
+            if ((this.DddxqfjOperationCompleted == null)) {
+                this.DddxqfjOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDddxqfjOperationCompleted);
+            }
+            this.InvokeAsync("Dddxqfj", new object[] {
+                        strDate,
+                        iDID}, this.DddxqfjOperationCompleted, userState);
+        }
+        
+        private void OnDddxqfjOperationCompleted(object arg) {
+            if ((this.DddxqfjCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DddxqfjCompleted(this, new DddxqfjCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Cgxufj", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Cgxufj(string strDate, bool bNew, int iTbcount, string strUserCode) {
+        public bool Cgxufj(string strDate, string strUserCode, int iDID) {
             object[] results = this.Invoke("Cgxufj", new object[] {
                         strDate,
-                        bNew,
-                        iTbcount,
-                        strUserCode});
+                        strUserCode,
+                        iDID});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void CgxufjAsync(string strDate, bool bNew, int iTbcount, string strUserCode) {
-            this.CgxufjAsync(strDate, bNew, iTbcount, strUserCode, null);
+        public void CgxufjAsync(string strDate, string strUserCode, int iDID) {
+            this.CgxufjAsync(strDate, strUserCode, iDID, null);
         }
         
         /// <remarks/>
-        public void CgxufjAsync(string strDate, bool bNew, int iTbcount, string strUserCode, object userState) {
+        public void CgxufjAsync(string strDate, string strUserCode, int iDID, object userState) {
             if ((this.CgxufjOperationCompleted == null)) {
                 this.CgxufjOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCgxufjOperationCompleted);
             }
             this.InvokeAsync("Cgxufj", new object[] {
                         strDate,
-                        bNew,
-                        iTbcount,
-                        strUserCode}, this.CgxufjOperationCompleted, userState);
+                        strUserCode,
+                        iDID}, this.CgxufjOperationCompleted, userState);
         }
         
         private void OnCgxufjOperationCompleted(object arg) {
@@ -132,28 +172,26 @@ namespace luntuo.WebReference {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Bjxufj", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Bjxufj(bool bNew, int iTbcount, string strUserCode) {
+        public bool Bjxufj(string strUserCode, int iDID) {
             object[] results = this.Invoke("Bjxufj", new object[] {
-                        bNew,
-                        iTbcount,
-                        strUserCode});
+                        strUserCode,
+                        iDID});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void BjxufjAsync(bool bNew, int iTbcount, string strUserCode) {
-            this.BjxufjAsync(bNew, iTbcount, strUserCode, null);
+        public void BjxufjAsync(string strUserCode, int iDID) {
+            this.BjxufjAsync(strUserCode, iDID, null);
         }
         
         /// <remarks/>
-        public void BjxufjAsync(bool bNew, int iTbcount, string strUserCode, object userState) {
+        public void BjxufjAsync(string strUserCode, int iDID, object userState) {
             if ((this.BjxufjOperationCompleted == null)) {
                 this.BjxufjOperationCompleted = new System.Threading.SendOrPostCallback(this.OnBjxufjOperationCompleted);
             }
             this.InvokeAsync("Bjxufj", new object[] {
-                        bNew,
-                        iTbcount,
-                        strUserCode}, this.BjxufjOperationCompleted, userState);
+                        strUserCode,
+                        iDID}, this.BjxufjOperationCompleted, userState);
         }
         
         private void OnBjxufjOperationCompleted(object arg) {
@@ -166,34 +204,66 @@ namespace luntuo.WebReference {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Jjxufj", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Jjxufj(bool bNew, int iTbcount, string strUserCode) {
+        public bool Jjxufj(string strUserCode, int iDID) {
             object[] results = this.Invoke("Jjxufj", new object[] {
-                        bNew,
-                        iTbcount,
-                        strUserCode});
+                        strUserCode,
+                        iDID});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void JjxufjAsync(bool bNew, int iTbcount, string strUserCode) {
-            this.JjxufjAsync(bNew, iTbcount, strUserCode, null);
+        public void JjxufjAsync(string strUserCode, int iDID) {
+            this.JjxufjAsync(strUserCode, iDID, null);
         }
         
         /// <remarks/>
-        public void JjxufjAsync(bool bNew, int iTbcount, string strUserCode, object userState) {
+        public void JjxufjAsync(string strUserCode, int iDID, object userState) {
             if ((this.JjxufjOperationCompleted == null)) {
                 this.JjxufjOperationCompleted = new System.Threading.SendOrPostCallback(this.OnJjxufjOperationCompleted);
             }
             this.InvokeAsync("Jjxufj", new object[] {
-                        bNew,
-                        iTbcount,
-                        strUserCode}, this.JjxufjOperationCompleted, userState);
+                        strUserCode,
+                        iDID}, this.JjxufjOperationCompleted, userState);
         }
         
         private void OnJjxufjOperationCompleted(object arg) {
             if ((this.JjxufjCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.JjxufjCompleted(this, new JjxufjCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ChkSap", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string ChkSap(string strType, string strUserCode, int iDID) {
+            object[] results = this.Invoke("ChkSap", new object[] {
+                        strType,
+                        strUserCode,
+                        iDID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ChkSapAsync(string strType, string strUserCode, int iDID) {
+            this.ChkSapAsync(strType, strUserCode, iDID, null);
+        }
+        
+        /// <remarks/>
+        public void ChkSapAsync(string strType, string strUserCode, int iDID, object userState) {
+            if ((this.ChkSapOperationCompleted == null)) {
+                this.ChkSapOperationCompleted = new System.Threading.SendOrPostCallback(this.OnChkSapOperationCompleted);
+            }
+            this.InvokeAsync("ChkSap", new object[] {
+                        strType,
+                        strUserCode,
+                        iDID}, this.ChkSapOperationCompleted, userState);
+        }
+        
+        private void OnChkSapOperationCompleted(object arg) {
+            if ((this.ChkSapCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ChkSapCompleted(this, new ChkSapCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -259,6 +329,32 @@ namespace luntuo.WebReference {
             }
             set {
                 this.anyAttrField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    public delegate void DddxqfjCompletedEventHandler(object sender, DddxqfjCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DddxqfjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DddxqfjCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
     }
@@ -337,6 +433,32 @@ namespace luntuo.WebReference {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    public delegate void ChkSapCompletedEventHandler(object sender, ChkSapCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ChkSapCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ChkSapCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
     }

@@ -43,7 +43,9 @@ namespace Entity.Methods
                 else
                 {//是属性
                     Property Pro = (Property)objs[0];
-                    SelProperty.Add(p.Name);
+                    if (!Pro.NotSelect) {
+                        SelProperty.Add(p.Name);
+                    }
                     //不是主键也不是外键
                     if (string.IsNullOrEmpty(Pro.PType))
                     {
@@ -61,18 +63,39 @@ namespace Entity.Methods
                                 }
                                 if (Pro.Model == 0)
                                 {
-                                    WhereProperty.Add(p.Name + $"={str.ToString()}");
+                                    if (str.ToString()=="-1") {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        WhereProperty.Add(p.Name + $"={str.ToString()}");
+                                    }
                                 }
                                 else if (Pro.Model == 1)
                                 {
-                                    WhereProperty.Add(p.Name + $"<={str.ToString()}");
+                                    if (str.ToString() == "-1")
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        WhereProperty.Add(p.Name + $"<={str.ToString()}");
+                                    }
                                 }
                                 else if (Pro.Model ==3) {
                                     continue;
                                 }
                                 else
                                 {
-                                    WhereProperty.Add(p.Name + $">={str.ToString()}");
+                                    if (str.ToString() == "-1")
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        WhereProperty.Add(p.Name + $">={str.ToString()}");
+                                    }
+                                    
                                 }
                             }
                             else if (typeof(string) == PType)
@@ -122,9 +145,19 @@ namespace Entity.Methods
                                     {
                                         WhereProperty.Add(p.Name + $"='{str.ToString()}'");
                                     }
-                                    else
+                                    else if(Pro.Model == 1)
                                     {
                                         WhereProperty.Add(p.Name + $" like '%{str.ToString()}%'");
+                                    }else
+                                    {
+                                        if (string.IsNullOrEmpty(Pro.Colums)) {
+                                            WhereProperty.Add($"{p.Name} in ({str.ToString()})");
+                                        }
+                                        else
+                                        {
+                                            WhereProperty.Add($"{Pro.Colums} in ({str.ToString()})");
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -395,19 +428,19 @@ namespace Entity.Methods
                             {//数字
                                 if (typeof(long) == PType) {
                                     long temp = long.Parse(str.ToString());
-                                    if (temp!=0) {
+                                    if (temp!=0 && temp!=-1) {
                                         SetSql.Add(p.Name + $"={temp}");
                                     }
                                 } else if (typeof(int) == PType) {
                                     int temp = int.Parse(str.ToString());
-                                    if (temp != 0)
+                                    if (temp != 0 && temp!=-1)
                                     {
                                         SetSql.Add(p.Name + $"={temp}");
                                     }
                                 }
                                 else{
                                     decimal temp = decimal.Parse(str.ToString());
-                                    if (temp != 0)
+                                    if (temp != 0 && temp!=-1)
                                     {
                                         SetSql.Add(p.Name + $"={temp}");
                                     }

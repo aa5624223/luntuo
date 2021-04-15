@@ -454,3 +454,23 @@ export const V_LogInfoFielsds=[
     placeholder:'操作人',//不填写时显示的
   }
 ]
+export const DdOrder = [
+  {
+    key:'Fiels_2',
+    span:6,//input长度
+    name:'DateTime1',//Form的名字
+    label:'计划月份',//对应的label
+    //rules:[{ required: true,message: 'Input something!',}],//对应规则
+    type:'DateTime',//类型 Input,Select,DateTime 等等
+    placeholder:'计划月份',//不填写时显示的
+  },
+  {
+    key:'Fiels_3',
+    span:6,//input长度
+    name:'status',//Form的名字
+    label:'是否生效',//对应的label
+    //rules:[{ required: true,message: 'Input something!',}],//对应规则
+    type:'Input',//类型 Input,Select,DateTime 等等
+    placeholder:'是否生效',//不填写时显示的
+  }
+]

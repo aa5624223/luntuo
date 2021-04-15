@@ -27,7 +27,6 @@ export default class Service4 extends Component {
     }
     //搜索数据
     SearchData = async (formData) => {
-        console.dir(formData);
         if(formData===undefined){
             formData = new FormData();
         }else{

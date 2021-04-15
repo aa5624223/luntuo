@@ -3,20 +3,18 @@
   <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">轮拖排产系统与SAP接口</wsdl:documentation>
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
-      <s:element name="Cgxufj">
+      <s:element name="Dddxqfj">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="bNew" type="s:boolean" />
-            <s:element minOccurs="1" maxOccurs="1" name="iTbcount" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iDID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="CgxufjResponse">
+      <s:element name="DddxqfjResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="CgxufjResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="DddxqfjResult" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -28,12 +26,27 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="Cgxufj">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iDID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CgxufjResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CgxufjResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Bjxufj">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="bNew" type="s:boolean" />
-            <s:element minOccurs="1" maxOccurs="1" name="iTbcount" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iDID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -47,9 +60,8 @@
       <s:element name="Jjxufj">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="bNew" type="s:boolean" />
-            <s:element minOccurs="1" maxOccurs="1" name="iTbcount" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iDID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -60,8 +72,33 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ChkSap">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iDID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ChkSapResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ChkSapResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="DddxqfjSoapIn">
+    <wsdl:part name="parameters" element="tns:Dddxqfj" />
+  </wsdl:message>
+  <wsdl:message name="DddxqfjSoapOut">
+    <wsdl:part name="parameters" element="tns:DddxqfjResponse" />
+  </wsdl:message>
+  <wsdl:message name="DddxqfjMySoapHeader">
+    <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
+  </wsdl:message>
   <wsdl:message name="CgxufjSoapIn">
     <wsdl:part name="parameters" element="tns:Cgxufj" />
   </wsdl:message>
@@ -89,7 +126,21 @@
   <wsdl:message name="JjxufjMySoapHeader">
     <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
   </wsdl:message>
+  <wsdl:message name="ChkSapSoapIn">
+    <wsdl:part name="parameters" element="tns:ChkSap" />
+  </wsdl:message>
+  <wsdl:message name="ChkSapSoapOut">
+    <wsdl:part name="parameters" element="tns:ChkSapResponse" />
+  </wsdl:message>
+  <wsdl:message name="ChkSapMySoapHeader">
+    <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
+  </wsdl:message>
   <wsdl:portType name="LTPCwebserviceSoap">
+    <wsdl:operation name="Dddxqfj">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">调度单需求分解</wsdl:documentation>
+      <wsdl:input message="tns:DddxqfjSoapIn" />
+      <wsdl:output message="tns:DddxqfjSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Cgxufj">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">采购需求分解</wsdl:documentation>
       <wsdl:input message="tns:CgxufjSoapIn" />
@@ -105,9 +156,24 @@
       <wsdl:input message="tns:JjxufjSoapIn" />
       <wsdl:output message="tns:JjxufjSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ChkSap">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">物料及BOM有效性检查</wsdl:documentation>
+      <wsdl:input message="tns:ChkSapSoapIn" />
+      <wsdl:output message="tns:ChkSapSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LTPCwebserviceSoap" type="tns:LTPCwebserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Dddxqfj">
+      <soap:operation soapAction="http://tempuri.org/Dddxqfj" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DddxqfjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Cgxufj">
       <soap:operation soapAction="http://tempuri.org/Cgxufj" style="document" />
       <wsdl:input>
@@ -138,9 +204,29 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ChkSap">
+      <soap:operation soapAction="http://tempuri.org/ChkSap" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ChkSapMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="LTPCwebserviceSoap12" type="tns:LTPCwebserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Dddxqfj">
+      <soap12:operation soapAction="http://tempuri.org/Dddxqfj" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DddxqfjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Cgxufj">
       <soap12:operation soapAction="http://tempuri.org/Cgxufj" style="document" />
       <wsdl:input>
@@ -166,6 +252,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:JjxufjMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChkSap">
+      <soap12:operation soapAction="http://tempuri.org/ChkSap" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ChkSapMySoapHeader" part="MySoapHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

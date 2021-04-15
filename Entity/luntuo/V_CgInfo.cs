@@ -29,12 +29,6 @@ namespace Entity.luntuo
         public string Matnr { get; set; }
 
         /// <summary>
-        /// 需求日期
-        /// </summary>
-        [Property(StringModel=1,Model = 1)]
-        public string Budat { get; set; }
-
-        /// <summary>
         /// MRP控制者
         /// </summary>
         [Property()]
@@ -71,16 +65,28 @@ namespace Entity.luntuo
         public decimal PEIE { get; set; }
 
         /// <summary>
-        /// 9001轮拖寄售库存
+        /// 月初寄售库存
         /// </summary>
         [Property(Model = 3)]
-        public decimal JSKC { get; set; }
+        public decimal Num1 { get; set; }
 
         /// <summary>
-        /// 4101轮拖材料库存
+        /// 月初材料库
         /// </summary>
         [Property(Model = 3)]
-        public decimal CLKC { get; set; }
+        public decimal Num2 { get; set; }
+
+        ///// <summary>
+        ///// 9001轮拖寄售库存
+        ///// </summary>
+        //[Property(Model = 3)]
+        //public decimal JSKC { get; set; }
+
+        ///// <summary>
+        ///// 4101轮拖材料库存
+        ///// </summary>
+        //[Property(Model = 3)]
+        //public decimal CLKC { get; set; }
 
         /// <summary>
         /// 收货冻结数量
@@ -90,6 +96,15 @@ namespace Entity.luntuo
 
         [Property()]
         public string UserCode { get; set; }
+
+        [Property(Model = 3)]
+        public long DID { get; set; }
+
+        /// <summary>
+        /// 投产日期
+        /// </summary>
+        [Property()]
+        public DateTime Datetime1 { get; set; }
 
         #endregion
     }

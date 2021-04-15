@@ -17,13 +17,13 @@ namespace Entity.luntuo
         public long ID { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 物料描述
         /// </summary>
         [Property()]
         public string Maktx { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 物料编码
         /// </summary>
         [Property()]
         public string Matnr { get; set; }
@@ -59,7 +59,7 @@ namespace Entity.luntuo
         public string Name1 { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 数量
         /// </summary>
         [Property(Model = 3)]
         public decimal Menge { get; set; }
@@ -96,6 +96,11 @@ namespace Entity.luntuo
         /// </summary>
         [Property()]
         public string UserCode { get; set; }
+
+        /// <summary>
+        /// 外键 调度单
+        /// </summary>
+        public long DID { get; set; }
 
         #endregion
     }

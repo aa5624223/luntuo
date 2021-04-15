@@ -95,13 +95,48 @@ namespace Entity.luntuo
         public string MRP { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 1层数量
         /// </summary>
         [Property(Model = 3)]
-        public decimal menge { get; set; }
+        public decimal Num1 { get; set; }
+
+        /// <summary>
+        /// 2层数量
+        /// </summary>
+        [Property(Model = 3)]
+        public decimal Num2 { get; set; }
+
+        /// <summary>
+        /// 3层数量
+        /// </summary>
+        [Property(Model = 3)]
+        public decimal Num3 { get; set; }
+
+        /// <summary>
+        /// 4层数量
+        /// </summary>
+        [Property(Model = 3)]
+        public decimal Num4 { get; set; }
+
+        /// <summary>
+        /// 5层数量
+        /// </summary>
+        [Property(Model = 3)]
+        public decimal Num5 { get; set; }
 
         [Property()]
         public string UserCode { get; set; }
+
+        /// <summary>
+        /// 调度单
+        /// </summary>
+        [Property(Model = 3)]
+        public long DID { get; set; }
+
+        /// <summary>
+        /// 投产日期
+        /// </summary>
+        public DateTime Datetime1 { get; set; }
 
         #endregion
     }

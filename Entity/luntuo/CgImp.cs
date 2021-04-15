@@ -32,7 +32,7 @@ namespace Entity.luntuo
         /// 用户名
         /// </summary>
         [Property()]
-        public string Budat { get; set; }
+        public string Datetime1 { get; set; }
 
         /// <summary>
         /// 同步码

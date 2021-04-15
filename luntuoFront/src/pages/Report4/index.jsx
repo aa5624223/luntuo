@@ -55,7 +55,7 @@ export default class Report4 extends Component {
         this.setState({Fuc_ExelOut})
     }
     ModalExcelOut = async ()=>{
-        const {dataSource} = this.state; 
+        //const {dataSource} = this.state; 
         const ColumsWch = [
           {wch:20},
 	      {wch:60},

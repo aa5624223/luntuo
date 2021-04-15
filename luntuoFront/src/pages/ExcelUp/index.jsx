@@ -53,9 +53,10 @@ export default class ExcelUp extends Component {
                                     if(item[item2.title]!==undefined){
                                         if(item2.title.indexOf('日期')!==-1 || item2.title.indexOf('时间')!==-1){
                                             if(item[item2.title] instanceof Date){
-                                                single[item2.dataIndex] = moment(item[item2.title]).add(1,'days').format('YYYY-MM-DD');
+                                                single[item2.dataIndex] = moment(item[item2.title]).add(1,'days').format('YYYYMMDD');
                                             }else{
-                                                single[item2.dataIndex] = item[item2.title]
+                                                var dt = new Date(item[item2.title]);
+                                                single[item2.dataIndex] = moment(dt).format('YYYYMMDD');
                                             }
                                         }else{
                                             single[item2.dataIndex] = item[item2.title]

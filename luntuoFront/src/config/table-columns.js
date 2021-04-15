@@ -1,4 +1,7 @@
-import { Tag} from 'antd';
+import { Tag,Button} from 'antd';
+import { getColumnSearchProps } from "../utils";
+import moment from 'moment'
+
 /* 配置数据 */
 //采购订单的表格配置
 export const Polist_columns = [
@@ -422,8 +425,8 @@ export const CgInfo_columns =[
 export const CgImp_columns =[
     {
         title: '物料编码',
-        dataIndex: 'Matnr',
-        key: 'Matnr',
+        dataIndex: 'MATNR',
+        key: 'MATNR',
         width: 60,
     },
     {
@@ -434,8 +437,8 @@ export const CgImp_columns =[
     },
     {//需求日期
         title: '需求日期',
-        dataIndex: 'Budat',
-        key: 'Budat',
+        dataIndex: 'Datetime1',
+        key: 'Datetime1',
         width: 60,
     },
     {
@@ -502,6 +505,12 @@ export const V_BjInfo_columns = [
         width: 60,
     },
     {
+        title: '一层数量',
+        dataIndex: 'Num1',
+        key: 'Num1',
+        width: 20,
+    },
+    {
         title: '二层编码',
         dataIndex: 'SecondCode',
         key: 'SecondCode',
@@ -512,6 +521,12 @@ export const V_BjInfo_columns = [
         dataIndex: 'SecondName',
         key: 'SecondName',
         width: 60,
+    },
+    {
+        title: '二层数量',
+        dataIndex: 'Num2',
+        key: 'Num2',
+        width: 20,
     },
     {
         title: '三层编码',
@@ -526,6 +541,12 @@ export const V_BjInfo_columns = [
         width: 60,
     },
     {
+        title: '三层数量',
+        dataIndex: 'Num3',
+        key: 'Num3',
+        width: 20,
+    },
+    {
         title: '四层编码',
         dataIndex: 'FourthCode',
         key: 'FourthCode',
@@ -536,6 +557,12 @@ export const V_BjInfo_columns = [
         dataIndex: 'FourthName',
         key: 'FourthName',
         width: 60,
+    },
+    {
+        title: '四层数量',
+        dataIndex: 'Num4',
+        key: 'Num4',
+        width: 20,
     },
     {
         title: '五层编码',
@@ -550,10 +577,10 @@ export const V_BjInfo_columns = [
         width: 60,
     },
     {
-        title: '需求数量',
-        dataIndex: 'menge',
-        key: 'menge',
-        width: 30,
+        title: '五层数量',
+        dataIndex: 'Num5',
+        key: 'Num5',
+        width: 20,
     }
 ]
 //机加需求单查询
@@ -620,9 +647,19 @@ export const V_CgInfo_columns =[
     },
     {
         title: '需求日期',
-        dataIndex: 'Budat',
-        key: 'Budat',
+        dataIndex: 'Datetime1',
+        key: 'Datetime1',
         width: 40,
+        render:function (data) {
+            if(data!==""){
+                var dt = new Date(data);
+                return moment(dt).format('YYYYMMDD');
+            }else{
+                return "";
+            }
+            
+            
+        }
     },
     {
         title: 'MRP控制者',
@@ -663,14 +700,14 @@ export const V_CgInfo_columns =[
     },
     {
         title: '9001轮拖寄售库存',
-        dataIndex: 'JSKC',
-        key: 'JSKC',
+        dataIndex: 'Num1',
+        key: 'Num1',
         width: 55,
     },
     {
         title: '4101轮拖材料库存',
-        dataIndex: 'CLKC',
-        key: 'CLKC',
+        dataIndex: 'Num2',
+        key: 'Num2',
         width: 55,
     },
     {
@@ -814,3 +851,555 @@ export const V_LogInfo_columns =[
         width: 30,
     },
 ]
+//DdOrder
+export const GetDdOrder_columns = _this=>( 
+    [
+        {
+            title: '调度单号',
+            dataIndex: 'LTOrder',
+            key: 'LTOrder',
+            width: 30,
+            ...getColumnSearchProps('LTOrder',_this),
+        },
+        {
+            title: '版本号',
+            dataIndex: 'TbCount',
+            key: 'TbCount',
+            width: 20,
+        },
+        {
+            title: '产线',
+            dataIndex: 'Faline',
+            key: 'Faline',
+            width: 25,
+            ...getColumnSearchProps('Faline',_this),
+        },
+        {
+            title: '上传时间',
+            dataIndex: 'UpTime',
+            key: 'UpTime',
+            width: 30,
+            render:function (val) {
+                //return val!==""?moment(val).format("YYYYMM"):val
+                return val;
+            }
+        },
+        {
+            title: '生效',
+            dataIndex: 'status',
+            key: 'status',
+            width: 25,
+            filters:[
+                { text: '是', value: '是' },
+                { text: '否', value: '否' },
+            ],
+            render:function(val){
+                if(val==='是'){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="red">{val}</Tag>
+                }
+            }
+        },
+        {
+            title: '钣金状态',
+            dataIndex: 'BjStatus',
+            key: 'BjStatus',
+            width: 28,
+            render:function(val) {
+                if(val==="待执行"){
+                    return <Tag color="blue">{val}</Tag>
+                }else if(val==="已完成"){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="magenta">{val}</Tag>
+                }
+            }
+        },
+        {
+            title: '机加状态',
+            dataIndex: 'JjStatus',
+            key: 'JjStatus',
+            width: 28,
+            render:function(val) {
+                if(val==="待执行"){
+                    return <Tag color="blue">{val}</Tag>
+                }else if(val==="已完成"){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="magenta">{val}</Tag>
+                }
+            }
+        },
+        {
+            title: '采购状态',
+            dataIndex: 'CgStatus',
+            key: 'CgStatus  ',
+            width: 28,
+            render:function(val) {
+                if(val==="待执行"){
+                    return <Tag color="blue">{val}</Tag>
+                }else if(val==="已完成"){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="magenta">{val}</Tag>
+                }
+            }
+        },
+        {
+            title: '最近执行时间',
+            dataIndex: 'RecTime',
+            key: 'RecTime  ',
+            width: 32, 
+            render:function (val) {
+                //return val!==""?moment(val).format("YYYYMM"):val
+            }
+        },
+        {
+            title: '计划月份',
+            dataIndex: 'PlanDt',
+            key: 'PlanDt  ',
+            width: 25,
+            render:(val)=>{
+                //console.dir(val);
+                return val;
+                //return val!==""?moment(val).format("YYYYMM"):val
+            }
+        },
+        {
+            title: '操作',
+            width: 41,
+            fixed: 'right',
+            dataIndex: 'operation',
+            render: (_, record) => {
+                return (
+                    <div style={{ textAlign: 'center' }}>
+                        {_this.state.Fuc_Del?<Button size="small" type="primary" onClick={() => _this.ModalDel(record,_this)} danger>删除</Button>:""}
+                        &emsp;
+                        {_this.state.Fuc_Edit?<Button size="small" type="primary" onClick={() => _this.ModalEdit(record,_this)} >编辑</Button>:""}
+                        
+                        {/* {record.status==="否"?<Button size="small" type="link" onClick={()=>_this.changeStatus(record,_this)} >生效</Button>:"已生效"} */}
+                    </div>
+                )
+            }
+        }
+    ]
+)
+export const DdOrder_Det_columns = ()=>(
+    [
+    {
+        title: '序号',
+        dataIndex: 'TbIndex',
+        key: 'TbIndex',
+        width: 18,
+        render:(text,record,index)=>`${index+1}`,
+    },
+    {
+        title: '投产日期',
+        dataIndex: 'Datetime1',
+        key: 'Datetime1',
+        width: 25,
+    },
+    {
+        title: '整机编码',
+        dataIndex: 'ZjNo',
+        key: 'ZjNo',
+        width: 35,
+    },
+    {
+        title: '物料编码',
+        dataIndex: 'Matnr',
+        key: 'Matnr',
+        width: 30,
+    },
+    {
+        title: '系列',
+        dataIndex: 'Series',
+        key: 'Series',
+        width: 20,
+    },
+    {
+        title:'型号',
+        dataIndex:'Model',
+        key:'Model',
+        width:20,
+    },
+    {
+        title:'分动箱',
+        dataIndex: 'Box',
+        key: 'Box',
+        width: 20,
+    },
+    {
+        title:'数量',
+        dataIndex: 'Num',
+        key: 'Num',
+        width: 18,
+
+    },
+    {
+        title:'配置',
+        dataIndex: 'Config',
+        key: 'Config',
+        width: 45,
+        ellipsis: true,
+    },
+    {
+        title:'交库时间',
+        dataIndex: 'Datetime2',
+        key: 'Datetime2',
+        width: 25,
+    },
+    {
+        title:'备注',
+        dataIndex: 'Bz',
+        key: 'Bz',
+        width: 45,
+        ellipsis: true,
+    },
+])
+//调度表总结字段配置
+export const DdOrder_Sum_columns = (_this)=>{
+    return [
+        {
+            title: '调度单号',
+            dataIndex: 'LTOrder',
+            key: 'LTOrder',
+            width: 30,
+            ...getColumnSearchProps('LTOrder',_this),
+        },
+        {
+            title: '版本号',
+            dataIndex: 'TbCount',
+            key: 'TbCount',
+            width: 18,
+        },
+        {
+            title:'序号',
+            dataIndex: 'NO',
+            key: 'NO',
+            width: 18,
+        },
+        {
+            title: '生效',
+            dataIndex: 'status',
+            key: 'status',
+            width: 25,
+            filters:[
+                { text: '是', value: '是' },
+                { text: '否', value: '否' },
+            ],
+            render:function(val){
+                if(val==='是'){
+                    return <Tag color="green">是</Tag>
+                }else{
+                    return <Tag color="red">否</Tag>
+                }
+            }
+        },
+        {
+            title: '产线',
+            dataIndex: 'Faline',
+            key: 'Faline',
+            width: 25,
+            ...getColumnSearchProps('Faline',_this),
+        },
+        {
+            title: '计划月份',
+            dataIndex: 'PlanDt',
+            key: 'PlanDt',
+            width: 25,
+            render:(val)=>{
+                return val!==""?moment(val).format("YYYYMM"):val
+            }
+        },
+        {
+            title: '明细数',
+            dataIndex: 'DetCount',
+            key: 'DetCount',
+            width: 18,
+        }
+    ];
+}
+//调度单表明细总结字段配置
+export const DdOrder_Det_Sum_columns = ()=>{
+    return [
+        // {
+        //     title:'状态',
+        //     dataIndex:'Det_status',
+        //     key: 'Det_status',
+        //     width: 20,
+        // },
+        {
+            title:'整机编码',
+            dataIndex:'ZjNo',
+            key: 'ZjNo',
+            width: 22,
+        },
+        {
+            title:'物料编码',
+            dataIndex:'Matnr',
+            key: 'Matnr',
+            width: 22,
+        },
+        {
+            title:'系列',
+            dataIndex:'Series',
+            key: 'Series',
+            width: 12,
+        },
+        {
+            title:'型号',
+            dataIndex:'Model',
+            key: 'Model',
+            width: 15,
+        },
+        {
+            title:'分动箱',
+            dataIndex:'Box',
+            key: 'Box',
+            width: 12,
+        },
+        {
+            title:'数量',
+            dataIndex:'Num',
+            key: 'Num',
+            width: 10,
+        },
+        {
+            title:'配置',
+            dataIndex:'Config',
+            key: 'Config',
+            width: 80,
+        },
+        
+        {
+            title:'投产日期',
+            dataIndex:'Datetime1',
+            key: 'Datetime1',
+            width: 14,
+        },
+        {
+            title:'交库时间',
+            dataIndex:'Datetime2',
+            key: 'Datetime2',
+            width: 14,
+        },
+        {
+            title:'备注',
+            dataIndex:'Bz',
+            key: 'Bz',
+            width: 50,
+            ellipsis: true,
+        },
+    ]
+}
+//调度单机加表
+export const DdOrder_JjInfo_columns = ()=>{
+    return [
+        {
+            title:'物料编码',
+            dataIndex:'Matnr',
+            key: 'Matnr',
+            width: 22,
+        },
+        {
+            title:'物料描述',
+            dataIndex:'Maktx',
+            key: 'Maktx',
+            width: 22,
+        },
+        {
+            title:'单位',
+            dataIndex:'Meins',
+            key: 'Meins',
+            width: 22,
+        },
+        {
+            title:'系列',
+            dataIndex:'Series',
+            key: 'Series',
+            width: 22,
+        },
+        {
+            title:'班组',
+            dataIndex:'Bz',
+            key: 'Bz',
+            width: 22,
+        },
+        {
+            title:'需求总数',
+            dataIndex:'Menge',
+            key: 'Menge',
+            width: 22,
+        },
+    ]
+    
+}
+export const DdOrder_JjInfo_Det_columns = (Dets)=>{
+    const columns = [];
+    for(var key in Dets){
+        var Dt = new Date(key);
+        columns.push({
+            title:moment(Dt).format("YYYYMMDD"),
+            dataIndex:key,
+            key: key,
+            width: 16,
+        })
+    }
+    return columns;
+}
+export const DdOrder_CgInfo_columns = ()=>{
+    return [
+        {
+            title:'物料编码',
+            dataIndex:'Matnr',
+            key: 'Matnr',
+            width: 16,
+        },
+        {
+            title:'物料描述',
+            dataIndex:'Maktx',
+            key: 'Maktx',
+            width: 24,
+        },
+        {
+            title:'MRP控制者',
+            dataIndex:'MRP',
+            key: 'MRP',
+            width: 10,
+        },
+        {
+            title:'单位',
+            dataIndex:'Meins',
+            key: 'Meins',
+            width: 10,
+        },
+        {
+            title:'供应商代码',
+            dataIndex:'Lifnr',
+            key: 'Lifnr',
+            width: 16,
+        },
+        {
+            title:'供应商名称',
+            dataIndex:'Name1',
+            key: 'Name1',
+            width: 24,
+        },
+        {
+            title:'数量',
+            dataIndex:'Menge',
+            key: 'Menge',
+            width: 12,
+        },
+        {
+            title:'配额',
+            dataIndex:'PEIE',
+            key: 'PEIE',
+            width: 12,
+        },
+        {
+            title:'月初寄售库存',
+            dataIndex:'Num1',
+            key: 'Num1',
+            width: 14,
+        },
+        {
+            title:'月初材料库存',
+            dataIndex:'Num2',
+            key: 'Num2',
+            width: 14,
+        }
+    ]
+    
+}
+export const DdOrder_CgInfo_Det_columns = (Dets)=>{
+    const columns = [];
+    for(var key in Dets){
+        var Dt = new Date(key);
+        columns.push({
+            title:moment(Dt).format("YYYYMMDD"),
+            dataIndex:key,
+            key: key,
+            width: 16,
+        })
+    }
+    return columns;
+}
+export const DdOrder_BjInfo_columns = ()=>{
+    return [
+        {
+            title:'系列',
+            dataIndex:'Series',
+            key: 'Series',
+            width: 10,
+        },
+        {
+            title:'一层编码',
+            dataIndex:'FirstCode',
+            key: 'FirstCode',
+            width: 14,
+        },
+        {
+            title:'一层名称',
+            dataIndex:'FirstName',
+            key: 'FirstName',
+            width: 22,
+        },
+        {
+            title:'二层编码',
+            dataIndex:'SecondCode',
+            key: 'SecondCode',
+            width: 14,
+        },
+        {
+            title:'二层名称',
+            dataIndex:'SecondName',
+            key: 'SecondName',
+            width: 22,
+        },
+        {
+            title:'三层编码',
+            dataIndex:'ThirdCode',
+            key: 'ThirdCode',
+            width: 14,
+        },
+        {
+            title:'三层名称',
+            dataIndex:'ThirdName',
+            key: 'ThirdName',
+            width: 22,
+        },
+        {
+            title:'四层编码',
+            dataIndex:'FourthCode',
+            key: 'FourthCode',
+            width: 14,
+        },
+        {
+            title:'四层名称',
+            dataIndex:'FourthName',
+            key: 'FourthName',
+            width: 22,
+        },
+        {
+            title:'五层编码',
+            dataIndex:'FifthCode',
+            key: 'FifthCode',
+            width: 14,
+        },
+        {
+            title:'五层名称',
+            dataIndex:'FifthName',
+            key: 'FifthName',
+            width: 22,
+        },
+        {
+            title:'总需求',
+            dataIndex:'Num1',
+            key: 'Num1',
+            width: 12,
+        }
+    ]
+}

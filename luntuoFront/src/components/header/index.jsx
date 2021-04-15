@@ -54,6 +54,9 @@ class Header extends Component {
         if(pathname==="/Admin/Upload/ExcelUp"){
             TopTitle = '上传Excel'
         }
+        if(pathname==="/Admin/Test/DdOrderExcel"){
+            TopTitle = '导入调度单'
+        }
         return (
             <div className="Header">
                 <div className="Header-top">

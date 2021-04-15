@@ -1,5 +1,10 @@
 import XLSX from 'xlsx';
+import {Button,Space,Input} from 'antd'
 import FileSaver from "file-saver";
+
+import { SearchOutlined } from '@ant-design/icons';
+import Highlighter from 'react-highlight-words';
+
 import moment from "moment"
 import { getSite_Roles_Opt } from "../api"
 import localStore from "./storageUtils"
@@ -92,7 +97,7 @@ export const ConvertFomrData = (jsons) => {
 
         if (typeof (jsons[key]) == "object") {
             if (jsons[key] !== null && jsons[key]!==undefined&&jsons[key]!=="") {
-                console.dir(jsons[key]);
+                //console.dir(jsons[key]);
                 formData1.append(key + "[0]", jsons[key][0].format('yyyy-MM-DD'));
                 formData1.append(key + "[1]", jsons[key][1].format('yyyy-MM-DD'));
             }
@@ -143,3 +148,51 @@ export function downloadUpFile(fileName){
 export function downloadDemoFile(fileName){
     window.open (SERVER_ADDRESS_DEMOPATH+fileName)
 }
+export const getColumnSearchProps = (dataIndex,_this)=>({
+    filterDropdown:({setSelectedKeys,selectedKeys,confirm,clearFilters })=>(
+        <div style={{padding:8}}>
+            <Input
+            ref={node => {
+                _this.searchInput = node;
+            }}
+            placeholder={`输入查询条件`}
+            value = {selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => _this.handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Space>
+                <Button
+                type="primary"
+                onClick={() => _this.handleSearch(selectedKeys, confirm, dataIndex)}
+                icon={<SearchOutlined />}
+                size="small"
+                style={{ width: 90 }}
+                >查询</Button>
+                <Button
+                onClick={() => _this.handleReset(clearFilters)}
+                size="small"
+                style={{ width: 90 }}
+                >重置</Button>
+            </Space>
+        </div>
+    ),
+    filterIcon:filtered =><SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    
+    onFilterDropdownVisibleChange:visible =>{
+        if (visible) {
+            setTimeout(() => _this.searchInput.select(), 100);
+          }
+    },
+    render:text=>
+        _this.state.searchedColumn === dataIndex ?(
+            <Highlighter
+      highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+      searchWords={[_this.state.searchText]}
+      autoEscape
+      textToHighlight={text ? text.toString() : ''}
+    />
+    ):(
+        text
+    )
+})

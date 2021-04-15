@@ -14,7 +14,7 @@ import {getSite_Roles} from '../../api'
 //引入页面
 import AdminOptLog from '../AdminOptLog'
 import AdminUserConfig from '../AdminUserConfig'
-import Deskop from '../Deskop'
+//import Deskop from '../Deskop'
 import Matrial from '../Matrial'
 import MRP from '../MRP'
 import OptRecord from '../OptRecord'
@@ -27,6 +27,13 @@ import Service2 from '../Service2'
 import Service3 from '../Service3'
 import Service4 from '../Service4'
 import ExcelUp from '../ExcelUp'
+//新加入的页面
+import DdOrder from '../DdOrder'
+import DdOrderExcel from '../DdOrderExcel'
+import DdOrderDet from '../DdOrderDet'
+import DdOrder_JjInfo from '../DdOrder_JjInfo'
+import DdOrder_CgInfo from '../DdOrder_CgInfo'
+import DdOrder_BjInfo from '../DdOrder_BjInfo'
 
 const {Sider,Content} = Layout
 class Admin extends Component {
@@ -87,9 +94,9 @@ class Admin extends Component {
                     <Content style={{margin:'20px',backgroundColor: '#fff',overflow:'auto'}}>
                         <Switch>
                             {/* <Redirect from='/Admin' exact to='/Admin/Deskop'/> */}
-
+                            
                             <Redirect from='/Admin' exact to='/Admin/Deskop'/>
-                            <Route path='/Admin/Deskop' component={Deskop}/>
+                            <Route path='/Admin/Deskop' component={DdOrder}/>
                             <Route path='/Admin/ReportSearch/Report1' component={Report1}/>
                             <Route path='/Admin/ReportSearch/Report2' component={Report2}/>
                             <Route path='/Admin/ReportSearch/Report3' component={Report3}/>
@@ -106,6 +113,15 @@ class Admin extends Component {
                             <Route path='/Admin/Admin/AdminOptLog' component={AdminOptLog}/>
                             <Route path='/Admin/Upload/ExcelUp' component={ExcelUp}/>
                             <Route path='/Admin/Admin/OptRecord' component={OptRecord}/>
+                            
+                            
+                            <Route path='/Admin/DdOrder/DdOrder' component={DdOrder} ></Route>
+                            <Route path='/Admin/DdOrder/DdOrderExcel' component={DdOrderExcel} ></Route>
+                            <Route path='/Admin/DdOrder/DdOrderDet' component={DdOrderDet} ></Route>
+                            <Route path='/Admin/DdOrder/DdOrder_JjInfo' component={DdOrder_JjInfo} ></Route>
+                            <Route path='/Admin/DdOrder/DdOrder_CgInfo' component={DdOrder_CgInfo} ></Route>
+                            <Route path='/Admin/DdOrder/DdOrder_BjInfo' component={DdOrder_BjInfo} ></Route>
+                            
                         </Switch>
                     </Content>
                     {/* <Footer tyle={{textAlign: 'center', color: '#cccccc'}}>Footer</Footer> */}

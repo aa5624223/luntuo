@@ -1,0 +1,6 @@
+2021-04-09 16:10:02,060 [53] ERROR luntuo.Controllers.HomeController [(null)] <(null)> - 
+System.Data.SqlClient.SqlException (0x80131904): 列名 'Budat' 无效。
+   在 Entity.Methods.Common.findCommond(String sql, Type type, Int32 page, Int32 pageSize, String ConnPath) 位置 D:\WorkSpace\luntuo\Entity\Methods\Common.cs:行号 643
+   在 luntuo.Controllers.HomeController.getCgImp(FormCollection fc) 位置 D:\WorkSpace\luntuo\luntuo\Controllers\HomeController.cs:行号 950
+ClientConnectionId:cfc5dd94-9185-4347-9028-a402c9cb8435
+Error Number:207,State:1,Class:16
