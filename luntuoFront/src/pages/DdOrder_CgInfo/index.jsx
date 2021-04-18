@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //导入组件
-import {Button,Input,Form,DatePicker, Table,message,Spin} from 'antd'
+import {Button,Input,Form,DatePicker, Table,message,Spin,Checkbox} from 'antd'
 //导入方法
 import moment from 'moment'
 //自定义组件
@@ -59,7 +59,8 @@ export default class DdOrder_CgInfo extends Component {
         current:1,
         dataTotal:0,
         LTOrders:"",
-        ExcelLoading:false
+        ExcelLoading:false,
+        model:0
     }
     ModalExcelOut = async ()=>{
         var { DIDS,ExcelLoading,LTOrders} = this.state;//当前的订单
@@ -100,7 +101,6 @@ export default class DdOrder_CgInfo extends Component {
                     }
                 }
             }
-            console.dir(jo_V_CgInfoSum);
             for(let k=0;k<jo_V_CgInfoSum.length;k++){
                 let single = {}
                 
@@ -164,6 +164,13 @@ export default class DdOrder_CgInfo extends Component {
         }
         var tempFormData = form.getFieldsValue(true);
         tempFormData.DIDS = DIDS;
+
+        if(tempFormData.model!==undefined){
+            let tepModel = tempFormData.model[0];
+            delete  tempFormData.model;
+            tempFormData.model = tepModel;
+        }
+
         tempFormData.page = SearchContation.page;
         tempFormData.pageSize = SearchContation.pageSize;
 
@@ -178,24 +185,36 @@ export default class DdOrder_CgInfo extends Component {
             for(;i<jo_V_CgInfoSum.length;i++){
                 jo_V_CgInfoSum[i].ID = "ID"+i;
                 for(;j<jo_V_CgInfo.length;j++){
-                    if(jo_V_CgInfoSum[i].Matnr===jo_V_CgInfo[j].Matnr){
-                        if(jo_V_CgInfoSum[i].Det===undefined){
-                            jo_V_CgInfoSum[i].Det = [];
+                    if(tempFormData.model==="1"){
+                        if(jo_V_CgInfoSum[i].Matnr===jo_V_CgInfo[j].Matnr && jo_V_CgInfoSum[i].Series === jo_V_CgInfo[j].Series){
+                            if(jo_V_CgInfoSum[i].Det===undefined){
+                                jo_V_CgInfoSum[i].Det = [];
+                            }
+                            jo_V_CgInfoSum[i].Det.push(jo_V_CgInfo[j]);
+                        }else{
+                            break;
                         }
-                        jo_V_CgInfoSum[i].Det.push(jo_V_CgInfo[j]);
                     }else{
-                        break;
+                        if(jo_V_CgInfoSum[i].Matnr===jo_V_CgInfo[j].Matnr && jo_V_CgInfoSum[i].Series === jo_V_CgInfo[j].Series){
+                            if(jo_V_CgInfoSum[i].Det===undefined){
+                                jo_V_CgInfoSum[i].Det = [];
+                            }
+                            jo_V_CgInfoSum[i].Det.push(jo_V_CgInfo[j]);
+                        }else{
+                            break;
+                        }
                     }
+                    
                 }
             }
-            this.setState({loading:false,dataSource:jo_V_CgInfoSum,current:tempFormData.page,dataTotal:result.jo_V_CgInfoSum.V_CgInfo_Count})
+            this.setState({loading:false,dataSource:jo_V_CgInfoSum,current:tempFormData.page,dataTotal:result.jo_V_CgInfoSum.V_CgInfo_Count,model:tempFormData.model})
         }else{
             this.setState({loading:false});
             message.error("网络错误");
         }
     }
     render() {
-        const {loading,dataSource,LTOrders,current,dataTotal,ExcelLoading} = this.state;
+        const {loading,dataSource,LTOrders,current,dataTotal,ExcelLoading,model} = this.state;
         return (
             <div className="main">
                 <div className="toolArea">
@@ -217,6 +236,14 @@ export default class DdOrder_CgInfo extends Component {
                         >
                             <Input/>
                         </Form.Item>
+                        <Form.Item
+                            name="model"
+                            label="区分系列"
+                        >
+                            <Checkbox.Group>
+                                <Checkbox value="1"></Checkbox>
+                            </Checkbox.Group>
+                        </Form.Item>
                         <Form.Item>
                             <Button type="primary" onClick={()=>this.SearchData()} >查询</Button>
                         </Form.Item>
@@ -237,7 +264,7 @@ export default class DdOrder_CgInfo extends Component {
                 sticky={true}
                 scroll={{ y: 560}} 
                 size = "middle"
-                columns = {DdOrder_CgInfo_columns()}
+                columns = {DdOrder_CgInfo_columns(model)}
                 loading = {loading}
                 pagination={{
                     position: ['bottomCenter'],

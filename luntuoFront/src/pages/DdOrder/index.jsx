@@ -5,11 +5,11 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 //引入配置
-import {GetDdOrder_columns} from '../../config/table-columns'
+import {GetDdOrder_columns,GetDdOrder_Det_Status} from '../../config/table-columns'
 //引入工具
 import {ConvertFomrData} from '../../utils'
 //引入api
-import {getDdOrder,editDdOrder,editDdOrder_status,delDdOrder,demantExe} from '../../api'
+import {getDdOrder,editDdOrder,editDdOrder_status,delDdOrder,demantExe,getV_DdOrder_Det} from '../../api'
 //引入模拟数据
 const { confirm } = Modal;
 export default class DdOrder extends Component {
@@ -41,8 +41,9 @@ export default class DdOrder extends Component {
         //编辑对话框是否显示
         isModalEditShow:false,
         //需求计划执行对话框是否显示
-        isModalExeShow:false
-
+        isModalExeShow:false,
+        isModalDetStatusShow:false,
+        DataSource_DetStatus:[]
     }
     
     handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -188,6 +189,21 @@ export default class DdOrder extends Component {
         }
         
     }
+    //查询点击
+    SearchDet = async (DID)=>{
+        var formData = new FormData();
+        formData.append("IDS",DID);
+        const result = await getV_DdOrder_Det(formData);
+        if(result.status === 0){
+            const {V_DdOrder_Det} = result.data;
+            //DataSource_DetStatus
+            this.setState({isModalDetStatusShow:true,DataSource_DetStatus:V_DdOrder_Det})
+            //GetDdOrder_Det_Status
+        }else{
+            message.error("网络错误");
+        }
+        //getV_DdOrder_Det
+    }
     //导入调度单
     ExcelIn = ()=>{
         const { history } = this.props;
@@ -251,9 +267,11 @@ export default class DdOrder extends Component {
     ModalExeCancel = async ()=>{
         this.setState({isModalExeShow:false})
     }
+    ModalDetStatusCancel = ()=>{
+        this.setState({isModalDetStatusShow:false})
+    }
     onSelectChange = selectedRowKeys =>{
         this.setState({ selectedRowKeys });
-        
     }
     //钣金需求
     demantBj = ()=>{
@@ -357,7 +375,7 @@ export default class DdOrder extends Component {
     }
     render() {
         const DdOrder_columns = GetDdOrder_columns(this);
-        const {dataSource,loading,SearchContation,ModalTitle,isModalEditShow,current,dataTotal,selectedRowKeys,isModalExeShow} = this.state;
+        const {dataSource,loading,SearchContation,ModalTitle,isModalEditShow,current,dataTotal,selectedRowKeys,isModalExeShow,isModalDetStatusShow,DataSource_DetStatus} = this.state;
         const rowSelection ={
             selectedRowKeys,
             columnWidth:15,
@@ -462,6 +480,22 @@ export default class DdOrder extends Component {
                             <DatePicker locale={locale} format="YYYYMMDD"  ></DatePicker>
                         </Form.Item>
                     </Form>
+                </Modal>
+                <Modal title="" width={1000}  visible={isModalDetStatusShow} onOk={()=>this.ModalDetStatusCancel()} onCancel={()=>this.ModalDetStatusCancel()}>
+                    <div style={{maxHeight:"700px",overflowY:"scroll"}}>
+                        <Table
+                            sticky={true}
+                            rowKey="ID"
+                            bordered
+                            dataSource={DataSource_DetStatus}
+                            columns={GetDdOrder_Det_Status()}
+                            size = "middle"
+                            pagination={false}
+                        >
+
+                        </Table>
+                    </div>
+                    
                 </Modal>
             </div>
         )

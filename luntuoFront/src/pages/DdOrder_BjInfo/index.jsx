@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //导入组件
-import {Button,Input,Form,DatePicker, Table,message,Select,Spin} from 'antd'
+import {Button,Input,Form,DatePicker, Table,message,Select,Spin,Checkbox} from 'antd'
 //导入方法
 import moment from 'moment'
 //自定义组件
@@ -59,7 +59,8 @@ export default class DdOrder_BjInfo extends Component {
         current:1,
         dataTotal:0,
         LTOrders:"",
-        ExcelLoading:false
+        ExcelLoading:false,
+        model:0
     }
     ModalExcelOut = async ()=>{
         var { DIDS,ExcelLoading,LTOrders} = this.state;//当前的订单
@@ -223,6 +224,13 @@ export default class DdOrder_BjInfo extends Component {
         }
         var tempFormData = form.getFieldsValue(true);
         tempFormData.DIDS = DIDS;
+        if(tempFormData.model!==undefined){
+            let tepModel = tempFormData.model[0];
+            delete  tempFormData.model;
+            tempFormData.model = tepModel;
+        }
+
+
         tempFormData.page = SearchContation.page;
         tempFormData.pageSize = SearchContation.pageSize;
         const FormData = ConvertFomrData(tempFormData);
@@ -238,23 +246,40 @@ export default class DdOrder_BjInfo extends Component {
             for(;i<V_BjInfo_Sum.length;i++){
                 V_BjInfo_Sum[i].ID ="D"+i;
                 for(;j<V_BjInfo_Det.length;j++){
-                    
-                    if(V_BjInfo_Sum[i].FirstCode=== V_BjInfo_Det[j].FirstCode && 
-                        V_BjInfo_Sum[i].SecondCode=== V_BjInfo_Det[j].SecondCode && 
-                        V_BjInfo_Sum[i].ThirdCode=== V_BjInfo_Det[j].ThirdCode && 
-                        V_BjInfo_Sum[i].FourthCode=== V_BjInfo_Det[j].FourthCode &&
-                        V_BjInfo_Sum[i].FifthCode=== V_BjInfo_Det[j].FifthCode){
-                            if(V_BjInfo_Sum[i].Det ===undefined){
-                                V_BjInfo_Sum[i].Det = [];
-                            }
-                            V_BjInfo_Sum[i].Det.push(V_BjInfo_Det[j]);
+                    if(tempFormData.model==="1"){
+                        if(V_BjInfo_Sum[i].FirstCode=== V_BjInfo_Det[j].FirstCode && 
+                            V_BjInfo_Sum[i].SecondCode=== V_BjInfo_Det[j].SecondCode && 
+                            V_BjInfo_Sum[i].ThirdCode=== V_BjInfo_Det[j].ThirdCode && 
+                            V_BjInfo_Sum[i].FourthCode=== V_BjInfo_Det[j].FourthCode &&
+                            V_BjInfo_Sum[i].FifthCode=== V_BjInfo_Det[j].FifthCode &&
+                            V_BjInfo_Sum[i].Series=== V_BjInfo_Det[j].Series
+                            ){
+                                if(V_BjInfo_Sum[i].Det ===undefined){
+                                    V_BjInfo_Sum[i].Det = [];
+                                }
+                                V_BjInfo_Sum[i].Det.push(V_BjInfo_Det[j]);
+                        }else{
+                            break;
+                        }
                     }else{
-                        break;
+                        if(V_BjInfo_Sum[i].FirstCode=== V_BjInfo_Det[j].FirstCode && 
+                            V_BjInfo_Sum[i].SecondCode=== V_BjInfo_Det[j].SecondCode && 
+                            V_BjInfo_Sum[i].ThirdCode=== V_BjInfo_Det[j].ThirdCode && 
+                            V_BjInfo_Sum[i].FourthCode=== V_BjInfo_Det[j].FourthCode &&
+                            V_BjInfo_Sum[i].FifthCode=== V_BjInfo_Det[j].FifthCode){
+                                if(V_BjInfo_Sum[i].Det ===undefined){
+                                    V_BjInfo_Sum[i].Det = [];
+                                }
+                                V_BjInfo_Sum[i].Det.push(V_BjInfo_Det[j]);
+                        }else{
+                            break;
+                        }
                     }
+                    
                     
                 }
             }
-            this.setState({loading:false,dataSource:V_BjInfo_Sum,current:tempFormData.page,dataTotal:V_BjInfo_Count});
+            this.setState({loading:false,dataSource:V_BjInfo_Sum,current:tempFormData.page,dataTotal:V_BjInfo_Count,model:tempFormData.model});
         }else{
             this.setState({loading:false})
             message.error("网络错误");
@@ -262,7 +287,7 @@ export default class DdOrder_BjInfo extends Component {
     }
 
     render() {
-        const {loading,dataSource,LTOrders,current,dataTotal,ExcelLoading} = this.state;
+        const {loading,dataSource,LTOrders,current,dataTotal,ExcelLoading,model} = this.state;
         return (
             <div className="main">
                 <div className="toolArea">
@@ -285,6 +310,14 @@ export default class DdOrder_BjInfo extends Component {
                             <Input/>
                         </Form.Item>
                         <Form.Item
+                            name="model"
+                            label="区分系列"
+                        >
+                            <Checkbox.Group>
+                                <Checkbox value="1"></Checkbox>
+                            </Checkbox.Group>
+                        </Form.Item>
+                        <Form.Item
                             name="level"
                             label="层级"
                             initialValue="1"
@@ -297,6 +330,7 @@ export default class DdOrder_BjInfo extends Component {
                                 <Option value="5">5</Option>
                             </Select>
                         </Form.Item>
+                        
                         <Form.Item>
                             <Button type="primary" onClick={()=>this.SearchData()} >查询</Button>
                         </Form.Item>
@@ -317,7 +351,7 @@ export default class DdOrder_BjInfo extends Component {
                 sticky={true}
                 scroll={{ y: 560}} 
                 size = "middle"
-                columns = {DdOrder_BjInfo_columns()}
+                columns = {DdOrder_BjInfo_columns(model)}
                 loading = {loading}
                 pagination={{
                     position: ['bottomCenter'],

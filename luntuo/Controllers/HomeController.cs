@@ -996,6 +996,7 @@ namespace luntuo.Controllers
             string Datetime2 = fc["Datetime1[1]"];
             string Series = fc["Series"];
             string DIDS = fc["DIDS"];
+            string model = fc["model"];
             #endregion
 
             #region 获取sql
@@ -1007,11 +1008,19 @@ namespace luntuo.Controllers
             if (!string.IsNullOrEmpty(Datetime1)) {
                 WhereSql += $" AND Datetime1 >='{Datetime1}' AND Datetime1<='{Datetime2}'";
             }
-            string sql = $"SELECT * FROM V_JjInfo a " + WhereSql + " ORDER BY Matnr";
+            string sql = $"SELECT * FROM V_JjInfo a " + WhereSql + " ORDER BY Matnr,Datetime1";
             //查找出DdSum表
-            JObject jo_V_JjInfo = Common.findCommond(sql, typeof(V_JjInfo), 1, 9999, ServerPath);
-            sql = $"SELECT a.Matnr,a.Maktx,a.Meins,a.Bz,SUM(a.Menge) as Menge,a.Series FROM V_JjInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.Meins,a.Bz ORDER BY Matnr";
-            JObject jo_V_JiInfoSum = Common.findCommond(sql, typeof(V_JjInfo), 1, 9999, ServerPath);
+            JObject jo_V_JjInfo = Common.findCommond(sql, typeof(V_JjInfo), 1, 99999999, ServerPath);
+            if (model=="1")//区分系列
+            {
+                sql = $"SELECT a.Matnr,a.Maktx,a.Meins,a.Bz,SUM(a.Menge) as Menge,a.Series FROM V_JjInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.Meins,a.Bz ORDER BY Matnr";
+            }
+            else//不区分系列
+            {
+                sql = $"SELECT a.Matnr,a.Maktx,a.Meins,a.Bz,SUM(a.Menge) as Menge FROM V_JjInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Maktx,a.Meins,a.Bz ORDER BY Matnr";
+            }
+
+            JObject jo_V_JiInfoSum = Common.findCommond(sql, typeof(V_JjInfo), 1, 99999999, ServerPath);
 
 
             #endregion
@@ -1039,6 +1048,7 @@ namespace luntuo.Controllers
             string Datetime2 = fc["Datetime1[1]"];
             string Series = fc["Series"];
             string DIDS = fc["DIDS"];
+            string model = fc["model"];
             int page = int.Parse(fc["page"]);
             int pageSize = int.Parse(fc["pageSize"]);
             #endregion
@@ -1054,10 +1064,18 @@ namespace luntuo.Controllers
             {
                 WhereSql += $" AND Datetime1 >='{Datetime1}' AND Datetime1<='{Datetime2}'";
             }
-            string sql = $"SELECT * FROM V_CgInfo a " + WhereSql + " ORDER BY Matnr";
-            //查找出DdSum表
-            JObject jo_V_CgInfo = Common.findCommond(sql, typeof(V_CgInfo), 1, 9999, ServerPath);
-            sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,SUM(Num1) as Num1,SUM(Num2) as Num2 ,a.Series FROM V_CgInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1 ORDER BY Matnr";
+            string sql = $"SELECT * FROM V_CgInfo a " + WhereSql + " ORDER BY Matnr,Datetime1";
+            //查找出DdSum表s
+            JObject jo_V_CgInfo = Common.findCommond(sql, typeof(V_CgInfo), 1, 9999999, ServerPath);
+            if (model=="1")
+            {
+                sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,SUM(Num1) as Num1,SUM(Num2) as Num2 ,a.Series FROM V_CgInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1 ORDER BY Matnr";
+            }
+            else
+            {
+                sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,SUM(Num1) as Num1,SUM(Num2) as Num2  FROM V_CgInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1 ORDER BY Matnr";
+            }
+           
             JObject jo_V_CgInfoSum = Common.findCommond(sql, typeof(V_CgInfo), page, pageSize, ServerPath);
 
 
@@ -1095,6 +1113,7 @@ namespace luntuo.Controllers
             string Series = fc["Series"];
             string level = fc["level"];
             string DIDS = fc["DIDS"];
+            string model = fc["model"];
             int page = 1;
             int pageSize = 100;
             if (!string.IsNullOrEmpty(fc["page"])) {
@@ -1113,49 +1132,97 @@ namespace luntuo.Controllers
             string sqlOut_Det = null;
             string sqlIn = null;
             string GroupBy = null;
-            string GroupBy_Det = null;
+            //string GroupBy_Det = null;
             string OrderBy = null;
             switch (level)
             {
                 case "1":
                     
-                    sqlOut = " SELECT FirstCode,FirstName,Series,SUM(Num1) AS Num1 ";
                     sqlOut_Det = " SELECT FirstCode,FirstName,Datetime1,Series,Num1 ";
-                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,Num1,Datetime1,Series FROM BjInfo WHERE Num1>0 ";
-                    GroupBy = " GROUP BY FirstCode,FirstName, Series ";
-                    GroupBy_Det = " GROUP BY FirstCode,FirstName,Series, Num1 ";
+                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,Num1,Datetime1,Series FROM V_BjInfo WHERE Num1>0 ";
+                    if (model == "1")
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,Series,SUM(Num1) AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName, Series ";
+                    }
+                    else
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SUM(Num1) AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName ";
+                    }
+                    //GroupBy_Det = " GROUP BY FirstCode,FirstName,Series, Num1 ";
                     OrderBy = " ORDER BY FirstCode ";
                     break;
                 case "2":
-                    sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,Series,SUM(Num2) AS Num1";
+                    
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,Datetime1,Series,Num2 AS Num1";
-                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,Num2,Datetime1,Series FROM BjInfo WHERE Num2>0 ";
-                    GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName, Series ";
-                    GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName, Series ,Datetime1,Num2";
+                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,Num2,Datetime1,Series FROM V_BjInfo WHERE Num2>0 ";
+                    if (model == "1")
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,Series,SUM(Num2) AS Num1";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName, Series ";
+                    }
+                    else
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,SUM(Num2) AS Num1";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName";
+                    }
+                    
+                    //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName, Series ,Datetime1,Num2";
                     OrderBy = " ORDER BY FirstCode,SecondCode ";
                     break;
                 case "3":
-                    sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Series,SUM(Num3)AS Num1 ";
+                    
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Datetime1,Series,Num3 AS Num1 ";
-                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Num3,Datetime1,Series FROM BjInfo WHERE Num3>0 ";
-                    GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName, Series ";
-                    GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName, Series ,Datetime1,Num3";
+                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Num3,Datetime1,Series FROM V_BjInfo WHERE Num3>0 ";
+                    if (model == "1")
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Series,SUM(Num3)AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName, Series ";
+                    }
+                    else
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,SUM(Num3)AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName";
+                    }
+                    
+                    //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName, Series ,Datetime1,Num3";
                     OrderBy = " ORDER BY FirstCode,SecondCode,ThirdCode ";
                     break;
                 case "4":
-                    sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Series,SUM(Num4) AS Num1 ";
+                    
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Datetime1,Series,Num4 AS Num1 ";
-                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Num4,Datetime1,Series FROM BjInfo WHERE Num4>0 ";
-                    GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName, Series ";
-                    GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName, Series ,Datetime1,Num4";
+                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Num4,Datetime1,Series FROM V_BjInfo WHERE Num4>0 ";
+                    
+                    if (model == "1")
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Series,SUM(Num4) AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName, Series ";
+                    }
+                    else
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,SUM(Num4) AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName ";
+                    }
+                    //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName, Series ,Datetime1,Num4";
                     OrderBy = " ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode ";
                     break;
                 case "5":
-                    sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Series,SUM(Num5) AS Num1 ";
+                   
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Datetime1,Series,Num5 AS Num1 ";
-                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Num5,Datetime1,Series FROM BjInfo WHERE Num5>0 ";
-                    GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName, Series ";
-                    GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName, Series ,Datetime1,Num5";
+                    sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Num5,Datetime1,Series FROM V_BjInfo WHERE Num5>0 ";
+                    if (model == "1")
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Series,SUM(Num5) AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName, Series ";
+                    }
+                    else
+                    {
+                        sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,SUM(Num5) AS Num1 ";
+                        GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName  ";
+                    }
+                   
+                    //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName, Series ,Datetime1,Num5";
                     OrderBy = " ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode,FifthCode ";
                     break;
             }
@@ -1188,9 +1255,9 @@ namespace luntuo.Controllers
                 Where = " AND " + string.Join(" AND ", WhereSql);
             }
             string sql_Sum = sqlOut + $" FROM ({sqlIn + Where}) AS T1 {GroupBy} {OrderBy} ";
-            string sql_Det = sqlOut_Det + $" FROM ({sqlIn + Where}) AS T1  {OrderBy} ";
+            string sql_Det = sqlOut_Det + $" FROM ({sqlIn + Where}) AS T1  {OrderBy},Datetime1 ";
             JObject jo_Sum = Common.findCommond(sql_Sum, typeof(V_BjInfo),page,pageSize,ServerPath);
-            JObject jo_Det = Common.findCommond(sql_Det, typeof(V_BjInfo), 1, 999999, ServerPath);
+            JObject jo_Det = Common.findCommond(sql_Det, typeof(V_BjInfo), 1, 99999999, ServerPath);
             msg.Add("status",0);
             msg.Add("V_BjInfo_Sum", jo_Sum);
             msg.Add("V_BjInfo_Det", jo_Det);

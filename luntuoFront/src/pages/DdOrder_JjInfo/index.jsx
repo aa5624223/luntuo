@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 //导入组件
-import {Button,Input,Form,DatePicker, Table,message,Spin} from 'antd'
+import {Button,Input,Form,DatePicker, Table,message,Spin,Checkbox} from 'antd'
 //导入方法
 import moment from 'moment'
 //自定义组件
@@ -35,7 +35,7 @@ const expandedRowRender = (record,index)=>{
     var newData = {};
     for(let i=0;i<data.length;i++){
         if(newData[data[i].Datetime1]===undefined){
-            console.dir(data[i].Datetime1);
+
             newData[data[i].Datetime1] = 0;
         }
     }
@@ -59,6 +59,8 @@ export default class DdOrder_JjInfo extends Component {
         DIDS:"",
         LTOrders:"",
         ExcelLoading:false,
+        //1 显示系列 0 不显示系列
+        model:0,
     }
     ModalExcelOut = async ()=>{
         var { DIDS,ExcelLoading,LTOrders} = this.state;//当前的订单
@@ -150,9 +152,15 @@ export default class DdOrder_JjInfo extends Component {
         if(DIDS==="" || DIDS===undefined){
             DIDS="0";
         }
+        
         var tempFormData = form.getFieldsValue(true);
         tempFormData.DIDS = DIDS;
         
+        if(tempFormData.model!==undefined){
+            let tepModel = tempFormData.model[0];
+            delete  tempFormData.model;
+            tempFormData.model = tepModel;
+        }
         const FormData = ConvertFomrData(tempFormData);
         
         this.setState({loading:true})
@@ -165,25 +173,38 @@ export default class DdOrder_JjInfo extends Component {
             for(;i<jo_V_JiInfoSum.length;i++){
                 jo_V_JiInfoSum[i].ID = "ID"+i;
                 for(;j<jo_V_JjInfo.length;j++){
-                    if(jo_V_JiInfoSum[i].Matnr===jo_V_JjInfo[j].Matnr){
-                        if(jo_V_JiInfoSum[i].Det===undefined){
-                            jo_V_JiInfoSum[i].Det = [];
+                    if(tempFormData.model==="1"){
+                        if(jo_V_JiInfoSum[i].Matnr===jo_V_JjInfo[j].Matnr && jo_V_JiInfoSum[i].Series === jo_V_JjInfo[j].Series){
+                        
+                            if(jo_V_JiInfoSum[i].Det===undefined){
+                                jo_V_JiInfoSum[i].Det = [];
+                            }
+                            jo_V_JiInfoSum[i].Det.push(jo_V_JjInfo[j]);
+                        }else{
+                            break;
                         }
-                        jo_V_JiInfoSum[i].Det.push(jo_V_JjInfo[j]);
                     }else{
-                        break;
+                        if(jo_V_JiInfoSum[i].Matnr===jo_V_JjInfo[j].Matnr){
+                            if(jo_V_JiInfoSum[i].Det===undefined){
+                                jo_V_JiInfoSum[i].Det = [];
+                            }
+                            jo_V_JiInfoSum[i].Det.push(jo_V_JjInfo[j]);
+                        }else{
+                            break;
+                        }
                     }
+                    
                 }
             }
             //var NewSum = [];
-            this.setState({loading:false,dataSource:jo_V_JiInfoSum})
+            this.setState({loading:false,dataSource:jo_V_JiInfoSum,model:tempFormData.model})
         }else{
             this.setState({loading:false});
             message.error("网络错误");
         }
     }
     render() {
-        const {loading,dataSource,LTOrders,ExcelLoading} = this.state;
+        const {loading,dataSource,LTOrders,ExcelLoading,model} = this.state;
         return (
             <div className="main">
                 <div className="toolArea">
@@ -205,6 +226,15 @@ export default class DdOrder_JjInfo extends Component {
                         >
                             <Input/>
                         </Form.Item>
+                        <Form.Item
+                            name="model"
+                            label="区分系列"
+                        >
+                            <Checkbox.Group>
+                                <Checkbox value="1"></Checkbox>
+                            </Checkbox.Group>
+                            
+                        </Form.Item>
                         <Form.Item>
                             <Button type="primary" onClick={()=>this.SearchData()} >查询</Button>
                         </Form.Item>
@@ -225,7 +255,7 @@ export default class DdOrder_JjInfo extends Component {
                 rowKey="ID"
                 sticky={true}
                 size = "middle"
-                columns = {DdOrder_JjInfo_columns()}
+                columns = {DdOrder_JjInfo_columns(model)}
                 loading = {loading}
                 pagination={false}
                 expandable={{expandedRowRender,columnWidth:10}}

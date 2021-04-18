@@ -1,5 +1,6 @@
 import { Tag,Button} from 'antd';
 import { getColumnSearchProps } from "../utils";
+import LinkButton from "../components/link-button"
 import moment from 'moment'
 
 /* 配置数据 */
@@ -906,13 +907,19 @@ export const GetDdOrder_columns = _this=>(
             dataIndex: 'BjStatus',
             key: 'BjStatus',
             width: 28,
-            render:function(val) {
+            render:function(val,record) {
                 if(val==="待执行"){
-                    return <Tag color="blue">{val}</Tag>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="blue" >{val}</Tag>
+                    </LinkButton>
                 }else if(val==="已完成"){
-                    return <Tag color="green">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="green">{val}</Tag>
+                    </LinkButton>
                 }else{
-                    return <Tag color="magenta">{val}</Tag>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="magenta">{val}</Tag>
+                    </LinkButton>
                 }
             }
         },
@@ -921,13 +928,19 @@ export const GetDdOrder_columns = _this=>(
             dataIndex: 'JjStatus',
             key: 'JjStatus',
             width: 28,
-            render:function(val) {
+            render:function(val,record) {
                 if(val==="待执行"){
-                    return <Tag color="blue">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="blue" >{val}</Tag>
+                    </LinkButton>
                 }else if(val==="已完成"){
-                    return <Tag color="green">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="green">{val}</Tag>
+                    </LinkButton>
                 }else{
-                    return <Tag color="magenta">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="magenta">{val}</Tag>
+                    </LinkButton>
                 }
             }
         },
@@ -936,13 +949,19 @@ export const GetDdOrder_columns = _this=>(
             dataIndex: 'CgStatus',
             key: 'CgStatus  ',
             width: 28,
-            render:function(val) {
+            render:function(val,record) {
                 if(val==="待执行"){
-                    return <Tag color="blue">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="blue" >{val}</Tag>
+                    </LinkButton>
                 }else if(val==="已完成"){
-                    return <Tag color="green">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="green">{val}</Tag>
+                    </LinkButton>
                 }else{
-                    return <Tag color="magenta">{val}</Tag>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                        <Tag color="magenta">{val}</Tag>
+                    </LinkButton>
                 }
             }
         },
@@ -985,6 +1004,73 @@ export const GetDdOrder_columns = _this=>(
         }
     ]
 )
+export const GetDdOrder_Det_Status = ()=>{
+    return [
+        {
+            title: '投产日期',
+            dataIndex: 'Datetime1',
+            key: 'Datetime1',
+            width: 30,
+        },
+        {
+            title: '物料编码',
+            dataIndex: 'Matnr',
+            key: 'Matnr',
+            width: 30,
+        },
+        {
+            title: '整机编码',
+            dataIndex: 'ZjNo',
+            key: 'ZjNo',
+            width: 30,
+        },
+        {
+            title: '钣金状态',
+            dataIndex: 'BjStatus',
+            key: 'BjStatus',
+            width: 20,
+            render:function(val) {
+                if(val==="待执行"){
+                    return <Tag color="blue">{val}</Tag>
+                }else if(val==="已完成"){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="magenta">{val}</Tag>
+                }
+            }
+        },
+        {
+            title: '机加状态',
+            dataIndex: 'JjStatus',
+            key: 'JjStatus',
+            width: 20,
+            render:function(val) {
+                if(val==="待执行"){
+                    return <Tag color="blue">{val}</Tag>
+                }else if(val==="已完成"){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="magenta">{val}</Tag>
+                }
+            }
+        },
+        {
+            title: '采购状态',
+            dataIndex: 'CgStatus',
+            key: 'CgStatus',
+            width: 20,
+            render:function(val) {
+                if(val==="待执行"){
+                    return <Tag color="blue">{val}</Tag>
+                }else if(val==="已完成"){
+                    return <Tag color="green">{val}</Tag>
+                }else{
+                    return <Tag color="magenta">{val}</Tag>
+                }
+            }
+        },
+    ]
+}
 export const DdOrder_Det_columns = ()=>(
     [
     {
@@ -1066,6 +1152,7 @@ export const DdOrder_Sum_columns = (_this)=>{
             dataIndex: 'LTOrder',
             key: 'LTOrder',
             width: 30,
+            
             ...getColumnSearchProps('LTOrder',_this),
         },
         {
@@ -1135,12 +1222,18 @@ export const DdOrder_Det_Sum_columns = ()=>{
             dataIndex:'ZjNo',
             key: 'ZjNo',
             width: 22,
+            render:function(val) {
+                return val.replace(/\b(0+)/gi,"");
+            }
         },
         {
             title:'物料编码',
             dataIndex:'Matnr',
             key: 'Matnr',
             width: 22,
+            render:function(val) {
+                return val.replace(/\b(0+)/gi,"");
+            }
         },
         {
             title:'系列',
@@ -1195,13 +1288,16 @@ export const DdOrder_Det_Sum_columns = ()=>{
     ]
 }
 //调度单机加表
-export const DdOrder_JjInfo_columns = ()=>{
-    return [
+export const DdOrder_JjInfo_columns = (model)=>{
+    return model==="1"?[
         {
             title:'物料编码',
             dataIndex:'Matnr',
             key: 'Matnr',
             width: 22,
+            render:function(val) {
+                return val.replace(/\b(0+)/gi,"");
+            }
         },
         {
             title:'物料描述',
@@ -1219,6 +1315,40 @@ export const DdOrder_JjInfo_columns = ()=>{
             title:'系列',
             dataIndex:'Series',
             key: 'Series',
+            width: 12,
+        },
+        {
+            title:'班组',
+            dataIndex:'Bz',
+            key: 'Bz',
+            width: 22,
+        },
+        {
+            title:'需求总数',
+            dataIndex:'Menge',
+            key: 'Menge',
+            width: 22,
+        },
+    ]:[
+        {
+            title:'物料编码',
+            dataIndex:'Matnr',
+            key: 'Matnr',
+            width: 22,
+            render:function(val) {
+                return val.replace(/\b(0+)/gi,"");
+            }
+        },
+        {
+            title:'物料描述',
+            dataIndex:'Maktx',
+            key: 'Maktx',
+            width: 22,
+        },
+        {
+            title:'单位',
+            dataIndex:'Meins',
+            key: 'Meins',
             width: 22,
         },
         {
@@ -1241,7 +1371,7 @@ export const DdOrder_JjInfo_Det_columns = (Dets)=>{
     for(var key in Dets){
         var Dt = new Date(key);
         columns.push({
-            title:moment(Dt).format("YYYYMMDD"),
+            title:moment(Dt).format("DD"),
             dataIndex:key,
             key: key,
             width: 16,
@@ -1249,8 +1379,78 @@ export const DdOrder_JjInfo_Det_columns = (Dets)=>{
     }
     return columns;
 }
-export const DdOrder_CgInfo_columns = ()=>{
-    return [
+export const DdOrder_CgInfo_columns = (model)=>{
+    return model==="1"?[
+        {
+            title:'物料编码',
+            dataIndex:'Matnr',
+            key: 'Matnr',
+            width: 16,
+            render:function(val) {
+                return val.replace(/\b(0+)/gi,"");
+            }
+        },
+        {
+            title:'物料描述',
+            dataIndex:'Maktx',
+            key: 'Maktx',
+            width: 24,
+        },
+        {
+            title:'MRP控制者',
+            dataIndex:'MRP',
+            key: 'MRP',
+            width: 10,
+        },
+        {
+            title:'单位',
+            dataIndex:'Meins',
+            key: 'Meins',
+            width: 10,
+        },
+        {
+            title:'供应商代码',
+            dataIndex:'Lifnr',
+            key: 'Lifnr',
+            width: 16,
+        },
+        {
+            title:'供应商名称',
+            dataIndex:'Name1',
+            key: 'Name1',
+            width: 24,
+        },
+        {
+            title:'系列',
+            dataIndex:'Series',
+            key: 'Series',
+            width: 10,
+        },
+        {
+            title:'数量',
+            dataIndex:'Menge',
+            key: 'Menge',
+            width: 12,
+        },
+        {
+            title:'配额',
+            dataIndex:'PEIE',
+            key: 'PEIE',
+            width: 12,
+        },
+        {
+            title:'月初寄售库存',
+            dataIndex:'Num1',
+            key: 'Num1',
+            width: 14,
+        },
+        {
+            title:'月初材料库存',
+            dataIndex:'Num2',
+            key: 'Num2',
+            width: 14,
+        }
+    ]:[
         {
             title:'物料编码',
             dataIndex:'Matnr',
@@ -1319,7 +1519,7 @@ export const DdOrder_CgInfo_Det_columns = (Dets)=>{
     for(var key in Dets){
         var Dt = new Date(key);
         columns.push({
-            title:moment(Dt).format("YYYYMMDD"),
+            title:moment(Dt).format("DD"),
             dataIndex:key,
             key: key,
             width: 16,
@@ -1327,14 +1527,86 @@ export const DdOrder_CgInfo_Det_columns = (Dets)=>{
     }
     return columns;
 }
-export const DdOrder_BjInfo_columns = ()=>{
-    return [
+export const DdOrder_BjInfo_columns = (model)=>{
+    return model==="1"?[
         {
             title:'系列',
             dataIndex:'Series',
             key: 'Series',
             width: 10,
         },
+        {
+            title:'一层编码',
+            dataIndex:'FirstCode',
+            key: 'FirstCode',
+            width: 14,
+            render:function(val) {
+                
+                return val.replace(/\b(0+)/gi,"");
+            }
+        },
+        {
+            title:'一层名称',
+            dataIndex:'FirstName',
+            key: 'FirstName',
+            width: 22,
+        },
+        {
+            title:'二层编码',
+            dataIndex:'SecondCode',
+            key: 'SecondCode',
+            width: 14,
+        },
+        {
+            title:'二层名称',
+            dataIndex:'SecondName',
+            key: 'SecondName',
+            width: 22,
+        },
+        {
+            title:'三层编码',
+            dataIndex:'ThirdCode',
+            key: 'ThirdCode',
+            width: 14,
+        },
+        {
+            title:'三层名称',
+            dataIndex:'ThirdName',
+            key: 'ThirdName',
+            width: 22,
+        },
+        {
+            title:'四层编码',
+            dataIndex:'FourthCode',
+            key: 'FourthCode',
+            width: 14,
+        },
+        {
+            title:'四层名称',
+            dataIndex:'FourthName',
+            key: 'FourthName',
+            width: 22,
+        },
+        {
+            title:'五层编码',
+            dataIndex:'FifthCode',
+            key: 'FifthCode',
+            width: 14,
+        },
+        {
+            title:'五层名称',
+            dataIndex:'FifthName',
+            key: 'FifthName',
+            width: 22,
+        },
+        {
+            title:'总需求',
+            dataIndex:'Num1',
+            key: 'Num1',
+            width: 12,
+        }
+    ]:
+    [
         {
             title:'一层编码',
             dataIndex:'FirstCode',
