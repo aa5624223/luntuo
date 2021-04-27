@@ -133,7 +133,7 @@ export default class Service4 extends Component {
         this.setState({ isModalEditShow: false })
     }
     DownLoadDemo = ()=>{
-        downloadDemoFile("采购需求分解模板.xlsx");
+        downloadDemoFile("采购需求分解模板.xls");
     }
     render() {
         const { dataSource, loading, isModalEditShow,ModalTitle,Fuc_Exel} = this.state;

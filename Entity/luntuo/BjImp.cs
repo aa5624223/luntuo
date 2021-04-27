@@ -49,6 +49,9 @@ namespace Entity.luntuo
         [Property()]
         public string status { get; set; }
 
+        [Property()]
+        public string Datetime1 { get; set; }
+
         #endregion
     }
 }

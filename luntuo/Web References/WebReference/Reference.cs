@@ -106,26 +106,28 @@ namespace luntuo.WebReference {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Dddxqfj", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string Dddxqfj(string strDate, int iDID) {
+        public int Dddxqfj(string strDate, int iDID, string strType) {
             object[] results = this.Invoke("Dddxqfj", new object[] {
                         strDate,
-                        iDID});
-            return ((string)(results[0]));
+                        iDID,
+                        strType});
+            return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void DddxqfjAsync(string strDate, int iDID) {
-            this.DddxqfjAsync(strDate, iDID, null);
+        public void DddxqfjAsync(string strDate, int iDID, string strType) {
+            this.DddxqfjAsync(strDate, iDID, strType, null);
         }
         
         /// <remarks/>
-        public void DddxqfjAsync(string strDate, int iDID, object userState) {
+        public void DddxqfjAsync(string strDate, int iDID, string strType, object userState) {
             if ((this.DddxqfjOperationCompleted == null)) {
                 this.DddxqfjOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDddxqfjOperationCompleted);
             }
             this.InvokeAsync("Dddxqfj", new object[] {
                         strDate,
-                        iDID}, this.DddxqfjOperationCompleted, userState);
+                        iDID,
+                        strType}, this.DddxqfjOperationCompleted, userState);
         }
         
         private void OnDddxqfjOperationCompleted(object arg) {
@@ -351,10 +353,10 @@ namespace luntuo.WebReference {
         }
         
         /// <remarks/>
-        public string Result {
+        public int Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[0]));
+                return ((int)(this.results[0]));
             }
         }
     }

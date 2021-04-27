@@ -137,11 +137,11 @@ export default class DdOrderDet extends Component {
             sheetArray.push(singleArray);
             if(subsingleArray.length>0){
                 sheetArray.push(SubHeadTitle);
-                console.dir(subsingleArray);
+                //console.dir(subsingleArray);
                 sheetArray = sheetArray.concat(subsingleArray);
             }
         })
-        console.dir(dataSource);
+        //console.dir(dataSource);
         //console.dir(sheetJson);
         let book = XLSX.utils.book_new();
         // XLSX.utils.cell_add_comment

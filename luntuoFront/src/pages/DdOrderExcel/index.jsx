@@ -42,9 +42,14 @@ export default class DdOrderExcel extends Component {
                         if (workbook.Sheets.hasOwnProperty(sheet)) {
                             // 利用 sheet_to_json 方法将 excel 转成 json 数据
                             data = data.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
-                            
                             data = data.map(item => {
                                 let single = {}
+                                for(var key in item){
+                                    var newKey = key.replace(' ','');
+                                    var newVal = item[key];
+                                    delete item[key];
+                                    item[newKey] = newVal;
+                                }
                                 columns.forEach(item2 => {
                                     if (item[item2.title] !== undefined) {
                                         if (item2.title.indexOf('日期') !== -1 || item2.title.indexOf('时间') !== -1) {
@@ -114,10 +119,10 @@ export default class DdOrderExcel extends Component {
         for (; i < SubmitData.length; i++) {
             delete SubmitData[i].TbIndex;
             //检查投产日期和计划月份是否相同 Datetime1,HeadData.PlanDt
-            if((SubmitData[i].Datetime1+"").indexOf(HeadData.PlanDt)===-1){
-                message.warn('请检查Excel的投产日期，和计划月份不同');
-                return;
-            }
+            // if((SubmitData[i].Datetime1+"").indexOf(HeadData.PlanDt)===-1){
+            //     message.warn('请检查Excel的投产日期，和计划月份不同');
+            //     return;
+            // }
             fomrData.append(`list[${i}]`, JSON.stringify(SubmitData[i]))
         }
         fomrData.append("Count", i);

@@ -464,9 +464,13 @@ namespace luntuo.Controllers
             {
                 pageSize = int.Parse(fc["pageSize"]);
             }
+
             V_BjInfo bean = new V_BjInfo();
             string OptUserCode = fc["OptUserCode"];
             bean.UserCode = OptUserCode;
+            bean.FirstCode = fc["FirstCode"];
+            bean.FirstName = fc["FirstName"];
+            bean.Series = fc["Series"];
             #endregion
 
             #region 获取sql
@@ -1092,7 +1096,11 @@ namespace luntuo.Controllers
             return msg.ToString();
             #endregion
         }
-
+        /// <summary>
+        /// 旧版 订单钣金查询
+        /// </summary>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         public string getV_Sum_Num_BjInfo(FormCollection fc) {
             /*
              SELECT FirstCode,Datetime1,Series,SUM(Num1)
@@ -1264,6 +1272,116 @@ namespace luntuo.Controllers
             return msg.ToString();
         }
         
+        /// <summary>
+        /// 新版 订单钣金查询
+        /// </summary>
+        /// <returns></returns>
+        public string getV_Sum_Num_BjInfo2(FormCollection fc)
+        {
+            JObject msg = new JObject();
+            #region 获取数据
+
+            string ServerPath = Server.MapPath("/WebCfg/Db.json");
+            V_JjInfo bean = new V_JjInfo();
+            string OptUserCode = fc["OptUserCode"];
+            string Datetime1 = fc["Datetime1[0]"];
+            string Datetime2 = fc["Datetime1[1]"];
+            string Series = fc["Series"];
+            string FirstCode = fc["FirstCode"];
+            string FirstName = fc["FirstName"];
+            //string level = fc["level"];
+            string DIDS = fc["DIDS"];
+            string model = fc["model"];
+            int page = 1;
+            int pageSize = 100;
+            if (!string.IsNullOrEmpty(fc["page"]))
+            {
+                page = int.Parse(fc["page"]);
+            }
+            if (!string.IsNullOrEmpty(fc["pageSize"]))
+            {
+                pageSize = int.Parse(fc["pageSize"]);
+            }
+
+
+            #endregion
+
+            #region 处理请求
+
+            #region 生成where
+
+            List<string> WhereSql = new List<string>();
+            if (!string.IsNullOrEmpty(DIDS))
+            {
+                WhereSql.Add($" DID IN ({DIDS})");
+            }
+            if (!string.IsNullOrEmpty(Series))
+            {
+                WhereSql.Add($" Series = '{Series}' ");
+            }
+            if (!string.IsNullOrEmpty(Datetime1))
+            {
+                WhereSql.Add($" Datetime1 >= '{Datetime1}' ");
+            }
+            if (!string.IsNullOrEmpty(Datetime2))
+            {
+                WhereSql.Add($" Datetime1 <= '{Datetime2}' ");
+            }
+            if (!string.IsNullOrEmpty(FirstCode))
+            {
+                WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
+            }
+            if (!string.IsNullOrEmpty(FirstName))
+            {
+                WhereSql.Add($" FirstName like '%{FirstName}%' ");
+            }
+
+            string Where = "";
+            if (WhereSql.Count > 0)
+            {
+                Where =  string.Join(" AND ", WhereSql);
+            }
+
+            #endregion
+
+            #region 生成SQL
+            string SqlSeries = "";
+            if (model=="1")
+            {
+                SqlSeries = "Series";
+            }
+            else
+            {
+                SqlSeries = "('') AS Series";
+            }
+            string GroupBy = "FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Meins,MRP";
+            if (model=="1")
+            {
+                GroupBy += ",Series";
+            }
+            string Sql = $"SELECT FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName," +
+                $"Meins,MRP,SUM(Num1) AS Num1,SUM(Num2) AS Num2,SUM(Num3) AS Num3,SUM(Num4) AS Num4,SUM(Num5) AS Num5,{SqlSeries}" +
+                $" FROM V_BjInfo WHERE {Where} GROUP BY {GroupBy} ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode,FifthCode,Series";
+            #endregion
+            #endregion
+
+            #region 查询数据
+
+            JObject data = Common.findCommond(Sql, typeof(V_BjInfo),1,999999,ServerPath) ;
+
+            #endregion
+
+            #region 返回数据
+
+            msg.Add("data",data);
+            msg.Add("status",0);
+
+            #endregion
+
+            return msg.ToString();
+
+        }
+
         #endregion
 
         #region 添加数据
@@ -1420,9 +1538,9 @@ namespace luntuo.Controllers
                     //超时处理
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
-                    string optSql = $"UPDATE BjImp SET status='执行超时' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                    //string optSql = $"UPDATE BjImp SET status='执行超时' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                     string logSql1 = InsertLog("钣金需求接口", "执行超时", OptUserCode);
-                    sqls1.Add(optSql);
+                    //sqls1.Add(optSql);
                     sqls1.Add(logSql1);
                     flg1 = Common.OptCommond(sqls1, ServerPath);
                 }
@@ -2011,21 +2129,22 @@ namespace luntuo.Controllers
             {
                 try
                 {
-                    string ClientResult = client.Dddxqfj(dt,(int)bean.ID);
+                    //string ClientResult = client.Dddxqfj("",dt,(int)bean.ID);
+                    client.Dddxqfj(dt,(int)bean.ID,"");
                     List<string> sqls = new List<string>();
-                    string sq1l = InsertLog("调度单接口执行", $"调度单id:{bean.ID},执行结果:"+ ClientResult, OptUserCode);
+                    string sq1l = InsertLog("调度单接口执行", $"调度单id:{bean.ID}", OptUserCode);
                     sqls.Add(sq1l);
                     string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    if (ClientResult=="完成")
-                    {
-                         sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
+                    //if (ClientResult=="完成")
+                    //{
+                    //     sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
 
-                    }
-                    else
-                    {
-                        sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
-                    }
-                    sqls.Add(sq1l);
+                    //}
+                    //else
+                    //{
+                    //    sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
+                    //}
+                    //sqls.Add(sq1l);
                     Common.OptCommond(sq1l, ServerPath);
 
                 }
@@ -2034,7 +2153,6 @@ namespace luntuo.Controllers
                     string logsql = InsertLog("调度单接口执行超时", $"调度单id:{bean.ID}", OptUserCode);
                     string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     string sq1l = $"UPDATE DdOrder SET BjStatus='超时',JjStatus='超时',CgStatus='超时',RecTime='{nowDate1}' WHERE ID=" + bean.ID;
-
                     Common.OptCommond(logsql, ServerPath);
                     throw _e;
                 }
@@ -2047,6 +2165,111 @@ namespace luntuo.Controllers
             #endregion
             msg.Add("status",0);
             
+            return msg.ToString();
+        }
+
+        public string DdOrder_DetExt(FormCollection fc)
+        {
+            JObject msg = new JObject();
+            #region 获取数据
+            string ServerPath = Server.MapPath("/WebCfg/Db.json");
+            DdOrder bean = new DdOrder();
+            bean.ID = int.Parse(fc["DID"]);
+            string OptUserCode = fc["OptUserCode"];
+            string dt = fc["dt"];
+            string IDS = fc["IDS"];
+            string type = fc["type"];
+            #endregion
+
+            #region 检查
+
+            LTPCwebservice client = getServiceMethod();
+            string result = client.ChkSap("ddh", OptUserCode, (int)bean.ID);
+            if (result.Contains("\"etype\": \"E\""))
+            {
+                string logsql = InsertLog("执行调度单需求失败", $"调度单id:{bean.ID}", OptUserCode);
+                Common.OptCommond(logsql, ServerPath);
+                msg.Add("status", 1);
+                msg.Add("msg", result);
+                return msg.ToString();
+            }
+
+            #endregion
+
+            #region 更新状态
+            string sql = "";
+            if(type=="BJ")
+            {
+                sql = $"UPDATE DdOrder_Det SET BjFlg=1 WHERE ID IN ({IDS})";
+                type = "bj";
+            }else if (type=="JJ")
+            {
+                sql = $"UPDATE DdOrder_Det SET JjFlg=1 WHERE ID IN ({IDS})";
+                type = "jj";
+            }
+            else if (type=="CG")
+            {
+                sql = $"UPDATE DdOrder_Det SET CgFlg=1 WHERE ID IN ({IDS})";
+                type = "cg";
+            }
+            else
+            {
+                msg.Add("status",1);
+                return msg.ToString();
+            }
+            bool flg = Common.OptCommond(sql,ServerPath);
+            if (!flg)
+            {
+                msg.Add("status", 1);
+                return msg.ToString();
+            }
+            #endregion
+
+            #region 执行调度单
+
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    //string ClientResult = client.Dddxqfj("",dt,(int)bean.ID);
+                    int clientResult = client.Dddxqfj(dt, ((int)bean.ID),type);
+                    //client.
+                    List<string> sqls = new List<string>();
+                    string sq1l = InsertLog("调度单接口执行", $"调度单id:{bean.ID}", OptUserCode);
+                    sqls.Add(sq1l);
+                    string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    //if (ClientResult == "完成")
+                    //{
+                    //    sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
+
+                    //}
+                    //else
+                    //{
+                    //    sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
+                    //}
+                    //sqls.Add(sq1l);
+                    Common.OptCommond(sq1l, ServerPath);
+
+                }
+                catch (Exception _e)
+                {
+                    string logsql = InsertLog("调度单接口执行超时", $"调度单id:{bean.ID}", OptUserCode);
+                    string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    string sq1l = $"UPDATE DdOrder SET BjStatus='超时',JjStatus='超时',CgStatus='超时',RecTime='{nowDate1}' WHERE ID=" + bean.ID;
+                    Common.OptCommond(logsql, ServerPath);
+                    throw _e;
+                }
+            });
+
+            string nowDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            //string sql = $"UPDATE DdOrder SET BjStatus='执行中',JjStatus='执行中',CgStatus='执行中',RecTime='{nowDate}' WHERE ID={bean.ID}";
+
+            //Common.OptCommond(sql,ServerPath);
+
+            #endregion
+            msg.Add("status", 0);
+
             return msg.ToString();
         }
 

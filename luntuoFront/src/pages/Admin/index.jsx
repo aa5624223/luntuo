@@ -34,7 +34,7 @@ import DdOrderDet from '../DdOrderDet'
 import DdOrder_JjInfo from '../DdOrder_JjInfo'
 import DdOrder_CgInfo from '../DdOrder_CgInfo'
 import DdOrder_BjInfo from '../DdOrder_BjInfo'
-
+import DdOrder_BjInfo2 from '../DdOrder_BjInfo2'
 const {Sider,Content} = Layout
 class Admin extends Component {
     state = {
@@ -121,6 +121,7 @@ class Admin extends Component {
                             <Route path='/Admin/DdOrder/DdOrder_JjInfo' component={DdOrder_JjInfo} ></Route>
                             <Route path='/Admin/DdOrder/DdOrder_CgInfo' component={DdOrder_CgInfo} ></Route>
                             <Route path='/Admin/DdOrder/DdOrder_BjInfo' component={DdOrder_BjInfo} ></Route>
+                            <Route path='/Admin/DdOrder/DdOrder_BjInfo2' component={DdOrder_BjInfo2} ></Route>
                             
                         </Switch>
                     </Content>

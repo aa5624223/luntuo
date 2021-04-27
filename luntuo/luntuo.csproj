@@ -147,11 +147,11 @@
     <Content Include="luntuo\css\reset.css" />
     <Content Include="luntuo\favicon.ico" />
     <Content Include="luntuo\index.html" />
-    <Content Include="luntuo\static\css\2.5330fe9b.chunk.css" />
-    <Content Include="luntuo\static\css\main.df89f105.chunk.css" />
-    <Content Include="luntuo\static\js\2.328f286b.chunk.js" />
-    <Content Include="luntuo\static\js\2.328f286b.chunk.js.LICENSE.txt" />
-    <Content Include="luntuo\static\js\main.c442c716.chunk.js" />
+    <Content Include="luntuo\static\css\2.b07ba230.chunk.css" />
+    <Content Include="luntuo\static\css\main.541060d1.chunk.css" />
+    <Content Include="luntuo\static\js\2.233ea6ca.chunk.js" />
+    <Content Include="luntuo\static\js\2.233ea6ca.chunk.js.LICENSE.txt" />
+    <Content Include="luntuo\static\js\main.9fc33845.chunk.js" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js" />
     <Content Include="luntuo\static\media\999.b9883ce8.png" />
     <Content Include="luntuo\static\media\cf_b.7b69f992.jpg" />
@@ -167,11 +167,14 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="log4net.config" />
     <Content Include="website\HtmlPage1.html" />
+    <Content Include="ExcelDemo\机加需求分解模板.xls" />
+    <Content Include="ExcelDemo\采购需求分解模板.xls" />
+    <Content Include="ExcelDemo\钣金需求分解模板.xls" />
     <Content Include="luntuo\asset-manifest.json" />
-    <Content Include="luntuo\static\css\2.5330fe9b.chunk.css.map" />
-    <Content Include="luntuo\static\css\main.df89f105.chunk.css.map" />
-    <Content Include="luntuo\static\js\2.328f286b.chunk.js.map" />
-    <Content Include="luntuo\static\js\main.c442c716.chunk.js.map" />
+    <Content Include="luntuo\static\css\2.b07ba230.chunk.css.map" />
+    <Content Include="luntuo\static\css\main.541060d1.chunk.css.map" />
+    <Content Include="luntuo\static\js\2.233ea6ca.chunk.js.map" />
+    <Content Include="luntuo\static\js\main.9fc33845.chunk.js.map" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

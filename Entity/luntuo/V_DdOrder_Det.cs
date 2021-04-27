@@ -146,5 +146,20 @@ namespace Entity.luntuo
         [Property()]
         public string Datetime2 { get; set; }
 
+        /// <summary>
+        /// 是否被勾选状态
+        /// </summary>
+        public int BjFlg { get; set; }
+
+        /// <summary>
+        /// 是否被勾选状态
+        /// </summary>
+        public int JjFlg { get; set; }
+
+        /// <summary>
+        /// 是否被勾选状态
+        /// </summary>
+        public int CgFlg { get; set; }
+
     }
 }

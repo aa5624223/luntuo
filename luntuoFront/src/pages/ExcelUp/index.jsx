@@ -46,17 +46,28 @@ export default class ExcelUp extends Component {
                         if (workbook.Sheets.hasOwnProperty(sheet)) {
                             // 利用 sheet_to_json 方法将 excel 转成 json 数据
                             data = data.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
-                            console.dir(data);
                             data = data.map(item=>{
                                 let single ={}
                                 columns.forEach(item2=>{
                                     if(item[item2.title]!==undefined){
                                         if(item2.title.indexOf('日期')!==-1 || item2.title.indexOf('时间')!==-1){
                                             if(item[item2.title] instanceof Date){
-                                                single[item2.dataIndex] = moment(item[item2.title]).add(1,'days').format('YYYYMMDD');
+                                                console.dir('d1');
+                                                single[item2.dataIndex] = moment(item[item2.title]).format('YYYYMMDD');
                                             }else{
-                                                var dt = new Date(item[item2.title]);
-                                                single[item2.dataIndex] = moment(dt).format('YYYYMMDD');
+                                                
+                                                if(typeof(item[item2.title])==='number'){
+                                                    single[item2.dataIndex] = item[item2.title];
+                                                }else{
+                                                    if(item[item2.title].length===8){
+                                                        single[item2.dataIndex] = item[item2.title];
+                                                    }else{
+                                                        var dt = new Date(item[item2.title]);
+                                                        single[item2.dataIndex] = moment(dt).format('YYYYMMDD');
+                                                    }
+                                                    
+                                                }
+                                                
                                             }
                                         }else{
                                             single[item2.dataIndex] = item[item2.title]
@@ -65,12 +76,14 @@ export default class ExcelUp extends Component {
                                     }
                                 })
                                 single.key="key"+(this.key++)
+                                console.dir(single);
                                 return single
                             })
                         }
                         //只读一张表
                         break;
                     }
+                    console.dir(data);
                     this.setState({dataSource:data,uploadState:1});
                 } catch (e) {
                     message.error("请上传Excel文件");

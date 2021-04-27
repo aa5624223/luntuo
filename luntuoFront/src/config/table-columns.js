@@ -1,5 +1,5 @@
 import { Tag,Button} from 'antd';
-import { getColumnSearchProps } from "../utils";
+import { getColumnSearchProps} from "../utils";
 import LinkButton from "../components/link-button"
 import moment from 'moment'
 
@@ -275,6 +275,12 @@ export const BjImp_columns =[
         width: 60,
     },
     {
+        title: '日期',
+        dataIndex: 'Datetime1',
+        key: 'Datetime1',
+        width: 60,
+    },
+    {
         title:'状态',
         dataIndex: 'status',
         key: 'status',
@@ -351,6 +357,12 @@ export const JiImp_columns =[
         width: 60,
     },
     {
+        title: '日期',
+        dataIndex: 'Datetime1',
+        key: 'Datetime1',
+        width: 60,
+    },
+    {
         title:'状态',
         dataIndex: 'status',
         key: 'status',
@@ -421,6 +433,7 @@ export const CgInfo_columns =[
         dataIndex: 'Name1',
         key: 'Name1',
         width: 60,
+        ellipsis: true,
     },
 ]
 export const CgImp_columns =[
@@ -494,10 +507,19 @@ export const WbInfo = [
 //BjInfo 钣金需求分解查询
 export const V_BjInfo_columns = [
     {
+        title: '日期',
+        dataIndex: 'Datetime1',
+        key: 'Datetime1',
+        width: 30,
+        render:function (data) {
+            return moment(data).format("YYYYMMDD");
+        }
+    },
+    {
         title: '一层编码',
         dataIndex: 'FirstCode',
         key: 'FirstCode',
-        width: 60,
+        width: 40,
     },
     {
         title: '一层名称',
@@ -515,7 +537,7 @@ export const V_BjInfo_columns = [
         title: '二层编码',
         dataIndex: 'SecondCode',
         key: 'SecondCode',
-        width: 60,
+        width: 40,
     },
     {
         title: '二层名称',
@@ -533,7 +555,7 @@ export const V_BjInfo_columns = [
         title: '三层编码',
         dataIndex: 'ThirdCode',
         key: 'ThirdCode',
-        width: 60,
+        width: 40,
     },
     {
         title: '三层名称',
@@ -551,7 +573,7 @@ export const V_BjInfo_columns = [
         title: '四层编码',
         dataIndex: 'FourthCode',
         key: 'FourthCode',
-        width: 60,
+        width: 40,
     },
     {
         title: '四层名称',
@@ -569,7 +591,7 @@ export const V_BjInfo_columns = [
         title: '五层编码',
         dataIndex: 'FifthCode',
         key: 'FifthCode',
-        width: 60,
+        width: 40,
     },
     {
         title: '五层名称',
@@ -908,16 +930,20 @@ export const GetDdOrder_columns = _this=>(
             key: 'BjStatus',
             width: 28,
             render:function(val,record) {
+                var flg = true;
+                if(record.BjStatus ==="待执行" || record.JjStatus ==="待执行" || record.CgStatus ==="待执行"){
+                    flg = false;
+                }
                 if(val==="待执行"){
-                    return <LinkButton onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="blue" >{val}</Tag>
                     </LinkButton>
                 }else if(val==="已完成"){
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="green">{val}</Tag>
                     </LinkButton>
                 }else{
-                    return <LinkButton onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="magenta">{val}</Tag>
                     </LinkButton>
                 }
@@ -929,16 +955,20 @@ export const GetDdOrder_columns = _this=>(
             key: 'JjStatus',
             width: 28,
             render:function(val,record) {
+                var flg = true;
+                if(record.BjStatus ==="待执行" || record.JjStatus ==="待执行" || record.CgStatus ==="待执行"){
+                    flg = false;
+                }
                 if(val==="待执行"){
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="blue" >{val}</Tag>
                     </LinkButton>
                 }else if(val==="已完成"){
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="green">{val}</Tag>
                     </LinkButton>
                 }else{
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="magenta">{val}</Tag>
                     </LinkButton>
                 }
@@ -950,16 +980,20 @@ export const GetDdOrder_columns = _this=>(
             key: 'CgStatus  ',
             width: 28,
             render:function(val,record) {
+                var flg = true;
+                if(record.BjStatus ==="待执行" || record.JjStatus ==="待执行" || record.CgStatus ==="待执行"){
+                    flg = false;
+                }
                 if(val==="待执行"){
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="blue" >{val}</Tag>
                     </LinkButton>
                 }else if(val==="已完成"){
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="green">{val}</Tag>
                     </LinkButton>
                 }else{
-                    return <LinkButton  onClick={()=>_this.SearchDet(record.ID)}>
+                    return <LinkButton onClick={()=>_this.SearchDet(record.ID,flg)}>
                         <Tag color="magenta">{val}</Tag>
                     </LinkButton>
                 }
@@ -968,9 +1002,10 @@ export const GetDdOrder_columns = _this=>(
         {
             title: '最近执行时间',
             dataIndex: 'RecTime',
-            key: 'RecTime  ',
+            key: 'RecTime',
             width: 32, 
             render:function (val) {
+                return val;
                 //return val!==""?moment(val).format("YYYYMM"):val
             }
         },
@@ -980,7 +1015,6 @@ export const GetDdOrder_columns = _this=>(
             key: 'PlanDt  ',
             width: 25,
             render:(val)=>{
-                //console.dir(val);
                 return val;
                 //return val!==""?moment(val).format("YYYYMM"):val
             }
@@ -1012,24 +1046,24 @@ export const GetDdOrder_Det_Status = ()=>{
             key: 'Datetime1',
             width: 30,
         },
-        {
-            title: '物料编码',
-            dataIndex: 'Matnr',
-            key: 'Matnr',
-            width: 30,
-        },
-        {
-            title: '整机编码',
-            dataIndex: 'ZjNo',
-            key: 'ZjNo',
-            width: 30,
-        },
+        // {
+        //     title: '物料编码',
+        //     dataIndex: 'Matnr',
+        //     key: 'Matnr',
+        //     width: 30,
+        // },
+        // {
+        //     title: '整机编码',
+        //     dataIndex: 'ZjNo',
+        //     key: 'ZjNo',
+        //     width: 30,
+        // },
         {
             title: '钣金状态',
             dataIndex: 'BjStatus',
             key: 'BjStatus',
             width: 20,
-            render:function(val) {
+            render:function(val,record) {
                 if(val==="待执行"){
                     return <Tag color="blue">{val}</Tag>
                 }else if(val==="已完成"){
@@ -1242,12 +1276,6 @@ export const DdOrder_Det_Sum_columns = ()=>{
             width: 12,
         },
         {
-            title:'型号',
-            dataIndex:'Model',
-            key: 'Model',
-            width: 15,
-        },
-        {
             title:'分动箱',
             dataIndex:'Box',
             key: 'Box',
@@ -1419,6 +1447,7 @@ export const DdOrder_CgInfo_columns = (model)=>{
             dataIndex:'Name1',
             key: 'Name1',
             width: 24,
+            ellipsis: true,
         },
         {
             title:'系列',
@@ -1486,6 +1515,7 @@ export const DdOrder_CgInfo_columns = (model)=>{
             dataIndex:'Name1',
             key: 'Name1',
             width: 24,
+            ellipsis: true,
         },
         {
             title:'数量',
@@ -1673,5 +1703,60 @@ export const DdOrder_BjInfo_columns = (model)=>{
             key: 'Num1',
             width: 12,
         }
+    ]
+}
+export const DdOrder_BjInfo_First =(_this)=>{
+    return [
+            {
+                title:'物料编码',
+                dataIndex:'Code2',
+                key: 'Code2',
+                width:20,
+                ...getColumnSearchProps('FirstCode',_this),
+            },
+            {
+                title:'物料名称',
+                dataIndex:'Name',
+                key: 'Name',
+                width:20,
+                ...getColumnSearchProps('FirstName',_this),
+            },
+            {
+                title:'数量',
+                dataIndex:'Num',
+                key: 'Num',
+                width:5,
+            }
+    ]
+}
+export const DdOrder_BjInfo_Second =()=>{
+    return [
+            {
+                title:'二层物料编码',
+                dataIndex:'Code',
+                key: 'Code',
+                width:10,
+                render:function (val) {
+                    return val.replace(/\b(0+)/gi,"");
+                }
+            },
+            {
+                title:'物料名称',
+                dataIndex:'Name',
+                key: 'Name',
+                width:5
+            },
+            {
+                title:'数量',
+                dataIndex:'Num',
+                key: 'Num',
+                width:5,
+            },
+            {
+                title:'子件',
+                dataIndex:'sub',
+                key:'sub',
+                width:86
+            }
     ]
 }

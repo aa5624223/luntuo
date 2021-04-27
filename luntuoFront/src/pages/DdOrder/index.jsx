@@ -5,17 +5,20 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 //引入配置
+
 import {GetDdOrder_columns,GetDdOrder_Det_Status} from '../../config/table-columns'
 //引入工具
 import {ConvertFomrData} from '../../utils'
 //引入api
-import {getDdOrder,editDdOrder,editDdOrder_status,delDdOrder,demantExe,getV_DdOrder_Det} from '../../api'
+import {getDdOrder,editDdOrder,DdOrder_DetExt,editDdOrder_status,delDdOrder,demantExe,getV_DdOrder_Det} from '../../api'
 //引入模拟数据
 const { confirm } = Modal;
 export default class DdOrder extends Component {
     //对话框配置
     formRef = React.createRef();
     formRef2 = React.createRef();
+    Modal_DID = 0;
+    statusDt = moment();
     layout = {
         labelCol: {
             span: 4,
@@ -43,7 +46,9 @@ export default class DdOrder extends Component {
         //需求计划执行对话框是否显示
         isModalExeShow:false,
         isModalDetStatusShow:false,
-        DataSource_DetStatus:[]
+        DataSource_DetStatus:[],
+        isDetTools:true,
+        selectedRowKeys2:[]
     }
     
     handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -141,7 +146,6 @@ export default class DdOrder extends Component {
     OrderDet = ()=>{
         const { history } = this.props;
         const {selectedRowKeys} = this.state;
-        //console.dir(selectedRowKeys.join(',') 
         //IDS
         if(selectedRowKeys.length===0){
             message.warn("请先选择要汇总的调度单");
@@ -190,14 +194,16 @@ export default class DdOrder extends Component {
         
     }
     //查询点击
-    SearchDet = async (DID)=>{
+    SearchDet = async (DID,flg)=>{
         var formData = new FormData();
         formData.append("IDS",DID);
         const result = await getV_DdOrder_Det(formData);
         if(result.status === 0){
             const {V_DdOrder_Det} = result.data;
-            //DataSource_DetStatus
-            this.setState({isModalDetStatusShow:true,DataSource_DetStatus:V_DdOrder_Det})
+            //console.dir(V_DdOrder_Det);
+            this.Modal_DID = DID;
+            
+            this.setState({isModalDetStatusShow:true,DataSource_DetStatus:V_DdOrder_Det,isDetTools:flg,selectedRowKeys2:[]})
             //GetDdOrder_Det_Status
         }else{
             message.error("网络错误");
@@ -231,9 +237,30 @@ export default class DdOrder extends Component {
             const Year = record[0].PlanDt.substring(0,4);
             const Month = record[0].PlanDt.substring(4,6);
             const dt = new Date(Year+"-"+Month);
-            console.dir(Year+"-"+Month);
             this.formRef2.current.setFieldsValue({ID:selectedRowKeys[0],dt:moment(dt).startOf('Month')})
         })
+    }
+    //需求计划明细执行
+    demantExe_Det = async (type)=>{
+        //selectedRowKeys2
+        const {selectedRowKeys2} = this.state;
+        //console.dir(moment(this.statusDt).format("YYYYMMDD"));
+        if(selectedRowKeys2.length===0){
+            message.warn("请选择先选择明细");
+            return;
+        }
+        var formdata = new FormData();
+        formdata.append("DID",this.Modal_DID);
+        formdata.append("IDS",selectedRowKeys2.join(','));
+        formdata.append("type",type);
+        formdata.append("dt",moment(this.statusDt).format("YYYYMMDD"));
+        const result = await DdOrder_DetExt(formdata);
+        if(result.status===0){
+            message.success("计划执行成功,请重新打开窗口");
+            this.setState({isModalDetStatusShow:false});
+        }else{
+            message.error("网络错误");
+        }
     }
     //需求计划执行
     ModalExeOk = async ()=>{
@@ -246,7 +273,6 @@ export default class DdOrder extends Component {
         }
         var data = form.getFieldsValue(true);
         data.newdt = moment(data.dt).format("YYYYMMDD");
-        console.dir(data);
         var formData = new FormData();
         formData.append("ID",data.ID);
         formData.append("dt",data.newdt);
@@ -272,6 +298,18 @@ export default class DdOrder extends Component {
     }
     onSelectChange = selectedRowKeys =>{
         this.setState({ selectedRowKeys });
+    }
+    onSelectChange2 = selectedRowKeys =>{
+        this.setState({ selectedRowKeys2:selectedRowKeys });
+    }
+    onSelectDet_Error = (record,key)=>{
+        let newSelects = [];
+        record.forEach(item=>{
+            if(item[key]!=="已完成"){
+                newSelects.push(item.ID);
+            }
+        })
+        this.setState({selectedRowKeys2:newSelects})
     }
     //钣金需求
     demantBj = ()=>{
@@ -303,7 +341,7 @@ export default class DdOrder extends Component {
             }
         }
         const { history } = this.props;
-        history.push({pathname:"/Admin/DdOrder/DdOrder_BjInfo",DIDS:selectedRowKeys.join(','),LTOrders:LTOrders.join(',')});
+        history.push({pathname:"/Admin/DdOrder/DdOrder_BjInfo2",DIDS:selectedRowKeys.join(','),LTOrders:LTOrders.join(',')});
 
     }
     //机加需求
@@ -374,14 +412,68 @@ export default class DdOrder extends Component {
         this.handleTableChange();
     }
     render() {
+        
         const DdOrder_columns = GetDdOrder_columns(this);
-        const {dataSource,loading,SearchContation,ModalTitle,isModalEditShow,current,dataTotal,selectedRowKeys,isModalExeShow,isModalDetStatusShow,DataSource_DetStatus} = this.state;
+        const {dataSource,loading,SearchContation,ModalTitle,isModalEditShow,current,dataTotal,selectedRowKeys,selectedRowKeys2,isModalExeShow,isModalDetStatusShow,DataSource_DetStatus,isDetTools} = this.state;
         const rowSelection ={
             selectedRowKeys,
             columnWidth:15,
             onChange: this.onSelectChange,
         }
+        const rowSelection2 = {
+            selectedRowKeys:selectedRowKeys2,
+            onChange: this.onSelectChange2,
+            selections: [
+                {
+                    key: 'SELECT_ALL',
+                    text: '全选',
+                    onSelect:changableRowKeys=>{
+                        this.setState({selectedRowKeys2:changableRowKeys});
+                    }
+                },
+                {
+                    key:"SELECT_INVERT",
+                    text: '反选',
+                    onSelect:changableRowKeys=>{
+                        const {selectedRowKeys2} = this.state;
+                        let newSels = [];
+                        DataSource_DetStatus.forEach(item=>{
+                            let flg = selectedRowKeys2.find(item2=>{
+                                return item2===item.ID
+                            });
+                            if(flg===undefined){
+                                newSels.push(item.ID);
+                            }
+                        })
+                        this.setState({selectedRowKeys2:newSels});
+                    }
+                },
+                {
+                    key: 'SELECT_BJ',
+                    text: '钣金异常全选',
+                    onSelect: changableRowKeys => {
+                        this.onSelectDet_Error(DataSource_DetStatus,"BjStatus");
+                    }
+                },
+                {
+                    key: 'SELECT_JJ',
+                    text: '机加异常全选',
+                    onSelect: changableRowKeys => {
+                        this.onSelectDet_Error(DataSource_DetStatus,"JjStatus");
+                    }
+                },
+                {
+                    key: 'SELECT_CG',
+                    text: '采购异常全选',
+                    onSelect: changableRowKeys => {
+                        this.onSelectDet_Error(DataSource_DetStatus,"CgStatus");
+                    }
+                }
+            ]
+        }
+        //selectedRowKeys2
         return (
+            
             <div className="main">
                 <div className="toolArea">
                     <Button type="primary" onClick={()=>this.ExcelIn()}>导入调度单</Button>
@@ -481,9 +573,29 @@ export default class DdOrder extends Component {
                         </Form.Item>
                     </Form>
                 </Modal>
-                <Modal title="" width={1000}  visible={isModalDetStatusShow} onOk={()=>this.ModalDetStatusCancel()} onCancel={()=>this.ModalDetStatusCancel()}>
+                <Modal title="" width={1100}  visible={isModalDetStatusShow} onOk={()=>this.ModalDetStatusCancel()} onCancel={()=>this.ModalDetStatusCancel()}>
                     <div style={{maxHeight:"700px",overflowY:"scroll"}}>
+                        {
+                        isDetTools?
+                        <div style={{textAlign:"right",marginBottom:"10px",marginTop:"10px"}}>
+                            <DatePicker locale={locale} onChange={(val)=>this.statusDt=val} format="YYYYMMDD" defaultValue={moment()} placeholder="选择计划日期" ></DatePicker>
+                            &nbsp;
+                            <Button type="primary" onClick={()=>this.demantExe_Det("BJ")} >钣金需求计划执行</Button>
+                            &nbsp;
+                            <Button type="primary" onClick={()=>this.demantExe_Det("JJ")}>机加需求计划执行</Button>
+                            &nbsp;
+                            <Button type="primary" onClick={()=>this.demantExe_Det("CG")}>采购需求计划执行</Button>
+                            &nbsp;
+                            
+                        </div>
+                        :
+                        <div style={{textAlign:"right",marginBottom:"10px",marginTop:"10px"}}>
+                            <h1>需求计划执行中。</h1>
+                        </div>
+                        }
+                        
                         <Table
+                            rowSelection={rowSelection2}
                             sticky={true}
                             rowKey="ID"
                             bordered

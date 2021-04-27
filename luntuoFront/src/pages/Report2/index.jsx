@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Table,message,Button} from 'antd'
+import moment from 'moment'
 //引入工具
 import {getPageRoles,isOpt,ConvertFomrData,downloadExcel} from '../../utils'
 //引入API 
@@ -54,6 +55,7 @@ export default class Report2 extends Component {
     ModalExcelOut = async ()=>{
         //const {dataSource} = this.state; 
         const ColumsWch = [
+        {wch:10},
           {wch:20},
 	      {wch:45},
 	      {wch:20},
@@ -71,6 +73,9 @@ export default class Report2 extends Component {
         const result = await getV_BjInfo(formData);
         if(result.status===0){
             const {V_BjInfo} = result.data;
+            V_BjInfo.forEach(item=>{
+                item.Datetime1 = moment(item.Datetime1).format("YYYYMMDD");
+            })
             downloadExcel(V_BjInfo,V_BjInfo_columns,ColumsWch,"钣金需求单");
         }
     }
@@ -90,7 +95,7 @@ export default class Report2 extends Component {
                 bordered
                 rowKey="ID"
                 sticky={true}
-                scroll={{ x: 2600,y:570}} 
+                scroll={{ x: 3000,y:570}} 
                 columns={V_BjInfo_columns}
                 size="middle"
                 loading={loading}

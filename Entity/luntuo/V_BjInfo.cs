@@ -19,13 +19,13 @@ namespace Entity.luntuo
         /// <summary>
         /// 一层编码
         /// </summary>
-        [Property()]
+        [Property(Model = 1)]
         public string FirstCode { get; set; }
 
         /// <summary>
         /// 一层名称
         /// </summary>
-        [Property()]
+        [Property(Model = 1)]
         public string FirstName { get; set; }
 
         /// <summary>
@@ -136,7 +136,11 @@ namespace Entity.luntuo
         /// <summary>
         /// 投产日期
         /// </summary>
+        [Property]
         public DateTime Datetime1 { get; set; }
+
+        [Property]
+        public string Series { get; set; }
 
         #endregion
     }

@@ -97,6 +97,11 @@ export const getV_Sum_Num_BjInfo = (formdata)=>{
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/getV_Sum_Num_BjInfo',formdata,'POST')
 }
+export const getV_Sum_Num_BjInfo2 = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/getV_Sum_Num_BjInfo2',formdata,'POST')
+}
 
 /* 获取数据End */
 
@@ -124,6 +129,11 @@ export const addMRPInfo = (formdata) =>{
     const user = localStore.getUser();
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/addMRPInfo',formdata,'POST')
+}
+export const DdOrder_DetExt = (formdata)=>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/DdOrder_DetExt',formdata,'POST')
 }
 /* 添加数据End */
 /* 修改 */

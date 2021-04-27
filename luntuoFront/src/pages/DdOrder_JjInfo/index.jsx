@@ -16,7 +16,7 @@ import {getV_Sum_Num_JiInfo} from '../../api'
 //Excel
 import XLSX from 'xlsx'
 //导入配置
-import {DdOrder_JjInfo_columns,DdOrder_JjInfo_Det_columns} from '../../config/table-columns'
+import {DdOrder_JjInfo_columns} from '../../config/table-columns'
 import {ArrowLeftOutlined} from '@ant-design/icons';
 //引入缓存
 import store from 'store'
@@ -24,31 +24,106 @@ import store from 'store'
 const {RangePicker} = DatePicker;
 //表格扩展
 const expandedRowRender = (record,index)=>{
-    //DdOrder_Det_Sum_columns
+        //DdOrder_Det_Sum_columns
     //console.dir(record);
     const data = record.Det;
-    if(data===undefined || data.length===0){
+    if (data === undefined || data.length === 0) {
         return "";
     }
-    var DetVal = [];
-    
-    var newData = {};
-    for(let i=0;i<data.length;i++){
-        if(newData[data[i].Datetime1]===undefined){
-
-            newData[data[i].Datetime1] = 0;
-        }
-    }
-    for(var key in newData){
-        for(let i=0;i<data.length;i++){
-            if(key === data[i].Datetime1){
-                newData[key] += (data[i].Menge*1)
+    // var DetVal = [];
+    // var newData = {};
+    // for (let i = 0; i < data.length; i++) {
+    //     if (newData[data[i].Datetime1] === undefined) {
+    //         //console.dir(data[i].Datetime1);
+    //         newData[data[i].Datetime1] = 0;
+    //     }
+    // }
+    // for (var key in newData) {
+    //     for (let i = 0; i < data.length; i++) {
+    //         if (key === data[i].Datetime1) {
+    //             newData[key] += (data[i].Menge * 1)
+    //         }
+    //     }
+    // }
+    //DetVal.push({ ID: 1, ...newData });
+    //根据时间创建多个Table
+    //moment(dt).isBetween(dt1,dt2);
+    var newColums = [];
+    var newData = [];
+    //是否创建数组
+    var dt1 = null;
+    var dt2 = null;
+    data.forEach((item,index) => {
+        let singleColums = [];
+        var dt = new Date(item.Datetime1);
+        let dt3 = moment(dt);
+        dt3.add(1,'m');
+        if(newColums.length===0||!moment(dt3).isBetween(dt1,dt2)){
+            let singleArr = {};
+            dt1 = moment(dt).startOf("month");
+            dt2 = moment(dt).endOf("month");
+            let dt4 = moment(dt).startOf("month");
+            //插入表头的第一列
+            singleColums.push({
+                title: '日期',
+                dataIndex: '日期',
+            })
+            //插入表头第一列的内容为空
+            singleArr[moment(dt1).format('YYYYMM')] = 0;
+            singleArr.ID = moment(dt1).format('YYYYMM');
+            //插入其他列
+            dt4.add(1, 's');
+            for(let i=1;i<=31;i++){
+                var key = i<10?'0'+i:''+i;
+                singleColums.push({
+                    title:key,
+                    dataIndex:key,
+                })
+                singleArr[key] = 0;
             }
+            singleArr["dt"]=moment(dt3);
+            singleArr["日期"]=moment(dt3).format("YYYYMM");
+            newColums.push(singleColums);
+            newData.push(singleArr);
         }
-    }
-
-    DetVal.push({ID:1,...newData});
-    return <Table bordered size="small" rowKey="ID" columns={DdOrder_JjInfo_Det_columns(newData)} dataSource={DetVal} pagination={false}></Table>
+        
+        newColums.forEach((item2,index2)=>{
+            let dt5 = moment(newData[index2]["dt"]).startOf("month");
+            let dt6 = moment(newData[index2]["dt"]).endOf("month");
+            if(moment(dt3).isBetween(dt5,dt6)){
+                newData[index2][moment(dt3).format('DD')] = item.Menge*1;
+            }
+            //moment(dt3).format('YYYYMM')
+            
+        })
+    })
+    // return (<div>
+    //     {
+    //         newColums.map((_,index)=>{
+    //             return(
+    //                 <Table
+    //                     bordered
+    //                     size="small"
+    //                     rowKey="ID"
+    //                     key={'tab'+index}
+    //                     columns={newColums[index]}
+    //                     dataSource={newData}
+    //                     pagination={false}
+    //                 >
+    //                 </Table>
+    //             )
+    //         })
+    //     }
+    // </div>)
+    return <Table
+                bordered
+                size="small"
+                rowKey="ID"
+                columns={newColums[0]}
+                dataSource={newData}
+                pagination={false}
+            >
+    </Table>
 }
 //调度单 机加明细查看
 export default class DdOrder_JjInfo extends Component {
@@ -61,6 +136,7 @@ export default class DdOrder_JjInfo extends Component {
         ExcelLoading:false,
         //1 显示系列 0 不显示系列
         model:0,
+        expandRowKeys:[]
     }
     ModalExcelOut = async ()=>{
         var { DIDS,ExcelLoading,LTOrders} = this.state;//当前的订单
@@ -203,8 +279,36 @@ export default class DdOrder_JjInfo extends Component {
             message.error("网络错误");
         }
     }
+    OpenOrCloseAll = () => {
+        //expandRowKeys
+        const { expandRowKeys, dataSource } = this.state;
+        if (expandRowKeys.length > 0) {//关闭
+            this.setState({ expandRowKeys: [] });
+        } else {//展开
+            let newArr = [];
+            for (let i = 0; i < dataSource.length; i++) {
+                newArr.push(dataSource[i].ID);
+            }
+            this.setState({ expandRowKeys: newArr });
+        }
+    }
+    OpenOrCloseSingle = (record, type) => {
+        let { expandRowKeys } = this.state;
+        if (type) {
+            expandRowKeys.push(record.ID);
+        } else {
+            expandRowKeys = expandRowKeys.filter(item => {
+                if (item === record.ID) {
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+        }
+        this.setState({ expandRowKeys });
+    }
     render() {
-        const {loading,dataSource,LTOrders,ExcelLoading,model} = this.state;
+        const {loading,dataSource,LTOrders,ExcelLoading,model,expandRowKeys} = this.state;
         return (
             <div className="main">
                 <div className="toolArea">
@@ -242,7 +346,10 @@ export default class DdOrder_JjInfo extends Component {
                 </div>
                 <div>
                     <div style={{width:"75%",float:"left"}}>
-                        <h1 style={{fontSize:'20px',paddingLeft:'20px',lineHeight:'35px'}}>单号:{LTOrders}</h1>
+                        <h1 style={{fontSize:'20px',paddingLeft:'20px',lineHeight:'35px'}}>
+                        <Button onClick={() => this.OpenOrCloseAll()}>展开/关闭所有行</Button>
+                            单号:{LTOrders}
+                            </h1>
                     </div>
                     <div style={{width:"24%",float:"left",textAlign:'right'}}>
                         <Button type="primary" onClick={()=>this.ModalExcelOut()} >Excel导出</Button>
@@ -258,7 +365,14 @@ export default class DdOrder_JjInfo extends Component {
                 columns = {DdOrder_JjInfo_columns(model)}
                 loading = {loading}
                 pagination={false}
-                expandable={{expandedRowRender,columnWidth:10}}
+                expandable={{
+                    expandRowByClick: true,
+                    expandedRowRender,
+                    columnWidth:4,
+                    indentSize: 0,
+                    expandedRowKeys: expandRowKeys,
+                    onExpand: (expanded, record) => { this.OpenOrCloseSingle(record, expanded) }
+                }}
                 >
 
                 </Table>
