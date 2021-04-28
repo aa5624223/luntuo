@@ -471,11 +471,24 @@ namespace luntuo.Controllers
             bean.FirstCode = fc["FirstCode"];
             bean.FirstName = fc["FirstName"];
             bean.Series = fc["Series"];
+            string DIDS = fc["DIDS"];
+            if (!string.IsNullOrEmpty(DIDS))
+            {
+                bean.UserCode = null;
+            }
             #endregion
 
             #region 获取sql
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
-            string sql = Common.find<V_BjInfo>(bean);
+            string sql = Common.find<V_BjInfo>(bean) + "";
+            if (sql.Contains("WHERE"))
+            {
+                sql += $" AND DID IN({DIDS}) ";
+            }
+            else
+            {
+                sql += $" WHERE DID IN ({DIDS})";
+            }
             //查询所有数据
             JObject result = Common.findCommond(sql, typeof(V_BjInfo), page, pageSize, ServerPath);
             #endregion
@@ -1289,7 +1302,8 @@ namespace luntuo.Controllers
             string Series = fc["Series"];
             string FirstCode = fc["FirstCode"];
             string FirstName = fc["FirstName"];
-            //string level = fc["level"];
+            string level = fc["level"];
+            string level2 = fc["level2"];
             string DIDS = fc["DIDS"];
             string model = fc["model"];
             int page = 1;
@@ -1329,13 +1343,54 @@ namespace luntuo.Controllers
             }
             if (!string.IsNullOrEmpty(FirstCode))
             {
-                WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
+                switch (level)
+                {
+                    case null: case "1":
+                        WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
+                        break;
+                    case "2":
+                        WhereSql.Add($" SecondCode like '%{FirstCode}%' ");
+                        break;
+                    case "3":
+                        WhereSql.Add($" ThirdCode like '%{FirstCode}%' ");
+                        break;
+                    case "4":
+                        WhereSql.Add($" FourthCode like '%{FirstCode}%' ");
+                        break;
+                    case "5":
+                        WhereSql.Add($" FifthCode like '%{FirstCode}%' ");
+                        break;
+                    default:
+                        WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
+                        break;
+                }
             }
             if (!string.IsNullOrEmpty(FirstName))
             {
-                WhereSql.Add($" FirstName like '%{FirstName}%' ");
+                switch (level2)
+                {
+                    case null:
+                    case "1":
+                        WhereSql.Add($" FirstName like '%{FirstName}%' ");
+                        break;
+                    case "2":
+                        WhereSql.Add($" SecondName like '%{FirstName}%' ");
+                        break;
+                    case "3":
+                        WhereSql.Add($" ThirdName like '%{FirstName}%' ");
+                        break;
+                    case "4":
+                        WhereSql.Add($" FourthName like '%{FirstName}%' ");
+                        break;
+                    case "5":
+                        WhereSql.Add($" FifthName like '%{FirstName}%' ");
+                        break;
+                    default:
+                        WhereSql.Add($" FirstName like '%{FirstName}%' ");
+                        break;
+                }
+                
             }
-
             string Where = "";
             if (WhereSql.Count > 0)
             {

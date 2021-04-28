@@ -55,7 +55,7 @@ export default class Report2 extends Component {
     ModalExcelOut = async ()=>{
         //const {dataSource} = this.state; 
         const ColumsWch = [
-        {wch:10},
+          {wch:10},
           {wch:20},
 	      {wch:45},
 	      {wch:20},

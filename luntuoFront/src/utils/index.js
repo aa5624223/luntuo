@@ -1,5 +1,5 @@
 import XLSX from 'xlsx';
-import {Button,Space,Input} from 'antd'
+import {Button,Space,Input,Select,Form} from 'antd'
 import FileSaver from "file-saver";
 
 import { SearchOutlined } from '@ant-design/icons';
@@ -151,6 +151,73 @@ export function downloadDemoFile(fileName){
 export const getColumnSearchProps = (dataIndex,_this)=>({
     filterDropdown:({setSelectedKeys,selectedKeys,confirm,clearFilters })=>(
         <div style={{padding:8}}>
+            <Input
+            ref={node => {
+                _this.searchInput = node;
+            }}
+            placeholder={`输入查询条件`}
+            value = {selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => _this.handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Space>
+                <Button
+                type="primary"
+                onClick={() => _this.handleSearch(selectedKeys, confirm, dataIndex)}
+                icon={<SearchOutlined />}
+                size="small"
+                style={{ width: 90 }}
+                >查询</Button>
+                <Button
+                onClick={() => _this.handleReset(clearFilters)}
+                size="small"
+                style={{ width: 90 }}
+                >重置</Button>
+            </Space>
+        </div>
+    ),
+    filterIcon:filtered =><SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    
+    onFilterDropdownVisibleChange:visible =>{
+        if (visible) {
+            setTimeout(() => _this.searchInput.select(), 100);
+          }
+    },
+    render:text=>
+        _this.state.searchedColumn === dataIndex ?(
+            <Highlighter
+      highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+      searchWords={[_this.state.searchText]}
+      autoEscape
+      textToHighlight={text ? text.toString() : ''}
+    />
+    ):(
+        text
+    )
+})
+//带选择框的
+export const getColumnSearchPropsSelect = (dataIndex,_this,key)=>({
+    filterDropdown:({setSelectedKeys,selectedKeys,confirm,clearFilters })=>(
+        <div style={{padding:8}}>
+            <Form layout="inline">
+                <Form.Item
+                    label="物料层级"
+                    
+                >
+                    <select 
+                        ref={node=>{
+                            _this[key] = node;
+                        }}
+                    >
+                        <option value="1">一</option>
+                        <option value="2">二</option>
+                        <option value="3">三</option>
+                        <option value="4">四</option>
+                        <option value="5">五</option>
+                    </select>
+                </Form.Item>
+            </Form>
             <Input
             ref={node => {
                 _this.searchInput = node;

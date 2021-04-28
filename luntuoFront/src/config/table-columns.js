@@ -1,5 +1,5 @@
 import { Tag,Button} from 'antd';
-import { getColumnSearchProps} from "../utils";
+import { getColumnSearchProps,getColumnSearchPropsSelect} from "../utils";
 import LinkButton from "../components/link-button"
 import moment from 'moment'
 
@@ -1712,14 +1712,14 @@ export const DdOrder_BjInfo_First =(_this)=>{
                 dataIndex:'Code2',
                 key: 'Code2',
                 width:20,
-                ...getColumnSearchProps('FirstCode',_this),
+                ...getColumnSearchPropsSelect('FirstCode',_this,'SearchSelect'),
             },
             {
                 title:'物料名称',
                 dataIndex:'Name',
                 key: 'Name',
                 width:20,
-                ...getColumnSearchProps('FirstName',_this),
+                ...getColumnSearchPropsSelect('FirstName',_this,'SearchSelect2'),
             },
             {
                 title:'数量',

@@ -42,13 +42,14 @@ export default class DdOrder_BjInfo2 extends Component {
             expandRowKeys: [],
             searchText:'',
             SpinTip:'',
-            ExcelLoading:false
+            ExcelLoading:false,
+            level:'',
+            level2:'',
         }
     }
     handleSearch = (selectedKeys, confirm, dataIndex)=>{
         const {SearchContation} = this.state;
         confirm({ closeDropdown: false })
-        
         var filters = {};
         if(selectedKeys[0]!==undefined){
             filters[dataIndex] = selectedKeys[0];
@@ -78,6 +79,14 @@ export default class DdOrder_BjInfo2 extends Component {
             for (let key in filters) {
                 SearchContation[key] = filters[key];
             }
+        }
+        console.dir(this.SearchSelect);
+        // 添加层级的条件
+        if(this.SearchSelect !==undefined && this.SearchSelect.value!==undefined){
+            SearchContation["level"] = this.SearchSelect.value;
+        }
+        if(this.SearchSelect2 !==undefined && this.SearchSelect2.value!==undefined){
+            SearchContation["level2"] = this.SearchSelect2.value;
         }
         //添加表单的条件
         const formReftemp = this.formRef.current;
@@ -117,7 +126,7 @@ export default class DdOrder_BjInfo2 extends Component {
                 this.deepTree(V_BjInfo, 0, {});
                 //console.dir(this.expandRowKeys);
                 let tempSource = this.Arr.slice(0,9);
-                this.setState({ dataSource: tempSource, current:1,dataTotal:this.Arr.length ,loading: false,expandRowKeys: this.expandRowKeys2});
+                this.setState({ dataSource: tempSource, current:1,dataTotal:this.Arr.length ,loading: false,expandRowKeys: this.expandRowKeys2,level:SearchContation.level,level2:SearchContation.level2});
             }
         }
     }
@@ -309,6 +318,8 @@ export default class DdOrder_BjInfo2 extends Component {
             {wch:10},
           ]
         this.setState({SpinTip:'Excel导出中，请等待',ExcelLoading:true});
+        SearchContation.page = 1;
+        SearchContation.pageSize = 999999;
         const formData = ConvertFomrData(SearchContation);
         //
         const result = await getV_BjInfo(formData);
@@ -325,7 +336,7 @@ export default class DdOrder_BjInfo2 extends Component {
         this.handleTableChange();
     }
     render() {
-        const { dataSource, loading, expandRowKeys ,SearchContation,current,dataTotal,SpinTip,ExcelLoading,LTOrders} = this.state;
+        const { dataSource, loading, expandRowKeys ,SearchContation,current,dataTotal,SpinTip,ExcelLoading,LTOrders,level,level2} = this.state;
         let dt = this.expandRowKeys;
         return (
             <div className="main">
@@ -366,11 +377,11 @@ export default class DdOrder_BjInfo2 extends Component {
                     <h2 style={{float:"left"}}>调度单:{LTOrders}</h2>
                     {
                     SearchContation.FirstCode===""||SearchContation.FirstCode===undefined?"":
-                        <h2 style={{float:"left"}}>物料编码:{SearchContation.FirstCode}</h2>
+                        <h2 style={{float:"left"}}>物料编码:{level===null||level===undefined?'1':level}层,{SearchContation.FirstCode}</h2>
                     }
                     {
                         SearchContation.FirstName===""||SearchContation.FirstName===undefined?"":
-                        <h2 style={{float:"left"}}>物料名称:{SearchContation.FirstName}</h2>
+                        <h2 style={{float:"left"}}>物料名称:{level2===null||level2===undefined?'1':level}层,{SearchContation.FirstName}</h2>
                     }
                 </div>
                 <Table
