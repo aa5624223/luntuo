@@ -1,39 +1,40 @@
 import React, { Component } from 'react'
 //引入组件
-import {Table,message,Button} from 'antd'
+import {Table,message,Button,Modal,Input,Form,DatePicker,Test} from 'antd'
 import moment from 'moment'
 //自定义组件
 import LinkButton from '../../components/link-button';
 //引入api
-import {getV_DdOrder_Det} from '../../api'
-
+import {getV_DdOrder_Det,editDdOrderDet} from '../../api'
+//
+import {YYYYMMDD_To_Datetime,ConvertFomrData} from '../../utils'
 //引入配置
 import { DdOrder_Sum_columns,DdOrder_Det_Sum_columns} from '../../config/table-columns'
 import {ArrowLeftOutlined} from '@ant-design/icons';
 //引入缓存
 import store from 'store'
 import XLSX from 'xlsx'
+import './index.less'
 //扩展表格
-const expandedRowRender = (record,index)=>{
-    //DdOrder_Det_Sum_columns
-    //console.dir(record);
-    const data = record.Det;
-    return <Table bordered size="small" rowKey="ID" columns={DdOrder_Det_Sum_columns()} dataSource={data} pagination={false}></Table>
-}
+
 export default class DdOrderDet extends Component {
+    formRef = React.createRef();
     state = {
         dataSource:[],
         loading:true,
+        isModalEditShow:false
     }
-
-    componentDidMount = async ()=>{
+    componentDidMount = ()=>{
+        this.SearchData();
+    }
+    SearchData = async ()=>{
         var {IDS} = this.props.location;
         if(IDS===undefined){
             IDS = store.get("DdOrderDet_IDS");
         }else{
             store.set("DdOrderDet_IDS",IDS);
         }
-        this.setState({loading:true})
+        //this.setState({loading:true})
         const formData = new FormData();
         formData.append("IDS",IDS);
         const result = await getV_DdOrder_Det(formData);
@@ -46,7 +47,6 @@ export default class DdOrderDet extends Component {
             var TbCount = "";
             V_DdOrder_Det.forEach((item,index)=>{
                 if(index===0 || LTOrder!==item.LTOrder || NO!==item.NO || TbCount!==item.TbCount){
-                    
                     DdOrderObj = {
                         ID:item.ID,
                         LTOrder:item.LTOrder,
@@ -88,7 +88,6 @@ export default class DdOrderDet extends Component {
             message.error("网络错误");
             this.setState({loading:false})
         }
-        
     }
     handleBack = ()=>{
         const { history } = this.props;
@@ -157,8 +156,62 @@ export default class DdOrderDet extends Component {
         XLSX.utils.book_append_sheet(book, sheet, 'Sheet1')
         XLSX.writeFile(book, '调度单'+moment().format('YYYYMMDD')+'.xlsx')
     }
+    ModalEdit = async ()=>{
+        const record = {...this.formRef.current.getFieldsValue(true)};
+        if(record.Datetime2!==undefined && record.Datetime2!==""){
+            record.Datetime2 = moment(record.Datetime2).format("YYYYMMDD");
+        }else{
+            record.Datetime2 = moment().format("YYYYMMDD");
+        }
+        
+        var formData = ConvertFomrData(record);
+        const result = await editDdOrderDet(formData); 
+        if(result.status===0){
+            this.SearchData();
+            message.success('编辑成功');
+        }else{
+            message.error('网络错误');
+        }
+        this.setState({isModalEditShow:false});
+    }
+    ModalCancel = ()=>{
+        this.setState({isModalEditShow:false});
+    }
+    ModalEditShow = (record)=>{
+        //record.Datetime1 = moment(YYYYMMDD_To_Datetime(record.Datetime1));
+        if(record.Datetime2!==undefined && record.Datetime2!==""){
+            record.Datetime2 = moment(YYYYMMDD_To_Datetime(record.Datetime2));
+        }else{
+            record.Datetime2 = moment();
+        }
+        console.dir(record);
+        this.setState({isModalEditShow:true},()=>{
+            console.dir("1");
+            this.formRef.current.setFieldsValue(record);
+            console.dir("2");
+        });
+    }
+    expandedRowRender = (record,index)=>{
+            //DdOrder_Det_Sum_columns
+    //console.dir(record);
+    const data = record.Det;
+    const columns = DdOrder_Det_Sum_columns();
+    const App = this;
+    columns.push({
+        title:'编辑',
+        dataIndex:'edit',
+        key:'edit',
+        width:10,
+        render:function(_,record){
+            return <Button type="primary" onClick={()=>App.ModalEditShow(record)} >编辑</Button>
+        }
+    })
+    //isModalEditShow
+    return <Table bordered size="small" rowKey="ID" columns={columns} dataSource={data} pagination={false}></Table>
+    }
     render() {
-        const {dataSource,loading} = this.state;
+        const {dataSource,loading,isModalEditShow} = this.state;
+        const expandedRowRender = this.expandedRowRender;
         return (
             <div className="main">
                 <div className="toolArea">
@@ -182,7 +235,67 @@ export default class DdOrderDet extends Component {
                 >
 
                 </Table>
+                <Modal title="调度单明细编辑" visible={isModalEditShow} onOk={()=>this.ModalEdit()} onCancel={()=>this.ModalCancel()} >
+                    <Form ref={this.formRef} layout="horizontal">
+                        <Form.Item
+                            name="ZjNo"
+                            label="整机编码"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Matnr"
+                            label="物料编码"
+                            
+                        >
+                            <Input readOnly></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Series"
+                            label="系  列"
+                        >
+                            <Input readOnly disabled></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Box"
+                            label="分 动 箱"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Num"
+                            label="数  量"
+                        >
+                            <Input readOnly></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Config"
+                            label="配置"
+                        >
+                            <Input.TextArea></Input.TextArea>
+                        </Form.Item>
+                        <Form.Item
+                            name="Datetime1"
+                            label="投产日期"
+                        >
+                            <Input readOnly></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Datetime2"
+                            label="交库日期"
+                        >
+                            <DatePicker format="YYYYMMDD"></DatePicker>
+                        </Form.Item>
+                        <Form.Item
+                            name="Bz"
+                            label="备注"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </div>
+
         )
     }
 }

@@ -147,11 +147,11 @@
     <Content Include="luntuo\css\reset.css" />
     <Content Include="luntuo\favicon.ico" />
     <Content Include="luntuo\index.html" />
-    <Content Include="luntuo\static\css\2.faf3b02d.chunk.css" />
-    <Content Include="luntuo\static\css\main.541060d1.chunk.css" />
-    <Content Include="luntuo\static\js\2.84ca4254.chunk.js" />
-    <Content Include="luntuo\static\js\2.84ca4254.chunk.js.LICENSE.txt" />
-    <Content Include="luntuo\static\js\main.2f056133.chunk.js" />
+    <Content Include="luntuo\static\css\2.bc2b3fe6.chunk.css" />
+    <Content Include="luntuo\static\css\main.6eaf64ea.chunk.css" />
+    <Content Include="luntuo\static\js\2.a2ef00d5.chunk.js" />
+    <Content Include="luntuo\static\js\2.a2ef00d5.chunk.js.LICENSE.txt" />
+    <Content Include="luntuo\static\js\main.47e6faeb.chunk.js" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js" />
     <Content Include="luntuo\static\media\999.b9883ce8.png" />
     <Content Include="luntuo\static\media\cf_b.7b69f992.jpg" />
@@ -170,12 +170,14 @@
     <Content Include="ExcelDemo\机加需求分解模板.xls" />
     <Content Include="ExcelDemo\采购需求分解模板.xls" />
     <Content Include="ExcelDemo\钣金需求分解模板.xls" />
+    <Content Include="ExcelDemo\调度单模板.xls" />
     <Content Include="luntuo\asset-manifest.json" />
-    <Content Include="luntuo\static\css\2.faf3b02d.chunk.css.map" />
-    <Content Include="luntuo\static\css\main.541060d1.chunk.css.map" />
-    <Content Include="luntuo\static\js\2.84ca4254.chunk.js.map" />
-    <Content Include="luntuo\static\js\main.2f056133.chunk.js.map" />
+    <Content Include="luntuo\static\css\2.bc2b3fe6.chunk.css.map" />
+    <Content Include="luntuo\static\css\main.6eaf64ea.chunk.css.map" />
+    <Content Include="luntuo\static\js\2.a2ef00d5.chunk.js.map" />
+    <Content Include="luntuo\static\js\main.47e6faeb.chunk.js.map" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
+    <Content Include="ExcelDemo\物料班组.xlsx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

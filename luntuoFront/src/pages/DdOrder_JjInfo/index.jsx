@@ -17,6 +17,7 @@ import {getV_Sum_Num_JiInfo} from '../../api'
 import XLSX from 'xlsx'
 //导入配置
 import {DdOrder_JjInfo_columns} from '../../config/table-columns'
+//导入图标
 import {ArrowLeftOutlined} from '@ant-design/icons';
 //引入缓存
 import store from 'store'
@@ -139,7 +140,7 @@ export default class DdOrder_JjInfo extends Component {
         expandRowKeys:[]
     }
     ModalExcelOut = async ()=>{
-        var { DIDS,ExcelLoading,LTOrders} = this.state;//当前的订单
+        var { DIDS,ExcelLoading,LTOrders,model} = this.state;//当前的订单
         if(ExcelLoading){
             message.warn("数据打包中，请勿重复点击");
             return;
@@ -157,9 +158,10 @@ export default class DdOrder_JjInfo extends Component {
         if(result.status === 0){
             const jo_V_JjInfo = result.jo_V_JjInfo.V_JjInfo;
             var jo_V_JiInfoSum = result.jo_V_JiInfoSum.V_JjInfo;
-            const colums = DdOrder_JjInfo_columns();
+            const colums = DdOrder_JjInfo_columns(model);
             var i = 0;
             var j = 0;
+            this.setState({ExcelLoading:false})
             for(;i<jo_V_JiInfoSum.length;i++){
                 jo_V_JiInfoSum[i].ID = "ID"+i;
                 for(;j<jo_V_JjInfo.length;j++){
@@ -176,6 +178,7 @@ export default class DdOrder_JjInfo extends Component {
                     }
                 }
             }
+            var timeCol = [];
             for(let k=0;k<jo_V_JiInfoSum.length;k++){
                 let single = {}
                 
@@ -185,11 +188,40 @@ export default class DdOrder_JjInfo extends Component {
                 for(let key2 in jo_V_JiInfoSum[k]){
                     if(!isNaN(Number(key2))){
                         single[key2+" "] = jo_V_JiInfoSum[k][key2];
+                        let temp = timeCol.find(item=>{
+                            if(item===Number(key2)){
+                                return true;
+                            }
+                        })
+                        if(temp===undefined){
+                            timeCol.push(Number(key2));
+                        }
                     }
                 }
                 ExcelJson.push(single);
             }
+            //冒泡排序
+            for(let k=0;k<timeCol.length;k++){
+                for(let l=k;l<timeCol.length;l++){
+                    if(timeCol[k]>timeCol[l]){
+                        let temp = timeCol[k];
+                        timeCol[k] = timeCol[l];
+                        timeCol[l] = temp;
+                    }
+                }
+            }
+
             let book = XLSX.utils.book_new();
+            var newRow = {};
+            for(let l = 0; l < colums.length; l++){
+                newRow[colums[l].title] = jo_V_JiInfoSum[0][colums[l].dataIndex];
+            }
+
+            for(let k=0;k<timeCol.length;k++){
+                //newRow[timeCol[k]] =
+                newRow[timeCol[k]+" "] =  ExcelJson[0][timeCol[k]+" "];
+            }
+            ExcelJson[0] = newRow;
             let sheet = XLSX.utils.json_to_sheet(ExcelJson);
             sheet["!cols"]=[
                 {wch:15},{wch:30},{wch:10},{wch:10},{wch:10},{wch:10}
@@ -198,8 +230,9 @@ export default class DdOrder_JjInfo extends Component {
             XLSX.writeFile(book, `机加需求单 ${LTOrders} `+moment().format('YYYYMMDD')+'.xlsx')
         }else{
             message.error("网络错误");
+            this.setState({ExcelLoading:false})
         }
-        this.setState({ExcelLoading:false})
+        
     }
     handleBack = ()=>{
         const { history } = this.props;
@@ -329,6 +362,24 @@ export default class DdOrder_JjInfo extends Component {
                             label="系列"
                         >
                             <Input/>
+                        </Form.Item>
+                        <Form.Item
+                            name="Matnr"
+                            label="物料编码"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="Maktx"
+                            label="物料描述"
+                        >
+                            <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                            name="bz"
+                            label="班组"
+                        >
+                            <Input></Input>
                         </Form.Item>
                         <Form.Item
                             name="model"

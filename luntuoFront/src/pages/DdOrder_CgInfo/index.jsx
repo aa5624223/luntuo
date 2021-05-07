@@ -163,6 +163,9 @@ export default class DdOrder_CgInfo extends Component {
         tempFormData.DIDS = DIDS;
         tempFormData.page = 1;
         tempFormData.pageSize = 99999;
+        if(tempFormData.model!==undefined && tempFormData.model.length!==undefined){
+            tempFormData.model = tempFormData.model[0];
+        }
         const FormData = ConvertFomrData(tempFormData);
         //添加loading效果
         this.setState({ ExcelLoading: true ,SpinTip:'Excel数据打包中'});
@@ -171,15 +174,16 @@ export default class DdOrder_CgInfo extends Component {
             const jo_V_CgInfo = result.jo_V_CgInfo.V_CgInfo;
             var jo_V_CgInfoSum = result.jo_V_CgInfoSum.V_CgInfo;
             //console.dir(jo_V_CgInfo);
-            const colums = DdOrder_CgInfo_columns(model);
+            const colums = DdOrder_CgInfo_columns(tempFormData.model);
+            this.setState({ ExcelLoading: false });
             var i = 0;
             for (; i < jo_V_CgInfoSum.length; i++) {
                 jo_V_CgInfoSum[i].ID = "ID" + i;
+                let TimeColum = [];
                 for (var j=0; j < jo_V_CgInfo.length; j++) {
                     if (model === "1") {
-
                         if (jo_V_CgInfoSum[i].Matnr === jo_V_CgInfo[j].Matnr && jo_V_CgInfoSum[i].Series === jo_V_CgInfo[j].Series) {
-                            var dt = new Date(jo_V_CgInfo[j].Datetime1);
+                            let dt = new Date(jo_V_CgInfo[j].Datetime1);
                             if (jo_V_CgInfoSum[i][moment(dt).format("YYYYMMDD")] !== undefined) {
                                 jo_V_CgInfoSum[i][moment(dt).format("YYYYMMDD")] += jo_V_CgInfo[j].Menge * 1;
                             } else {
@@ -188,7 +192,7 @@ export default class DdOrder_CgInfo extends Component {
                         }
                     }else{
                         if (jo_V_CgInfoSum[i].Matnr === jo_V_CgInfo[j].Matnr && jo_V_CgInfoSum[i].Lifnr === jo_V_CgInfo[j].Lifnr) {
-                            var dt = new Date(jo_V_CgInfo[j].Datetime1);
+                            let dt = new Date(jo_V_CgInfo[j].Datetime1);
                             if (jo_V_CgInfoSum[i][moment(dt).format("YYYYMMDD")] !== undefined) {
                                 jo_V_CgInfoSum[i][moment(dt).format("YYYYMMDD")] += jo_V_CgInfo[j].Menge * 1;
                             } else {
@@ -200,21 +204,50 @@ export default class DdOrder_CgInfo extends Component {
 
                 }
             }
+            var timeCol = [];
             for (let k = 0; k < jo_V_CgInfoSum.length; k++) {
                 let single = {}
-
                 for (let l = 0; l < colums.length; l++) {
                     single[colums[l].title] = jo_V_CgInfoSum[k][colums[l].dataIndex];
                 }
-                for (let key2 in jo_V_CgInfoSum[k]) {
-                    if (!isNaN(Number(key2))) {
-                        single[key2 + " "] = jo_V_CgInfoSum[k][key2];
+                
+                for(let key2 in jo_V_CgInfoSum[k]){
+                    if(!isNaN(Number(key2))){
+                        single[key2+" "] = jo_V_CgInfoSum[k][key2];
+                        let temp = timeCol.find(item=>{
+                            if(item===Number(key2)){
+                                return true;
+                            }
+                        })
+                        if(temp===undefined){
+                            timeCol.push(Number(key2));
+                        }
                     }
                 }
                 ExcelJson.push(single);
             }
-
+            //冒泡排序
+            for(let k=0;k<timeCol.length;k++){
+                for(let l=k;l<timeCol.length;l++){
+                    if(timeCol[k]>timeCol[l]){
+                        let temp = timeCol[k];
+                        timeCol[k] = timeCol[l];
+                        timeCol[l] = temp;
+                    }
+                }
+            }
+            //将json第一个改变位置
             let book = XLSX.utils.book_new();
+            var newRow = {};
+            for(let l = 0; l < colums.length; l++){
+                newRow[colums[l].title] = jo_V_CgInfoSum[0][colums[l].dataIndex];
+            }
+
+            for(let k=0;k<timeCol.length;k++){
+                //newRow[timeCol[k]] =
+                newRow[timeCol[k]+" "] =  ExcelJson[0][timeCol[k]+" "];
+            }
+            ExcelJson[0] = newRow;
             let sheet = XLSX.utils.json_to_sheet(ExcelJson);
             sheet["!cols"] = [
                 { wch: 15 }, { wch: 20 }, { wch: 10 }, { wch: 8 }, { wch: 12 }, { wch: 30 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 15 }
@@ -222,10 +255,9 @@ export default class DdOrder_CgInfo extends Component {
             XLSX.utils.book_append_sheet(book, sheet, 'Sheet1')
             XLSX.writeFile(book, `采购需求单 ${LTOrders} ` + moment().format('YYYYMMDD') + '.xlsx')
         } else {
+            this.setState({ ExcelLoading: false });
             message.error("网络错误")
         }
-        this.setState({ ExcelLoading: false });
-
     }
     handleBack = () => {
         const { history } = this.props;
@@ -279,7 +311,6 @@ export default class DdOrder_CgInfo extends Component {
         if (result.status === 0) {
             const jo_V_CgInfo = result.jo_V_CgInfo.V_CgInfo;
             var jo_V_CgInfoSum = result.jo_V_CgInfoSum.V_CgInfo;
-
             var i = 0;
             //var j = 0;
             var preSum = {};
@@ -318,7 +349,6 @@ export default class DdOrder_CgInfo extends Component {
                     preSum = jo_V_CgInfoSum[i];
                 }
             }
-            console.dir(jo_V_CgInfoSum);
             this.setState({ loading: false, dataSource: jo_V_CgInfoSum, current: tempFormData.page, dataTotal: result.jo_V_CgInfoSum.V_CgInfo_Count, model: tempFormData.model })
         } else {
             this.setState({ loading: false });
@@ -378,6 +408,36 @@ export default class DdOrder_CgInfo extends Component {
                             <Input />
                         </Form.Item>
                         <Form.Item
+                            name="Matnr"
+                            label="物料编码"
+                        >
+                            <Input style={{width:'130px'}} />
+                        </Form.Item>
+                        <Form.Item
+                            name="Maktx"
+                            label="物料描述"
+                        >
+                            <Input style={{width:'100px'}} />
+                        </Form.Item>
+                        <Form.Item
+                            name="MRP"
+                            label="MRP控制者"
+                        >
+                            <Input style={{width:'50px'}} />
+                        </Form.Item>
+                        <Form.Item
+                            name="Lifnr"
+                            label="供应商代码"
+                        >
+                            <Input style={{width:'60px'}} />
+                        </Form.Item>
+                        <Form.Item
+                            name="Name1"
+                            label="供应商名称"
+                        >
+                            <Input style={{width:'100px'}} />
+                        </Form.Item>
+                        <Form.Item
                             name="model"
                             label="区分系列"
                         >
@@ -400,7 +460,6 @@ export default class DdOrder_CgInfo extends Component {
                         </h1>
                     </div>
                     <div style={{ width: "24%", float: "left", textAlign: 'right' }}>
-
                         <Button type="primary" onClick={() => this.ModalExcelOut()} >Excel导出</Button>
                     </div>
                 </div>
@@ -434,7 +493,6 @@ export default class DdOrder_CgInfo extends Component {
                         onExpand: (expanded, record) => { this.OpenOrCloseSingle(record, expanded) }
                     }}
                 >
-
                 </Table>
                 <Spin style={{ position: 'absolute', left: '48%', top: '47%' }} tip={SpinTip} spinning={ExcelLoading}></Spin>
             </div>

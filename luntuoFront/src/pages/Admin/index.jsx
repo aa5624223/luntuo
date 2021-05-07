@@ -35,6 +35,11 @@ import DdOrder_JjInfo from '../DdOrder_JjInfo'
 import DdOrder_CgInfo from '../DdOrder_CgInfo'
 import DdOrder_BjInfo from '../DdOrder_BjInfo'
 import DdOrder_BjInfo2 from '../DdOrder_BjInfo2'
+
+import Report2_1 from '../Report2_1'
+import Report3_1 from '../Report3_1'
+import Report4_1 from '../Report4_1'
+
 const {Sider,Content} = Layout
 class Admin extends Component {
     state = {
@@ -101,6 +106,11 @@ class Admin extends Component {
                             <Route path='/Admin/ReportSearch/Report2' component={Report2}/>
                             <Route path='/Admin/ReportSearch/Report3' component={Report3}/>
                             <Route path='/Admin/ReportSearch/Report4' component={Report4}/>
+                            
+                            <Route path='/Admin/ReportSearch/Report2_1' component={Report2_1}/>
+                            <Route path='/Admin/ReportSearch/Report3_1' component={Report3_1}/>
+                            <Route path='/Admin/ReportSearch/Report4_1' component={Report4_1}/>
+
 
                             <Route path='/Admin/Service/Service1' component={Service1}/>
                             <Route path='/Admin/Service/Service2' component={Service2}/>

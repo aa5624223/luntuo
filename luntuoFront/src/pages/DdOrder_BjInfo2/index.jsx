@@ -20,7 +20,6 @@ export default class DdOrder_BjInfo2 extends Component {
     constructor(props) {
         super(props);
         var { DIDS, LTOrders } = this.props.location;
-        console.dir(DIDS);
         if (DIDS === undefined || LTOrders === undefined) {
             DIDS = store.get("DdOrder_BjInfo_DIDS");
             LTOrders = store.get("DdOrder_BjInfo_LTOrders");
@@ -36,17 +35,14 @@ export default class DdOrder_BjInfo2 extends Component {
             SearchContation: {},
             current: 1,
             dataTotal: 0,
-            LTOrders: LTOrders,
             ExcelLoading: false,
             model: 0,
             expandRowKeys: [],
             searchText:'',
             SpinTip:'',
-            ExcelLoading:false,
-            level:'',
-            level2:'',
         }
     }
+    //处理表格查询功能
     handleSearch = (selectedKeys, confirm, dataIndex)=>{
         const {SearchContation} = this.state;
         confirm({ closeDropdown: false })
@@ -80,14 +76,13 @@ export default class DdOrder_BjInfo2 extends Component {
                 SearchContation[key] = filters[key];
             }
         }
-        console.dir(this.SearchSelect);
         // 添加层级的条件
-        if(this.SearchSelect !==undefined && this.SearchSelect.value!==undefined){
-            SearchContation["level"] = this.SearchSelect.value;
-        }
-        if(this.SearchSelect2 !==undefined && this.SearchSelect2.value!==undefined){
-            SearchContation["level2"] = this.SearchSelect2.value;
-        }
+        // if(this.SearchSelect !==undefined && this.SearchSelect.value!==undefined){
+        //     SearchContation["level"] = this.SearchSelect.value;
+        // }
+        // if(this.SearchSelect2 !==undefined && this.SearchSelect2.value!==undefined){
+        //     SearchContation["level2"] = this.SearchSelect2.value;
+        // }
         //添加表单的条件
         const formReftemp = this.formRef.current;
         var tempFormData = formReftemp.getFieldsValue(true);//当前查询条件
@@ -126,10 +121,11 @@ export default class DdOrder_BjInfo2 extends Component {
                 this.deepTree(V_BjInfo, 0, {});
                 //console.dir(this.expandRowKeys);
                 let tempSource = this.Arr.slice(0,9);
-                this.setState({ dataSource: tempSource, current:1,dataTotal:this.Arr.length ,loading: false,expandRowKeys: this.expandRowKeys2,level:SearchContation.level,level2:SearchContation.level2});
+                this.setState({ dataSource: tempSource, current:1,dataTotal:this.Arr.length ,loading: false,expandRowKeys: this.expandRowKeys2,SearchContation:SearchContation});
             }
         }
     }
+    //回退功能
     handleBack = () => {
         const { history } = this.props;
         history.goBack();
@@ -139,6 +135,7 @@ export default class DdOrder_BjInfo2 extends Component {
     CodesName = ["FirstName", "SecondName", "ThirdName", "FourthName", "FifthName"];
     Arr = [];
     expandRowKeys2 = [];
+    //处理后台钣金的数据
     deepTree(data, index, pre) {
         if (index >= data.length) {
             return;
@@ -316,6 +313,7 @@ export default class DdOrder_BjInfo2 extends Component {
             {wch:20},
             {wch:45},
             {wch:10},
+            {wch:10}
           ]
         this.setState({SpinTip:'Excel导出中，请等待',ExcelLoading:true});
         SearchContation.page = 1;
@@ -336,8 +334,7 @@ export default class DdOrder_BjInfo2 extends Component {
         this.handleTableChange();
     }
     render() {
-        const { dataSource, loading, expandRowKeys ,SearchContation,current,dataTotal,SpinTip,ExcelLoading,LTOrders,level,level2} = this.state;
-        let dt = this.expandRowKeys;
+        const { dataSource, loading, expandRowKeys ,SearchContation,current,dataTotal,SpinTip,ExcelLoading,LTOrders} = this.state;
         return (
             <div className="main">
                 <div style={{margin:'10px',float:"left",width:'80%'}}>
@@ -377,11 +374,11 @@ export default class DdOrder_BjInfo2 extends Component {
                     <h2 style={{float:"left"}}>调度单:{LTOrders}</h2>
                     {
                     SearchContation.FirstCode===""||SearchContation.FirstCode===undefined?"":
-                        <h2 style={{float:"left"}}>物料编码:{level===null||level===undefined?'1':level}层,{SearchContation.FirstCode}</h2>
+                        <h2 style={{float:"left"}}>物料编码:{SearchContation.FirstCode}&nbsp;</h2>
                     }
                     {
                         SearchContation.FirstName===""||SearchContation.FirstName===undefined?"":
-                        <h2 style={{float:"left"}}>物料名称:{level2===null||level2===undefined?'1':level}层,{SearchContation.FirstName}</h2>
+                        <h2 style={{float:"left"}}>物料名称:{SearchContation.FirstName}</h2>
                     }
                 </div>
                 <Table

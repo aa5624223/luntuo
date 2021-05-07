@@ -481,14 +481,19 @@ namespace luntuo.Controllers
             #region 获取sql
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql = Common.find<V_BjInfo>(bean) + "";
-            if (sql.Contains("WHERE"))
+
+            if (!string.IsNullOrEmpty(DIDS))
             {
-                sql += $" AND DID IN({DIDS}) ";
+                if (sql.Contains("WHERE"))
+                {
+                    sql += $" AND DID IN({DIDS}) ";
+                }
+                else
+                {
+                    sql += $" WHERE DID IN ({DIDS})";
+                }
             }
-            else
-            {
-                sql += $" WHERE DID IN ({DIDS})";
-            }
+            
             //查询所有数据
             JObject result = Common.findCommond(sql, typeof(V_BjInfo), page, pageSize, ServerPath);
             #endregion
@@ -733,17 +738,21 @@ namespace luntuo.Controllers
                 pageSize = int.Parse(fc["pageSize"]);
             }
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
-            DdOrder bean = new DdOrder();
+            V_DdOrder bean = new V_DdOrder();
             bean.Faline = fc["Faline"];
             bean.LTOrder = fc["LTOrder"];
             bean.status = fc["status"];
-
+            string OrderBy = fc["Order"];
+            if (string.IsNullOrEmpty(OrderBy))
+            {
+                OrderBy = "UpTime desc";
+            }
             #endregion
 
             #region 处理请求
 
-            string sql = Common.find<DdOrder>(bean) + " ORDER BY LTOrder,TbCount desc";
-            JObject result = Common.findCommond(sql, typeof(DdOrder), page, pageSize, ServerPath);
+            string sql = Common.find<V_DdOrder>(bean) + $" ORDER BY {OrderBy}";
+            JObject result = Common.findCommond(sql, typeof(V_DdOrder), page, pageSize, ServerPath);
 
             #endregion
 
@@ -1013,17 +1022,40 @@ namespace luntuo.Controllers
             string Datetime2 = fc["Datetime1[1]"];
             string Series = fc["Series"];
             string DIDS = fc["DIDS"];
+            string Matnr = fc["Matnr"];
+            string Maktx = fc["Maktx"];
             string model = fc["model"];
+            string bz = fc["bz"];
             #endregion
 
             #region 获取sql
             //查找查询出来的机加表
-            string WhereSql = $" WHERE DID IN ({DIDS})";
+            string WhereSql = null;
+            if (!string.IsNullOrEmpty(DIDS))
+            {
+                WhereSql = $" WHERE DID IN ({DIDS}) ";
+            }
+            else
+            {
+                WhereSql = $" WHERE UserCode = '{OptUserCode}' ";
+            }
             if (!string.IsNullOrEmpty(Series)) {
                 WhereSql += $" AND Series ='{Series}'";
             }
             if (!string.IsNullOrEmpty(Datetime1)) {
                 WhereSql += $" AND Datetime1 >='{Datetime1}' AND Datetime1<='{Datetime2}'";
+            }
+            if (!string.IsNullOrEmpty(Matnr))
+            {
+                WhereSql += $" AND Matnr like '%{Matnr}%'";
+            }
+            if (!string.IsNullOrEmpty(Maktx))
+            {
+                WhereSql += $" AND Maktx like '%{Maktx}%'";
+            }
+            if (!string.IsNullOrEmpty(bz))
+            {
+                WhereSql += $" AND bz like '%{bz}%'";
             }
             string sql = $"SELECT * FROM V_JjInfo a " + WhereSql + " ORDER BY Matnr,Datetime1";
             //查找出DdSum表
@@ -1064,6 +1096,13 @@ namespace luntuo.Controllers
             string Datetime1 = fc["Datetime1[0]"];
             string Datetime2 = fc["Datetime1[1]"];
             string Series = fc["Series"];
+
+            string Matnr = fc["Matnr"];
+            string Maktx = fc["Maktx"];
+            string MRP = fc["MRP"];
+            string Lifnr = fc["Lifnr"];
+            string Name1 = fc["Name1"];
+
             string DIDS = fc["DIDS"];
             string model = fc["model"];
             int page = int.Parse(fc["page"]);
@@ -1072,7 +1111,16 @@ namespace luntuo.Controllers
 
             #region 获取sql
             //查找查询出来的机加表
-            string WhereSql = $" WHERE DID IN ({DIDS})";
+            string WhereSql = null;
+
+            if (!string.IsNullOrEmpty(DIDS))
+            {
+                WhereSql = $" WHERE DID IN ({DIDS})";
+            }
+            else
+            {
+                WhereSql = $" WHERE UserCode = '{OptUserCode}'";
+            }
             if (!string.IsNullOrEmpty(Series))
             {
                 WhereSql += $" AND Series ='{Series}'";
@@ -1081,6 +1129,28 @@ namespace luntuo.Controllers
             {
                 WhereSql += $" AND Datetime1 >='{Datetime1}' AND Datetime1<='{Datetime2}'";
             }
+
+            if (!string.IsNullOrEmpty(Matnr))
+            {
+                WhereSql += $" AND Matnr like '%{Matnr}%'";
+            }
+            if (!string.IsNullOrEmpty(Maktx))
+            {
+                WhereSql += $" AND Maktx like '%{Maktx}%'";
+            }
+            if (!string.IsNullOrEmpty(MRP))
+            {
+                WhereSql += $" AND MRP ='{MRP}'";
+            }
+            if (!string.IsNullOrEmpty(Lifnr))
+            {
+                WhereSql += $" AND Lifnr like '%{Lifnr}%'";
+            }
+            if (!string.IsNullOrEmpty(Name1))
+            {
+                WhereSql += $" AND Name1 like '%{Name1}%'";
+            }
+
             string sql = $"SELECT * FROM V_CgInfo a " + WhereSql + " ORDER BY Matnr,Datetime1";
             //查找出DdSum表s
             JObject jo_V_CgInfo = Common.findCommond(sql, typeof(V_CgInfo), 1, 9999999, ServerPath);
@@ -1329,6 +1399,10 @@ namespace luntuo.Controllers
             {
                 WhereSql.Add($" DID IN ({DIDS})");
             }
+            else
+            {
+                WhereSql.Add($" UserCode = '{OptUserCode}'");
+            }
             if (!string.IsNullOrEmpty(Series))
             {
                 WhereSql.Add($" Series = '{Series}' ");
@@ -1341,55 +1415,39 @@ namespace luntuo.Controllers
             {
                 WhereSql.Add($" Datetime1 <= '{Datetime2}' ");
             }
+            //if (!string.IsNullOrEmpty(FirstCode))
+            //{
+            //    switch (level)
+            //    {
+            //        case null: case "1":
+            //            WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
+            //            break;
+            //        case "2":
+            //            WhereSql.Add($" SecondCode like '%{FirstCode}%' ");
+            //            break;
+            //        case "3":
+            //            WhereSql.Add($" ThirdCode like '%{FirstCode}%' ");
+            //            break;
+            //        case "4":
+            //            WhereSql.Add($" FourthCode like '%{FirstCode}%' ");
+            //            break;
+            //        case "5":
+            //            WhereSql.Add($" FifthCode like '%{FirstCode}%' ");
+            //            break;
+            //        default:
+            //            WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
+            //            break;
+            //    }
+            //}
+
             if (!string.IsNullOrEmpty(FirstCode))
             {
-                switch (level)
-                {
-                    case null: case "1":
-                        WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
-                        break;
-                    case "2":
-                        WhereSql.Add($" SecondCode like '%{FirstCode}%' ");
-                        break;
-                    case "3":
-                        WhereSql.Add($" ThirdCode like '%{FirstCode}%' ");
-                        break;
-                    case "4":
-                        WhereSql.Add($" FourthCode like '%{FirstCode}%' ");
-                        break;
-                    case "5":
-                        WhereSql.Add($" FifthCode like '%{FirstCode}%' ");
-                        break;
-                    default:
-                        WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
-                        break;
-                }
+                WhereSql.Add($" FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%' ");
             }
+
             if (!string.IsNullOrEmpty(FirstName))
             {
-                switch (level2)
-                {
-                    case null:
-                    case "1":
-                        WhereSql.Add($" FirstName like '%{FirstName}%' ");
-                        break;
-                    case "2":
-                        WhereSql.Add($" SecondName like '%{FirstName}%' ");
-                        break;
-                    case "3":
-                        WhereSql.Add($" ThirdName like '%{FirstName}%' ");
-                        break;
-                    case "4":
-                        WhereSql.Add($" FourthName like '%{FirstName}%' ");
-                        break;
-                    case "5":
-                        WhereSql.Add($" FifthName like '%{FirstName}%' ");
-                        break;
-                    default:
-                        WhereSql.Add($" FirstName like '%{FirstName}%' ");
-                        break;
-                }
-                
+                WhereSql.Add($" FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' ");
             }
             string Where = "";
             if (WhereSql.Count > 0)
@@ -2560,6 +2618,57 @@ namespace luntuo.Controllers
             //只查一条消息
             
             string logSql = InsertLog("修改调度单生效状态", "修改的调度单 ID:" + bean2.ID, OptUserCode);
+            sqls.Add(sql);
+            sqls.Add(logSql);
+            bool flg = Common.OptCommond(sqls, ServerPath);
+
+            #endregion
+
+            #region 处理数据
+
+            #endregion
+
+            #region 返回数据
+            if (flg)
+            {
+                msg.Add("status", 0);
+                msg.Add("data", "OK");
+            }
+            else
+            {
+                msg.Add("status", 1);
+                msg.Add("data", "fail");
+            }
+            return msg.ToString();
+
+            #endregion
+        }
+
+        [HttpPost]
+        public string editDdOrderDet(FormCollection fc)
+        {
+            JObject msg = new JObject();
+            #region 获取数据
+
+            string OptUserCode = fc["OptUserCode"];
+            DdOrder_Det bean = new DdOrder_Det();
+            DdOrder_Det bean2 = new DdOrder_Det();
+            bean.ZjNo = fc["ZjNo"];
+            bean.Box = fc["Box"];
+            bean.Config = fc["Config"];
+            bean.Datetime2 = fc["Datetime2"];
+            bean.Bz = fc["Bz"];
+
+            bean2.ID = int.Parse(fc["ID"].Replace("Det",""));
+            #endregion
+
+            #region 获得sql
+            List<string> sqls = new List<string>();
+            string ServerPath = Server.MapPath("/WebCfg/Db.json");
+            //更改其他的调度单状态
+            //WHERE PlanDt='{DdBean.PlanDt}' AND NO={DdBean.NO} AND UpTime>='{start}' AND UpTime<='{end}' ";
+            string sql = Common.updata<DdOrder_Det>(bean,bean2);
+            string logSql = InsertLog("修改调度单明细", "修改的调度单明细 ID:" + bean2.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);

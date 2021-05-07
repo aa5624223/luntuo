@@ -188,7 +188,6 @@ export default class Service2 extends Component {
         const {dataSource} = this.state;
         //let obj = [];
         const range = XLSX.utils.decode_range(dataSource);
-        console.dir(range);
     }
     DownLoadDemo = ()=>{
         downloadDemoFile("钣金需求分解模板.xls");

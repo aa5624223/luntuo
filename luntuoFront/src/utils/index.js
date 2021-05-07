@@ -1,5 +1,5 @@
 import XLSX from 'xlsx';
-import {Button,Space,Input,Select,Form} from 'antd'
+import {Button,Space,Input,Form} from 'antd'
 import FileSaver from "file-saver";
 
 import { SearchOutlined } from '@ant-design/icons';
@@ -94,10 +94,10 @@ export const isOpt = (Arr, title) => {
 export const ConvertFomrData = (jsons) => {
     let formData1 = new FormData();
     Object.keys(jsons).forEach((key) => {
-
-        if (typeof (jsons[key]) == "object") {
+        if(jsons[key]===undefined){
+            delete jsons[key];
+        }else if (typeof (jsons[key]) == "object") {
             if (jsons[key] !== null && jsons[key]!==undefined&&jsons[key]!=="") {
-                //console.dir(jsons[key]);
                 formData1.append(key + "[0]", jsons[key][0].format('yyyy-MM-DD'));
                 formData1.append(key + "[1]", jsons[key][1].format('yyyy-MM-DD'));
             }
@@ -130,7 +130,6 @@ function JsonTOexcelData(datas, Colums) {
  * fileName 文件名
  */
 export function downloadExcel(json,Header,ColumsWch,fileName){
-    console.dir(json);
     json = JsonTOexcelData(json,Header);
     const workbook = XLSX.utils.book_new();
     let ws = XLSX.utils.json_to_sheet(json);
@@ -200,24 +199,6 @@ export const getColumnSearchProps = (dataIndex,_this)=>({
 export const getColumnSearchPropsSelect = (dataIndex,_this,key)=>({
     filterDropdown:({setSelectedKeys,selectedKeys,confirm,clearFilters })=>(
         <div style={{padding:8}}>
-            <Form layout="inline">
-                <Form.Item
-                    label="物料层级"
-                    
-                >
-                    <select 
-                        ref={node=>{
-                            _this[key] = node;
-                        }}
-                    >
-                        <option value="1">一</option>
-                        <option value="2">二</option>
-                        <option value="3">三</option>
-                        <option value="4">四</option>
-                        <option value="5">五</option>
-                    </select>
-                </Form.Item>
-            </Form>
             <Input
             ref={node => {
                 _this.searchInput = node;
@@ -263,3 +244,10 @@ export const getColumnSearchPropsSelect = (dataIndex,_this,key)=>({
         text
     )
 })
+export const YYYYMMDD_To_Datetime = (Str)=>{
+    if(typeof(Str) ==='String'){
+        return Str.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3");
+    }else{
+        return Str;
+    }
+}

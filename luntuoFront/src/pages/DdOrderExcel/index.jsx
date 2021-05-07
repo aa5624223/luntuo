@@ -6,6 +6,8 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import LinkButton from '../../components/link-button';
 import XLSX from 'xlsx'
 import { UploadOutlined, CheckCircleTwoTone, ArrowLeftOutlined } from '@ant-design/icons';
+//引入工具
+import {downloadDemoFile} from '../../utils'
 //引入api
 import { submitDdOrder } from '../../api'
 //引入配置
@@ -45,7 +47,7 @@ export default class DdOrderExcel extends Component {
                             data = data.map(item => {
                                 let single = {}
                                 for(var key in item){
-                                    var newKey = key.replace(' ','');
+                                    var newKey = key.replaceAll(' ','');
                                     var newVal = item[key];
                                     delete item[key];
                                     item[newKey] = newVal;
@@ -158,6 +160,9 @@ export default class DdOrderExcel extends Component {
         }
 
     }
+    DownLoadDemo = ()=>{
+        downloadDemoFile("调度单模板.xls");
+    }
     handleBack = () => {
         const { history } = this.props;
         history.goBack();
@@ -228,6 +233,8 @@ export default class DdOrderExcel extends Component {
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" onClick={() => this.DdExcelUp()}>生单</Button>
+                            &nbsp;
+                            <Button type="primary" onClick={()=>this.DownLoadDemo()}>模板下载</Button>
                         </Form.Item>
                     </Form>
                 </div>

@@ -604,12 +604,18 @@ export const V_BjInfo_columns = [
         dataIndex: 'Num5',
         key: 'Num5',
         width: 20,
+    },
+    {
+        title:'系列',
+        dataIndex:'Series',
+        key: 'Series',
+        width: 20,
     }
 ]
 //机加需求单查询
 export const V_JjInfo_columns = [
     {
-        title: '型号',
+        title: '系列',
         dataIndex: 'Series',
         key: 'Series',
         width: 40,
@@ -883,6 +889,9 @@ export const GetDdOrder_columns = _this=>(
             key: 'LTOrder',
             width: 30,
             ...getColumnSearchProps('LTOrder',_this),
+            sorter: {
+                multiple:2,
+            }
         },
         {
             title: '版本号',
@@ -902,6 +911,10 @@ export const GetDdOrder_columns = _this=>(
             dataIndex: 'UpTime',
             key: 'UpTime',
             width: 30,
+            defaultSortOrder: 'descend',
+            sorter: {
+                multiple:1,
+            },
             render:function (val) {
                 //return val!==""?moment(val).format("YYYYMM"):val
                 return val;
@@ -926,8 +939,8 @@ export const GetDdOrder_columns = _this=>(
         },
         {
             title: '钣金状态',
-            dataIndex: 'BjStatus',
-            key: 'BjStatus',
+            dataIndex: 'BjStatus1',
+            key: 'BjStatus1',
             width: 28,
             render:function(val,record) {
                 var flg = true;
@@ -951,8 +964,8 @@ export const GetDdOrder_columns = _this=>(
         },
         {
             title: '机加状态',
-            dataIndex: 'JjStatus',
-            key: 'JjStatus',
+            dataIndex: 'JjStatus1',
+            key: 'JjStatus1',
             width: 28,
             render:function(val,record) {
                 var flg = true;
@@ -976,8 +989,8 @@ export const GetDdOrder_columns = _this=>(
         },
         {
             title: '采购状态',
-            dataIndex: 'CgStatus',
-            key: 'CgStatus  ',
+            dataIndex: 'CgStatus1',
+            key: 'CgStatus1',
             width: 28,
             render:function(val,record) {
                 var flg = true;
@@ -1004,6 +1017,9 @@ export const GetDdOrder_columns = _this=>(
             dataIndex: 'RecTime',
             key: 'RecTime',
             width: 32, 
+            sorter: {
+                multiple:4,
+            },
             render:function (val) {
                 return val;
                 //return val!==""?moment(val).format("YYYYMM"):val
@@ -1014,6 +1030,9 @@ export const GetDdOrder_columns = _this=>(
             dataIndex: 'PlanDt',
             key: 'PlanDt  ',
             width: 25,
+            sorter: {
+                multiple:3,
+            },
             render:(val)=>{
                 return val;
                 //return val!==""?moment(val).format("YYYYMM"):val
@@ -1231,7 +1250,8 @@ export const DdOrder_Sum_columns = (_this)=>{
             key: 'PlanDt',
             width: 25,
             render:(val)=>{
-                return val!==""?moment(val).format("YYYYMM"):val
+                return val;
+                //return val!==""?moment(val).format("YYYYMM"):val
             }
         },
         {
@@ -1255,19 +1275,16 @@ export const DdOrder_Det_Sum_columns = ()=>{
             title:'整机编码',
             dataIndex:'ZjNo',
             key: 'ZjNo',
-            width: 22,
-            render:function(val) {
-                return val.replace(/\b(0+)/gi,"");
-            }
+            editable:true,
+            required:true,
+            width: 20,
         },
         {
             title:'物料编码',
             dataIndex:'Matnr',
             key: 'Matnr',
-            width: 22,
-            render:function(val) {
-                return val.replace(/\b(0+)/gi,"");
-            }
+            editable:false,
+            width: 18,
         },
         {
             title:'系列',
@@ -1279,6 +1296,7 @@ export const DdOrder_Det_Sum_columns = ()=>{
             title:'分动箱',
             dataIndex:'Box',
             key: 'Box',
+            editable:true,
             width: 12,
         },
         {
@@ -1291,26 +1309,37 @@ export const DdOrder_Det_Sum_columns = ()=>{
             title:'配置',
             dataIndex:'Config',
             key: 'Config',
-            width: 80,
+            editable:true,
+            width: 48,
         },
         
         {
             title:'投产日期',
             dataIndex:'Datetime1',
             key: 'Datetime1',
-            width: 14,
+            width: 18,
         },
         {
             title:'交库时间',
             dataIndex:'Datetime2',
+            editable:true,
+            required:true,
             key: 'Datetime2',
-            width: 14,
+            width: 18,
+            render:function(val) {
+                if(typeof(val)==='object'){
+                    return moment(val).format("YYYYMMDD");
+                }else{
+                    return val;
+                }
+            }
         },
         {
             title:'备注',
             dataIndex:'Bz',
+            editable:true,
             key: 'Bz',
-            width: 50,
+            width: 38,
             ellipsis: true,
         },
     ]

@@ -172,6 +172,11 @@ export const editDdOrder_status = (formdata) =>{
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/editDdOrder_status',formdata,'POST')
 }
+export const editDdOrderDet = (formdata) =>{
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/editDdOrderDet',formdata,'POST')
+}
 /* 修改End */
 /* 删除 */
 //删除用户

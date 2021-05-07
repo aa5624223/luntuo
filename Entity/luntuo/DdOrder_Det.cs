@@ -20,7 +20,7 @@ namespace Entity.luntuo
         /// <summary>
         /// 调度单
         /// </summary>
-        [Property(Model = 0)]
+        [Property(Model = 3)]
         public long DID { get; set; }
 
         /// <summary>
@@ -74,13 +74,13 @@ namespace Entity.luntuo
         /// <summary>
         /// 数量
         /// </summary>
-        [Property()]
+        [Property(Model=3)]
         public decimal Num { get; set; }
 
         /// <summary>
         /// 配置
         /// </summary>
-        [Property()]
+        [Property()] 
         public string Config { get; set; }
 
         /// <summary>
