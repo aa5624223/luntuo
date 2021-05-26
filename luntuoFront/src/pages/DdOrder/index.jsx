@@ -8,7 +8,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { GetDdOrder_columns, GetDdOrder_Det_Status } from '../../config/table-columns'
 //引入工具
-import { ConvertFomrData } from '../../utils'
+import { getPageRoles,isOpt,ConvertFomrData } from '../../utils'
 //引入api
 import { getDdOrder, editDdOrder, DdOrder_DetExt, editDdOrder_status, delDdOrder, demantExe, getV_DdOrder_Det } from '../../api'
 //引入模拟数据
@@ -51,7 +51,12 @@ export default class DdOrder extends Component {
         isDetTools: true,
         selectedRowKeys2: [],
         Order: "",
-        SorterContation: ''//排序
+        SorterContation: '',//排序
+        Fuc_Edit:false,
+        Fuc_Exe:false,
+        Fuc_Bj:false,
+        Fuc_Jj:false,
+        Fuc_Cg:false
     }
 
     handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -173,9 +178,6 @@ export default class DdOrder extends Component {
                 SearchContation[key] = filters[key];
             }
         }
-        //设置排序
-        console.dir(typeof(sorter));
-        console.dir(sorter);
         
         if (typeof (sorter) === "object") {
             if(sorter.length!==undefined){
@@ -239,10 +241,12 @@ SearchDet = async (DID, flg) => {
                 let flg = newData.find(item => item.Datetime1 === V_DdOrder_Det[i].Datetime1);
                 if (flg === undefined) {
                     newData.push(V_DdOrder_Det[i]);
+                }else{
+                    flg.ID +=","+V_DdOrder_Det[i].ID
                 }
             }
         }
-
+        console.dir(newData);
 
         this.setState({ isModalDetStatusShow: true, DataSource_DetStatus: newData, isDetTools: flg, selectedRowKeys2: [] })
         //GetDdOrder_Det_Status
@@ -284,7 +288,7 @@ demantExe = async () => {
 //需求计划明细执行
 demantExe_Det = async (type) => {
     //selectedRowKeys2
-    const { selectedRowKeys2 } = this.state;
+    const { selectedRowKeys2,DataSource_DetStatus} = this.state;
     //console.dir(moment(this.statusDt).format("YYYYMMDD"));
     if (selectedRowKeys2.length === 0) {
         message.warn("请选择先选择明细");
@@ -292,6 +296,9 @@ demantExe_Det = async (type) => {
     }
     var formdata = new FormData();
     formdata.append("DID", this.Modal_DID);
+    let IDS = "";
+    //DataSource_DetStatus
+
     formdata.append("IDS", selectedRowKeys2.join(','));
     formdata.append("type", type);
     formdata.append("dt", moment(this.statusDt).format("YYYYMMDD"));
@@ -324,7 +331,7 @@ ModalExeOk = async () => {
         const { current, SearchContation } = this.state;
         const pageSize = 20;
         this.handleTableChange({ current, pageSize }, SearchContation);
-
+ 
     } else if (result.status === 1) {
         message.error("需求计划执行失败:" + result.msg);
     }
@@ -453,11 +460,41 @@ ModalMsgHide = () => {
 }
 componentDidMount = async () => {
     this.handleTableChange();
+    let Fuc_Edit=false,Fuc_Exe=false;
+        let Fuc_Bj=false,Fuc_Jj=false,Fuc_Cg=false;
+        let Fuc_BjExe,Fuc_JiExe,Fuc_CgExe;
+        const {pathname} = this.props.location;
+        this.Roles = await getPageRoles(pathname);
+        if(isOpt(this.Roles,"编辑")){
+            Fuc_Edit = true;
+        }
+        if(isOpt(this.Roles,"需求计划执行")){
+            Fuc_Exe = true;
+        }
+        if(isOpt(this.Roles,"钣金需求报表")){
+            Fuc_Bj = true;
+        }
+        if(isOpt(this.Roles,"机加需求报表")){
+            Fuc_Jj = true;
+        }
+        if(isOpt(this.Roles,"采购需求报表")){
+            Fuc_Cg = true;
+        }
+        if(isOpt(this.Roles,"钣金执行")){
+            Fuc_BjExe = true;
+        }
+        if(isOpt(this.Roles,"机加执行")){
+            Fuc_JiExe = true;
+        }
+        if(isOpt(this.Roles,"采购执行")){
+            Fuc_CgExe = true;
+        }
+        this.setState({Fuc_Edit,Fuc_Exe,Fuc_Bj,Fuc_Jj,Fuc_Cg,Fuc_BjExe,Fuc_JiExe,Fuc_CgExe});
 }
 render() {
 
     const DdOrder_columns = GetDdOrder_columns(this);
-    const { dataSource, loading, SearchContation, ModalTitle, isModalEditShow, current, dataTotal, selectedRowKeys, selectedRowKeys2, isModalExeShow, isModalDetStatusShow, DataSource_DetStatus, isDetTools, isModalMsgShow } = this.state;
+    const { dataSource, loading, SearchContation, ModalTitle, isModalEditShow, current, dataTotal, selectedRowKeys, selectedRowKeys2, isModalExeShow, isModalDetStatusShow, DataSource_DetStatus, isDetTools, isModalMsgShow ,Fuc_Edit,Fuc_Exe,Fuc_Bj,Fuc_Jj,Fuc_Cg,Fuc_BjExe,Fuc_JiExe,Fuc_CgExe} = this.state;
     const rowSelection = {
         selectedRowKeys,
         columnWidth: 15,
@@ -518,19 +555,19 @@ render() {
     return (
         <div className="main">
             <div className="toolArea">
-                <Button type="primary" onClick={() => this.ExcelIn()}>导入调度单</Button>
+                    {Fuc_Edit?<Button type="primary" onClick={() => this.ExcelIn()}>导入调度单</Button>:""}
                     &emsp;
-                    <Button type="primary" onClick={() => this.OrderDet()} >明细汇总</Button>
+                    <Button type="primary" onClick={() => this.OrderDet()} >调度单明细</Button>
                     &emsp;
-                    <Button type="primary" onClick={() => this.demantExe()} >需求计划执行</Button>
+                    {Fuc_Exe?<Button type="primary" onClick={() => this.demantExe()} >需求计划执行</Button>:""}
                     &emsp;
-                    <Button type="primary" onClick={() => this.demantBj()} >钣金需求报表</Button>
+                    {Fuc_Bj?<Button type="primary" onClick={() => this.demantBj()} >钣金需求报表</Button>:""}
                     &emsp;
-                    <Button type="primary" onClick={() => this.demantJj()} >机加需求报表</Button>
+                    {Fuc_Jj?<Button type="primary" onClick={() => this.demantJj()} >机加需求报表</Button>:""}
                     &emsp;
-                    <Button type="primary" onClick={() => this.demantCg()} >采购需求报表</Button>
-                <p style={{ textAlign: "left", fontSize: "22px" }}>
-                    当前查询条件:
+                    {Fuc_Cg?<Button type="primary" onClick={() => this.demantCg()} >采购需求报表</Button>:""}
+                    <p style={{ textAlign: "left", fontSize: "22px" }}>
+                        当前查询条件:
                         {SearchContation.LTOrder ? "订单号:" + SearchContation.LTOrder + "" : ""}
                         &emsp;
                         {SearchContation.Faline ? "产线:" + SearchContation.Faline + "" : ""}
@@ -629,13 +666,12 @@ render() {
                             <div style={{ textAlign: "right", marginBottom: "10px", marginTop: "10px" }}>
                                 <DatePicker locale={locale} onChange={(val) => this.statusDt = val} format="YYYYMMDD" defaultValue={moment()} placeholder="选择计划日期" ></DatePicker>
                             &nbsp;
-                            <Button type="primary" onClick={() => this.demantExe_Det("BJ")} >钣金需求计划执行</Button>
+                            {Fuc_BjExe?<Button type="primary" onClick={() => this.demantExe_Det("BJ")} >钣金需求计划执行</Button>:""}
                             &nbsp;
-                            <Button type="primary" onClick={() => this.demantExe_Det("JJ")}>机加需求计划执行</Button>
+                            {Fuc_JiExe?<Button type="primary" onClick={() => this.demantExe_Det("JJ")}>机加需求计划执行</Button>:""}
                             &nbsp;
-                            <Button type="primary" onClick={() => this.demantExe_Det("CG")}>采购需求计划执行</Button>
+                            {Fuc_CgExe?<Button type="primary" onClick={() => this.demantExe_Det("CG")}>采购需求计划执行</Button>:""}
                             &nbsp;
-
                         </div>
                             :
                             <div style={{ textAlign: "right", marginBottom: "10px", marginTop: "10px" }}>
@@ -659,7 +695,7 @@ render() {
 
             </Modal>
             <Modal visible={isModalMsgShow} onOk={() => this.ModalMsgHide()} onCancel={() => this.ModalMsgHide()} >
-                需求计划执行完成
+            需求计划执行中
                 </Modal>
         </div>
     )

@@ -8,7 +8,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 //引入api
 import { getV_Sum_Num_BjInfo2,getV_BjInfo } from '../../api'
 //引入工具类
-import { ConvertFomrData,downloadExcel } from '../../utils'
+import { ConvertFomrData,downloadExcel} from '../../utils'
 //引入配置
 import { DdOrder_BjInfo_First,V_BjInfo_columns} from '../../config/table-columns'
 //引入样式
@@ -40,6 +40,7 @@ export default class DdOrder_BjInfo2 extends Component {
             expandRowKeys: [],
             searchText:'',
             SpinTip:'',
+            
         }
     }
     //处理表格查询功能
@@ -83,7 +84,7 @@ export default class DdOrder_BjInfo2 extends Component {
         // if(this.SearchSelect2 !==undefined && this.SearchSelect2.value!==undefined){
         //     SearchContation["level2"] = this.SearchSelect2.value;
         // }
-        //添加表单的条件
+        //添加表单的条件b
         const formReftemp = this.formRef.current;
         var tempFormData = formReftemp.getFieldsValue(true);//当前查询条件
         //创建提交后台数据
@@ -99,9 +100,11 @@ export default class DdOrder_BjInfo2 extends Component {
         SearchContation = {...SearchContation,...tempFormData}
         const formData = ConvertFomrData(SearchContation);
         this.setState({ loading: true });
+        //Pline
         const result = await getV_Sum_Num_BjInfo2(formData);
         if (result.status === 0) {
             const { V_BjInfo } = result.data;
+            console.dir(V_BjInfo);
             //console.dir(V_BjInfo);
             if (V_BjInfo.length === 0) {
                 //console.dir(V_BjInfo.length);
@@ -131,8 +134,8 @@ export default class DdOrder_BjInfo2 extends Component {
         history.goBack();
     }
     //Direction Right Down Left
-    Codes = ["FirstCode", "SecondCode", "ThirdCode", "FourthCode", "FifthCode"];
-    CodesName = ["FirstName", "SecondName", "ThirdName", "FourthName", "FifthName"];
+    Codes = ["FirstCode", "SecondCode", "ThirdCode", "FourthCode", "FifthCode","SixthCode"];
+    CodesName = ["FirstName", "SecondName", "ThirdName", "FourthName", "FifthName","SixthName"];
     Arr = [];
     expandRowKeys2 = [];
     //处理后台钣金的数据
@@ -155,8 +158,7 @@ export default class DdOrder_BjInfo2 extends Component {
                 key = this.Codes[keyIndex];
                 NameKey = this.CodesName[keyIndex];
                 //
-
-                let tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], Num: Current["Num" + (keyIndex + 1)], Name: Current[NameKey], children: [] };
+                let tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], Num: Current["Num" + (keyIndex + 1)], Name: Current[NameKey],Pline1:Current["Pline1"], children: [] };
                 if (keyIndex === 0) {
                     pre = tempNode;
                     nowNode = tempNode;
@@ -175,7 +177,7 @@ export default class DdOrder_BjInfo2 extends Component {
         key = this.Codes[0];
         NameKey = this.CodesName[0];
         if (Current[key] !== pre["Code"]) {//新插入
-            let tempNode = { "Code": Current[key], Code2: (1) + "层物料编码:" + Current[key], "Num": Current["Num" + 1], Name: Current[NameKey], "children": [] };
+            let tempNode = { "Code": Current[key], Code2: (1) + "层物料编码:" + Current[key], "Num": Current["Num" + 1], Name: Current[NameKey], Pline1:Current["Pline1"],"children": [] };
             CurrentNode = tempNode;
             this.Arr.push(CurrentNode);
             this.expandRowKeys2.push(CurrentNode.Code);
@@ -186,7 +188,7 @@ export default class DdOrder_BjInfo2 extends Component {
                 key = this.Codes[keyIndex];
                 NameKey = this.CodesName[keyIndex];
                 if (Current[key] !== "") {
-                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], "children": [] };
+                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], Pline1:Current["Pline"+(keyIndex+1)],Pline2:Current["Pline2"], Pline3:Current["Pline3"], Pline4:Current["Pline4"],Pline5:Current["Pline5"], "children": [] };
                     CurrentNode.children.push(tempNode);
                     this.expandRowKeys2.push(tempNode.Code);
                     CurrentNode = tempNode;
@@ -206,7 +208,7 @@ export default class DdOrder_BjInfo2 extends Component {
                     if (Current[key] === "") {
                         break;
                     }
-                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], "children": [] };
+                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey],Pline1:Current["Pline"+(keyIndex + 1)],"children": [] };
                     this.expandRowKeys2.push(tempNode.Code);
                     pre.children.push(tempNode);
                     pre = tempNode;
@@ -226,8 +228,7 @@ export default class DdOrder_BjInfo2 extends Component {
                     if (Current[key] === "") {
                         break;
                     }
-
-                    tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], "children": [] };
+                    tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], Pline1:Current["Pline"+(keyIndex + 1)],"children": [] };
                     this.expandRowKeys2.push(tempNode.Code);
                     pre.children.push(tempNode);
                     pre = tempNode;
@@ -284,12 +285,26 @@ export default class DdOrder_BjInfo2 extends Component {
                 })
                 expandRowKeys = [...expandRowKeys, ...tempKeys]
             }
-            if (i === 3) {
+            if (i === 4) {
                 let tempKeys = [];
                 dataSource.forEach(item => {
                     item.children.forEach(item2 => {
                         item2.children.forEach(item3 => {
                             item3.children.forEach(item4 => tempKeys.push(item4.Code))
+                        })
+                    })
+                })
+                expandRowKeys = [...expandRowKeys, ...tempKeys]
+            }
+
+            if (i === 5) {
+                let tempKeys = [];
+                dataSource.forEach(item => {
+                    item.children.forEach(item2 => {
+                        item2.children.forEach(item3 => {
+                            item3.children.forEach(item4 => {
+                                item4.children.forEach(item5=>tempKeys.push(item5.Code))
+                            })
                         })
                     })
                 })
@@ -301,19 +316,31 @@ export default class DdOrder_BjInfo2 extends Component {
     ExcelOut = async ()=>{
         const {SearchContation} = this.state;
         const ColumsWch = [
-            {wch:10},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:10},
-            {wch:10}
+            {wch:10},//日期
+            {wch:20},//一层编码
+            {wch:45},//一层名称
+            {wch:10},//一层数量
+            {wch:10},//一层工艺
+            {wch:20},//二层编码
+            {wch:45},//二层名称
+            {wch:10},//二层数量
+            {wch:10},//二层工艺
+            {wch:20},//三层编码
+            {wch:45},//三层名称
+            {wch:10},//三层数量
+            {wch:10},//三层工艺
+            {wch:20},//四层编码
+            {wch:45},//四层名称
+            {wch:10},//四层数量
+            {wch:10},//四层工艺
+            {wch:20},//五层编码
+            {wch:45},//五层名称
+            {wch:10},//五层数量
+            {wch:10},//五层工艺
+            {wch:45},//六层名称
+            {wch:10},//六层数量
+            {wch:10},//六层工艺
+            {wch:10},//系列
           ]
         this.setState({SpinTip:'Excel导出中，请等待',ExcelLoading:true});
         SearchContation.page = 1;
@@ -323,9 +350,11 @@ export default class DdOrder_BjInfo2 extends Component {
         const result = await getV_BjInfo(formData);
         if(result.status===0){
             const {V_BjInfo} = result.data;
+            
             V_BjInfo.forEach(item=>{
                 item.Datetime1 = moment(item.Datetime1).format("YYYYMMDD");
             })
+            console.dir(V_BjInfo);
             downloadExcel(V_BjInfo,V_BjInfo_columns,ColumsWch,"钣金需求单");
             this.setState({SpinTip:'Excel导出中，请等待',ExcelLoading:false});
         }
@@ -364,6 +393,8 @@ export default class DdOrder_BjInfo2 extends Component {
                             <Button onClick={() => { this.ExpandRow(4) }}>查看第四层</Button>
                             &ensp;
                             <Button onClick={() => { this.ExpandRow(5) }}>查看第五层</Button>
+                            &ensp;
+                            <Button onClick={() => { this.ExpandRow(6) }}>查看第六层</Button>
                         </Form.Item>
                     </Form>
                 </div>
@@ -379,6 +410,10 @@ export default class DdOrder_BjInfo2 extends Component {
                     {
                         SearchContation.FirstName===""||SearchContation.FirstName===undefined?"":
                         <h2 style={{float:"left"}}>物料名称:{SearchContation.FirstName}</h2>
+                    }
+                    {
+                        SearchContation.Pline===""||SearchContation.Pline===undefined?"":
+                        <h2 style={{float:"left"}}>状态:{SearchContation.Pline}</h2>
                     }
                 </div>
                 <Table

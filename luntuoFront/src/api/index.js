@@ -6,6 +6,7 @@ import localStore from '../utils/storageUtils'
 const BASE = window.location.origin+"/";
 /* 获取数据 */ 
 //登录
+
 export const reqLogin = (formData)=>ajax(BASE+'Home/Login',formData,'POST')
 //获得采购订单
 export const getG_Polist = (formdata) =>ajax(BASE+'Home/getG_Polist',formdata)

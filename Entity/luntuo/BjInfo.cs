@@ -59,6 +59,13 @@ namespace Entity.luntuo
         [Property()]
         public string FifthName { get; set; }
 
+        [Property()]
+        public string SixthCode { get; set; }
+
+        [Property()]
+        public string SixthName { get; set; }
+
+
         [Property(Model = 3)]
         public decimal Num5 { get; set; }
 
@@ -89,7 +96,23 @@ namespace Entity.luntuo
         /// <summary>
         /// 
         /// </summary>
+        [Property()]
         public DateTime Datetime1 { get; set; }
+
+        [Property]
+        public string Pline1 { get; set; }
+
+        [Property]
+        public string Pline2 { get; set; }
+
+        [Property]
+        public string Pline3 { get; set; }
+
+        [Property]
+        public string Pline4 { get; set; }
+
+        [Property]
+        public string Pline5 { get; set; }
 
         #endregion
     }

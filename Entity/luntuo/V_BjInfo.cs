@@ -82,6 +82,12 @@ namespace Entity.luntuo
         [Property()]
         public string FifthName { get; set; }
 
+        [Property()]
+        public string SixthCode { get; set; }
+
+        [Property()]
+        public string SixthName { get; set; }
+
         /// <summary>
         /// 单位
         /// </summary>
@@ -124,6 +130,12 @@ namespace Entity.luntuo
         [Property(Model = 3)]
         public decimal Num5 { get; set; }
 
+        /// <summary>
+        /// 5层数量
+        /// </summary>
+        [Property(Model = 3)]
+        public decimal Num6 { get; set; }
+
         [Property()]
         public string UserCode { get; set; }
 
@@ -141,6 +153,24 @@ namespace Entity.luntuo
 
         [Property]
         public string Series { get; set; }
+
+        [Property]
+        public string Pline1 { get; set; }
+
+        [Property]
+        public string Pline2 { get; set; }
+
+        [Property]
+        public string Pline3 { get; set; }
+
+        [Property]
+        public string Pline4 { get; set; }
+
+        [Property]
+        public string Pline5 { get; set; }
+
+        [Property]
+        public string Pline6 { get; set; }
 
         #endregion
     }

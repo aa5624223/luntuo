@@ -534,6 +534,12 @@ export const V_BjInfo_columns = [
         width: 20,
     },
     {
+        title:'一层工艺',
+        dataIndex:'Pline1',
+        key: 'Pline1',
+        width: 12,
+    },
+    {
         title: '二层编码',
         dataIndex: 'SecondCode',
         key: 'SecondCode',
@@ -550,6 +556,12 @@ export const V_BjInfo_columns = [
         dataIndex: 'Num2',
         key: 'Num2',
         width: 20,
+    },
+    {
+        title:'二层工艺',
+        dataIndex:'Pline2',
+        key: 'Pline2',
+        width: 12,
     },
     {
         title: '三层编码',
@@ -570,6 +582,12 @@ export const V_BjInfo_columns = [
         width: 20,
     },
     {
+        title:'三层工艺',
+        dataIndex:'Pline3',
+        key: 'Pline3',
+        width: 12,
+    },
+    {
         title: '四层编码',
         dataIndex: 'FourthCode',
         key: 'FourthCode',
@@ -588,6 +606,12 @@ export const V_BjInfo_columns = [
         width: 20,
     },
     {
+        title:'四层工艺',
+        dataIndex:'Pline4',
+        key: 'Pline4',
+        width: 12,
+    },
+    {
         title: '五层编码',
         dataIndex: 'FifthCode',
         key: 'FifthCode',
@@ -604,6 +628,30 @@ export const V_BjInfo_columns = [
         dataIndex: 'Num5',
         key: 'Num5',
         width: 20,
+    },
+    {
+        title:'五层工艺',
+        dataIndex:'Pline5',
+        key: 'Pline5',
+        width: 12,
+    },
+    {
+        title: '六层名称',
+        dataIndex: 'SixthName',
+        key: 'SixthName',
+        width: 60,
+    },
+    {
+        title: '六层数量',
+        dataIndex: 'Num6',
+        key: 'Num6',
+        width: 20,
+    },
+    {
+        title:'六层工艺',
+        dataIndex:'Pline6',
+        key: 'Pline6',
+        width: 12,
     },
     {
         title:'系列',
@@ -1046,7 +1094,7 @@ export const GetDdOrder_columns = _this=>(
             render: (_, record) => {
                 return (
                     <div style={{ textAlign: 'center' }}>
-                        {_this.state.Fuc_Del?<Button size="small" type="primary" onClick={() => _this.ModalDel(record,_this)} danger>删除</Button>:""}
+                        {_this.state.Fuc_Edit?<Button size="small" type="primary" onClick={() => _this.ModalDel(record,_this)} danger>删除</Button>:""}
                         &emsp;
                         {_this.state.Fuc_Edit?<Button size="small" type="primary" onClick={() => _this.ModalEdit(record,_this)} >编辑</Button>:""}
                         
@@ -1610,6 +1658,7 @@ export const DdOrder_BjInfo_columns = (model)=>{
             key: 'FirstName',
             width: 22,
         },
+        
         {
             title:'二层编码',
             dataIndex:'SecondCode',
@@ -1727,6 +1776,18 @@ export const DdOrder_BjInfo_columns = (model)=>{
             width: 22,
         },
         {
+            title:'六层编码',
+            dataIndex:'SixthCode',
+            key: 'SixthCode',
+            width: 14,
+        },
+        {
+            title:'六层名称',
+            dataIndex:'SixthName',
+            key: 'SixthName',
+            width: 22,
+        },
+        {
             title:'总需求',
             dataIndex:'Num1',
             key: 'Num1',
@@ -1755,6 +1816,13 @@ export const DdOrder_BjInfo_First =(_this)=>{
                 dataIndex:'Num',
                 key: 'Num',
                 width:5,
+            },
+            {
+                title:'工艺',
+                dataIndex:'Pline1',
+                key:'Pline1',
+                width:8,
+                ...getColumnSearchPropsSelect('Pline',_this,'SearchSelect2'),
             }
     ]
 }

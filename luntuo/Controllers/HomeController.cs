@@ -135,7 +135,7 @@ namespace luntuo.Controllers
             JObject msg = new JObject();
             string AuthString = fc["AuthConfig"];
 
-            if (string.IsNullOrEmpty(AuthString) && 1 != 1)
+            if (string.IsNullOrEmpty(AuthString))
             {
                 msg.Add("status", 1);
                 msg.Add("data", new JObject());
@@ -309,11 +309,11 @@ namespace luntuo.Controllers
             string str2 = fc["Budat[1]"];
             //str1->Date
             if (!string.IsNullOrEmpty(str1) && !string.IsNullOrEmpty(str2)) {
-                bean.Budat = str1 + "," + str2;
+                //bean.Budat = str1 + "," + str2;
             } else if (!string.IsNullOrEmpty(str1)) {
-                bean.Budat = str1;
+                //bean.Budat = str1;
             } else if (!string.IsNullOrEmpty(str2)) {
-                bean.Budat = "," + str2;
+                //bean.Budat = "," + str2;
             }
             bean.MRP = fc["MRP"];
             bean.Name1 = fc["Name1"];
@@ -456,6 +456,9 @@ namespace luntuo.Controllers
             #region 获取数据
             int page = 1;
             int pageSize = 50;
+            string FirstCode = fc["FirstCode"];
+            string FirstName = fc["FirstName"];
+            string Pline = fc["Pline"];
             if (!string.IsNullOrEmpty(fc["page"]))
             {
                 page = int.Parse(fc["page"]);
@@ -468,8 +471,9 @@ namespace luntuo.Controllers
             V_BjInfo bean = new V_BjInfo();
             string OptUserCode = fc["OptUserCode"];
             bean.UserCode = OptUserCode;
-            bean.FirstCode = fc["FirstCode"];
-            bean.FirstName = fc["FirstName"];
+            //bean.FirstCode = fc["FirstCode"];
+            //bean.FirstName = fc["FirstName"];
+
             bean.Series = fc["Series"];
             string DIDS = fc["DIDS"];
             if (!string.IsNullOrEmpty(DIDS))
@@ -493,7 +497,19 @@ namespace luntuo.Controllers
                     sql += $" WHERE DID IN ({DIDS})";
                 }
             }
-            
+            if (!string.IsNullOrEmpty(FirstCode))
+            {
+                sql+=$" AND (FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%'  OR SixthCode like '%{FirstCode}%' ) ";
+            }
+
+            if (!string.IsNullOrEmpty(FirstName))
+            {
+                sql+=$" AND  (FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' OR SixthName like '%{FirstName}%' ) ";
+            }
+            if (!string.IsNullOrEmpty(Pline))
+            {
+                sql+=$" AND (Pline1 = '{Pline}' OR Pline2 = '{Pline}' OR Pline3 = '{Pline}' OR Pline3 = '{Pline}' OR Pline4 = '{Pline}' OR Pline5 = '{Pline}' OR Pline6 = '{Pline}' ) ";
+            }
             //查询所有数据
             JObject result = Common.findCommond(sql, typeof(V_BjInfo), page, pageSize, ServerPath);
             #endregion
@@ -838,9 +854,9 @@ namespace luntuo.Controllers
                     if (Tabflg) {
                         if (MaxTab == MaxInfoTab) {
                             List<string> sqls = new List<string>();
-                            string optSql = $"UPDATE BjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
+                            //string optSql = $"UPDATE BjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
                             string logSql = InsertLog("钣金需求接口", "执行完成", OptUserCode);
-                            sqls.Add(optSql);
+                            //sqls.Add(optSql);
                             sqls.Add(logSql);
                             Tabflg = Common.OptCommond(sqls, ServerPath);
                         }
@@ -911,9 +927,9 @@ namespace luntuo.Controllers
                         if (MaxTab == MaxInfoTab)
                         {
                             List<string> sqls = new List<string>();
-                            string optSql = $"UPDATE JjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
+                           // string optSql = $"UPDATE JjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
                             string logSql = InsertLog("机加需求接口", "执行完成", OptUserCode);
-                            sqls.Add(optSql);
+                           // sqls.Add(optSql);
                             sqls.Add(logSql);
                             Tabflg = Common.OptCommond(sqls, ServerPath);
                         }
@@ -984,9 +1000,9 @@ namespace luntuo.Controllers
                         if (MaxTab == MaxInfoTab)
                         {
                             List<string> sqls = new List<string>();
-                            string optSql = $"UPDATE CgImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
+                            //string optSql = $"UPDATE CgImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
                             string logSql = InsertLog("采购需求接口", "执行完成", OptUserCode);
-                            sqls.Add(optSql);
+                            //sqls.Add(optSql);
                             sqls.Add(logSql);
                             Tabflg = Common.OptCommond(sqls, ServerPath);
                         }
@@ -1372,6 +1388,7 @@ namespace luntuo.Controllers
             string Series = fc["Series"];
             string FirstCode = fc["FirstCode"];
             string FirstName = fc["FirstName"];
+            string Pline = fc["Pline"];
             string level = fc["level"];
             string level2 = fc["level2"];
             string DIDS = fc["DIDS"];
@@ -1415,6 +1432,10 @@ namespace luntuo.Controllers
             {
                 WhereSql.Add($" Datetime1 <= '{Datetime2}' ");
             }
+            if (!string.IsNullOrEmpty(Pline))
+            {
+                WhereSql.Add($" (Pline1 = '{Pline}' OR  Pline2='{Pline}' OR  Pline3='{Pline}' OR  Pline4='{Pline}' OR  Pline5='{Pline}' OR  Pline6='{Pline}' ) ");
+            }
             //if (!string.IsNullOrEmpty(FirstCode))
             //{
             //    switch (level)
@@ -1442,12 +1463,12 @@ namespace luntuo.Controllers
 
             if (!string.IsNullOrEmpty(FirstCode))
             {
-                WhereSql.Add($" FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%' ");
+                WhereSql.Add($" FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%' OR SixthCode like '%{FirstCode}%' ");
             }
 
             if (!string.IsNullOrEmpty(FirstName))
             {
-                WhereSql.Add($" FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' ");
+                WhereSql.Add($" FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' OR SixthName like '%{FirstName}%' ");
             }
             string Where = "";
             if (WhereSql.Count > 0)
@@ -1467,14 +1488,14 @@ namespace luntuo.Controllers
             {
                 SqlSeries = "('') AS Series";
             }
-            string GroupBy = "FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Meins,MRP";
+            string GroupBy = "FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,SixthCode,SixthName,Meins,MRP,Pline1,Pline2,Pline3,Pline4,Pline5,Pline6";
             if (model=="1")
             {
                 GroupBy += ",Series";
             }
-            string Sql = $"SELECT FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName," +
-                $"Meins,MRP,SUM(Num1) AS Num1,SUM(Num2) AS Num2,SUM(Num3) AS Num3,SUM(Num4) AS Num4,SUM(Num5) AS Num5,{SqlSeries}" +
-                $" FROM V_BjInfo WHERE {Where} GROUP BY {GroupBy} ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode,FifthCode,Series";
+            string Sql = $"SELECT FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,SixthCode,SixthName,Pline1,Pline2,Pline3,Pline4,Pline5,Pline6," +
+                $"Meins,MRP,SUM(Num1) AS Num1,SUM(Num2) AS Num2,SUM(Num3) AS Num3,SUM(Num4) AS Num4,SUM(Num5) AS Num5,SUM(Num6) AS Num6,{SqlSeries}" +
+                $" FROM V_BjInfo WHERE {Where} GROUP BY {GroupBy} ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode,FifthCode,SixthCode,Series";
             #endregion
             #endregion
 
@@ -1631,9 +1652,9 @@ namespace luntuo.Controllers
                         }
                         if (InfoMaxTab == MaxTab) {
                             List<string> sqls1 = new List<string>();
-                            string optSql = $"UPDATE BjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                            //string optSql = $"UPDATE BjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                             string logSql1 = InsertLog("钣金需求接口", "执行完成", OptUserCode);
-                            sqls1.Add(optSql);
+                            //sqls1.Add(optSql);
                             sqls1.Add(logSql1);
                             flg1 = Common.OptCommond(sqls1, ServerPath);
                         }
@@ -1641,9 +1662,9 @@ namespace luntuo.Controllers
                     else//异常处理
                     {
                         List<string> sqls1 = new List<string>();
-                        string optSql = $"UPDATE BjImp SET status='异常' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                        //string optSql = $"UPDATE BjImp SET status='异常' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                         string logSql1 = InsertLog("钣金需求接口", "异常", OptUserCode);
-                        sqls1.Add(optSql);
+                        //sqls1.Add(optSql);
                         sqls1.Add(logSql1);
                         flg1 = Common.OptCommond(sqls1, ServerPath);
                     }
@@ -1749,7 +1770,7 @@ namespace luntuo.Controllers
                         string sql = Common.find<CgInfo>(bean);
                         JObject InfoJo = Common.findCommond(sql, typeof(CgInfo), 1, 1, ServerPath);
                         Tabflg = false;
-                        int InfoMaxTab = -2;
+                            int InfoMaxTab = -2;
                         if (InfoJo["CgInfo"] != null && InfoJo["CgInfo"].ToString()!="[]" && InfoJo["CgInfo"][0] != null && InfoJo["CgInfo"][0]["TbCount"] != null)
                         {
                             Tabflg = int.TryParse(InfoJo["CgInfo"][0]["TbCount"].ToString(), out InfoMaxTab);
@@ -1761,9 +1782,9 @@ namespace luntuo.Controllers
                         if (InfoMaxTab == MaxTab)
                         {
                             List<string> sqls1 = new List<string>();
-                            string optSql = $"UPDATE CgImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                            //string optSql = $"UPDATE CgImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                             string logSql1 = InsertLog("采购需求接口", "执行完成", OptUserCode);
-                            sqls.Add(optSql);
+                            //sqls.Add(optSql);
                             sqls.Add(logSql1);
                             flg1 = Common.OptCommond(sqls, ServerPath);
                         }
@@ -1771,9 +1792,9 @@ namespace luntuo.Controllers
                     else
                     {
                         List<string> sqls1 = new List<string>();
-                        string optSql = $"UPDATE CgImp SET status='异常' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                        //string optSql = $"UPDATE CgImp SET status='异常' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                         string logSql1 = InsertLog("采购需求接口", "异常", OptUserCode);
-                        sqls.Add(optSql);
+                        //sqls.Add(optSql);
                         sqls.Add(logSql1);
                         flg1 = Common.OptCommond(sqls, ServerPath);
                     }
@@ -1782,9 +1803,9 @@ namespace luntuo.Controllers
                 {
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
-                    string optSql = $"UPDATE CgImp SET status='执行超时' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                    //string optSql = $"UPDATE CgImp SET status='执行超时' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                     string logSql1 = InsertLog("采购需求接口", "执行超时", OptUserCode);
-                    sqls.Add(optSql);
+                    //sqls.Add(optSql);
                     sqls.Add(logSql1);
                     flg1 = Common.OptCommond(sqls, ServerPath);
                 }
@@ -1884,9 +1905,9 @@ namespace luntuo.Controllers
                         if (InfoMaxTab == MaxTab)
                         {
                             List<string> sqls1 = new List<string>();
-                            string optSql = $"UPDATE JjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                            //string optSql = $"UPDATE JjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                             string logSql1 = InsertLog("机加需求接口", "执行完成", OptUserCode);
-                            sqls.Add(optSql);
+                            //sqls.Add(optSql);
                             sqls.Add(logSql1);
                             flg1 = Common.OptCommond(sqls, ServerPath);
                         }
@@ -1894,9 +1915,9 @@ namespace luntuo.Controllers
                     else
                     {
                         List<string> sqls1 = new List<string>();
-                        string optSql = $"UPDATE JjImp SET status='异常' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                        //string optSql = $"UPDATE JjImp SET status='异常' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                         string logSql1 = InsertLog("机加需求接口", "异常", OptUserCode);
-                        sqls.Add(optSql);
+                        //sqls.Add(optSql);
                         sqls.Add(logSql1);
                         flg1 = Common.OptCommond(sqls, ServerPath);
                     }
@@ -1905,9 +1926,9 @@ namespace luntuo.Controllers
                 {
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
-                    string optSql = $"UPDATE JjInfo SET status='执行超时' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
+                    //string optSql = $"UPDATE JjInfo SET status='执行超时' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                     string logSql1 = InsertLog("机加需求接口", "执行超时", OptUserCode);
-                    sqls.Add(optSql);
+                    //sqls.Add(optSql);
                     sqls.Add(logSql1);
 
                     flg1 = Common.OptCommond(sqls, ServerPath);

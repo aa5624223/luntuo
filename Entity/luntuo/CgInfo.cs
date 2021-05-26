@@ -31,12 +31,6 @@ namespace Entity.luntuo
         /// <summary>
         /// 用户名
         /// </summary>
-        [Property(StringModel = 1,Model = 1)]
-        public string Budat { get; set; }
-
-        /// <summary>
-        /// 用户名
-        /// </summary>
         [Property()]
         public string MRP { get; set; }
 

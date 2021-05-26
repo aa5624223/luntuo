@@ -6,6 +6,7 @@ import moment from 'moment';
 import LinkButton from '../../components/link-button';
 //api
 import {submitBjImp,submitCgImp,submitJjImp,submitWBInfo} from '../../api'
+import { isForOfStatement } from 'typescript';
 const { confirm } = Modal;
 //用于处理 Excel 上传的页面
 export default class ExcelUp extends Component {
@@ -50,14 +51,26 @@ export default class ExcelUp extends Component {
                                 let single ={}
                                 columns.forEach(item2=>{
                                     if(item[item2.title]!==undefined){
+                                        console.dir(item2.title);
                                         if(item2.title.indexOf('日期')!==-1 || item2.title.indexOf('时间')!==-1){
+                                            
                                             if(item[item2.title] instanceof Date){
-                                                console.dir('d1');
                                                 single[item2.dataIndex] = moment(item[item2.title]).format('YYYYMMDD');
                                             }else{
                                                 
                                                 if(typeof(item[item2.title])==='number'){
                                                     single[item2.dataIndex] = item[item2.title];
+                                                }else if((item[item2.title]+"").indexOf('/') !== -1 ){
+                                                    var dts = item[item2.title].split('/');
+                                                    var YYYYMMDD = dts[0];
+                                                    if(dts[1].length===1){
+                                                        dts[1] = 0 + dts[1];
+                                                    }
+                                                    if(dts[2].length===1){
+                                                        dts[2] = 0 + dts[2];
+                                                    }
+                                                    YYYYMMDD +=dts[1] +dts[2]
+                                                    single[item2.dataIndex] = YYYYMMDD;
                                                 }else{
                                                     if(item[item2.title].length===8){
                                                         single[item2.dataIndex] = item[item2.title];
@@ -76,7 +89,6 @@ export default class ExcelUp extends Component {
                                     }
                                 })
                                 single.key="key"+(this.key++)
-                                console.dir(single);
                                 return single
                             })
                         }

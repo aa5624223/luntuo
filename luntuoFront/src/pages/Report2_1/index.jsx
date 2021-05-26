@@ -114,8 +114,8 @@ export default class Report2_1 extends Component {
             }
         }
     }
-    Codes = ["FirstCode", "SecondCode", "ThirdCode", "FourthCode", "FifthCode"];
-    CodesName = ["FirstName", "SecondName", "ThirdName", "FourthName", "FifthName"];
+    Codes = ["FirstCode", "SecondCode", "ThirdCode", "FourthCode", "FifthCode","SixthCode"];
+    CodesName = ["FirstName", "SecondName", "ThirdName", "FourthName", "FifthName","SixthName"];
     Arr = [];
     expandRowKeys2 = [];
     //处理后台钣金的数据
@@ -138,8 +138,7 @@ export default class Report2_1 extends Component {
                 key = this.Codes[keyIndex];
                 NameKey = this.CodesName[keyIndex];
                 //
-
-                let tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], Num: Current["Num" + (keyIndex + 1)], Name: Current[NameKey], children: [] };
+                let tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], Num: Current["Num" + (keyIndex + 1)], Name: Current[NameKey],Pline1:Current["Pline1"], children: [] };
                 if (keyIndex === 0) {
                     pre = tempNode;
                     nowNode = tempNode;
@@ -158,7 +157,7 @@ export default class Report2_1 extends Component {
         key = this.Codes[0];
         NameKey = this.CodesName[0];
         if (Current[key] !== pre["Code"]) {//新插入
-            let tempNode = { "Code": Current[key], Code2: (1) + "层物料编码:" + Current[key], "Num": Current["Num" + 1], Name: Current[NameKey], "children": [] };
+            let tempNode = { "Code": Current[key], Code2: (1) + "层物料编码:" + Current[key], "Num": Current["Num" + 1], Name: Current[NameKey], Pline1:Current["Pline1"],"children": [] };
             CurrentNode = tempNode;
             this.Arr.push(CurrentNode);
             this.expandRowKeys2.push(CurrentNode.Code);
@@ -169,7 +168,7 @@ export default class Report2_1 extends Component {
                 key = this.Codes[keyIndex];
                 NameKey = this.CodesName[keyIndex];
                 if (Current[key] !== "") {
-                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], "children": [] };
+                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], Pline1:Current["Pline"+(keyIndex+1)],Pline2:Current["Pline2"], Pline3:Current["Pline3"], Pline4:Current["Pline4"],Pline5:Current["Pline5"], "children": [] };
                     CurrentNode.children.push(tempNode);
                     this.expandRowKeys2.push(tempNode.Code);
                     CurrentNode = tempNode;
@@ -189,7 +188,7 @@ export default class Report2_1 extends Component {
                     if (Current[key] === "") {
                         break;
                     }
-                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], "children": [] };
+                    let tempNode = { "Code": Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey],Pline1:Current["Pline"+(keyIndex + 1)],"children": [] };
                     this.expandRowKeys2.push(tempNode.Code);
                     pre.children.push(tempNode);
                     pre = tempNode;
@@ -209,8 +208,7 @@ export default class Report2_1 extends Component {
                     if (Current[key] === "") {
                         break;
                     }
-
-                    tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], "children": [] };
+                    tempNode = { Code: Current[key], Code2: (keyIndex + 1) + "层物料编码:" + Current[key], "Num": Current["Num" + (keyIndex + 1)], Name: Current[NameKey], Pline1:Current["Pline"+(keyIndex + 1)],"children": [] };
                     this.expandRowKeys2.push(tempNode.Code);
                     pre.children.push(tempNode);
                     pre = tempNode;
@@ -268,12 +266,26 @@ export default class Report2_1 extends Component {
                 })
                 expandRowKeys = [...expandRowKeys, ...tempKeys]
             }
-            if (i === 3) {
+            if (i === 4) {
                 let tempKeys = [];
                 dataSource.forEach(item => {
                     item.children.forEach(item2 => {
                         item2.children.forEach(item3 => {
                             item3.children.forEach(item4 => tempKeys.push(item4.Code))
+                        })
+                    })
+                })
+                expandRowKeys = [...expandRowKeys, ...tempKeys]
+            }
+
+            if (i === 5) {
+                let tempKeys = [];
+                dataSource.forEach(item => {
+                    item.children.forEach(item2 => {
+                        item2.children.forEach(item3 => {
+                            item3.children.forEach(item4 => {
+                                item4.children.forEach(item5=>tempKeys.push(item5.Code))
+                            })
                         })
                     })
                 })
@@ -286,19 +298,31 @@ export default class Report2_1 extends Component {
     ExcelOut = async ()=>{
         const {SearchContation} = this.state;
         const ColumsWch = [
-            {wch:10},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:20},
-            {wch:45},
-            {wch:10},
-            {wch:10}
+            {wch:10},//日期
+            {wch:20},//一层编码
+            {wch:45},//一层名称
+            {wch:10},//一层数量
+            {wch:10},//一层工艺
+            {wch:20},//二层编码
+            {wch:45},//二层名称
+            {wch:10},//二层数量
+            {wch:10},//二层工艺
+            {wch:20},//三层编码
+            {wch:45},//三层名称
+            {wch:10},//三层数量
+            {wch:10},//三层工艺
+            {wch:20},//四层编码
+            {wch:45},//四层名称
+            {wch:10},//四层数量
+            {wch:10},//四层工艺
+            {wch:20},//五层编码
+            {wch:45},//五层名称
+            {wch:10},//五层数量
+            {wch:10},//五层工艺
+            {wch:45},//六层名称
+            {wch:10},//六层数量
+            {wch:10},//六层工艺
+            {wch:10},//系列
           ]
         this.setState({SpinTip:'Excel导出中，请等待',ExcelLoading:true});
         SearchContation.page = 1;
@@ -346,6 +370,8 @@ export default class Report2_1 extends Component {
                             <Button onClick={() => { this.ExpandRow(4) }}>查看第四层</Button>
                             &ensp;
                             <Button onClick={() => { this.ExpandRow(5) }}>查看第五层</Button>
+                            &ensp;
+                            <Button onClick={() => { this.ExpandRow(6) }}>查看第六层</Button>
                         </Form.Item>
                     </Form>
                 </div>

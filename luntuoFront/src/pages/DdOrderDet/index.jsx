@@ -7,7 +7,7 @@ import LinkButton from '../../components/link-button';
 //引入api
 import {getV_DdOrder_Det,editDdOrderDet} from '../../api'
 //
-import {YYYYMMDD_To_Datetime,ConvertFomrData} from '../../utils'
+import {YYYYMMDD_To_Datetime,ConvertFomrData,getPageRoles,isOpt} from '../../utils'
 //引入配置
 import { DdOrder_Sum_columns,DdOrder_Det_Sum_columns} from '../../config/table-columns'
 import {ArrowLeftOutlined} from '@ant-design/icons';
@@ -24,8 +24,16 @@ export default class DdOrderDet extends Component {
         loading:true,
         isModalEditShow:false
     }
-    componentDidMount = ()=>{
+    componentDidMount = async ()=>{
         this.SearchData();
+        let Fuc_Edit = false;
+        const {pathname} = this.props.location;
+        this.Roles = await getPageRoles(pathname);
+        //
+        if(isOpt(this.Roles,"明细编辑")){
+            Fuc_Edit = true;
+        }
+        this.setState({Fuc_Edit});
     }
     SearchData = async ()=>{
         var {IDS} = this.props.location;
@@ -114,21 +122,26 @@ export default class DdOrderDet extends Component {
         })
         SubHeadTitle.unshift("");
         sheetArray.push(HeadTitle);
+        //console.dir(dataSource);
         dataSource.forEach(item=>{
             let singleArray = [];
             let subsingleArray = [];
+            
             for(var key in item){
                 if(key!=="Det" && key!=="ID"){
                     singleArray.push(item[key]);
                 }else if(key==="Det"){
                     item.Det.forEach(item2=>{
-                        let singleArray2 = [];
-                        for(var key2 in item2){
-                            if(key2!=="ID"){
-                                singleArray2.push(item2[key2]);
-                            }
-                        }
-                        singleArray2.unshift("");
+                        let singleArray2 = ["",item2.ZjNo,
+                        item2.Matnr,
+                        item2.Series,
+                        item2.Box,
+                        item2.Num,
+                        item2.Config,
+                        item2.Datetime1,
+                        item2.Datetime2,
+                        item2.Bz,
+                        ];
                         subsingleArray.push(singleArray2);
                     })
                 }
@@ -151,7 +164,7 @@ export default class DdOrderDet extends Component {
             sheetArray
         );
         sheet["!cols"]=[
-            {wch:15},{wch:18},{wch:18},{wch:12},{wch:15},{wch:12},{wch:12},{wch:80},{wch:15},{wch:15},{wch:25}
+            {wch:15},{wch:18},{wch:18},{wch:12},{wch:15},{wch:12},{wch:80},{wch:12},,{wch:12},{wch:12},{wch:25}
         ];
         XLSX.utils.book_append_sheet(book, sheet, 'Sheet1')
         XLSX.writeFile(book, '调度单'+moment().format('YYYYMMDD')+'.xlsx')
@@ -184,11 +197,8 @@ export default class DdOrderDet extends Component {
         }else{
             record.Datetime2 = moment();
         }
-        console.dir(record);
         this.setState({isModalEditShow:true},()=>{
-            console.dir("1");
             this.formRef.current.setFieldsValue(record);
-            console.dir("2");
         });
     }
     expandedRowRender = (record,index)=>{
@@ -197,20 +207,24 @@ export default class DdOrderDet extends Component {
     const data = record.Det;
     const columns = DdOrder_Det_Sum_columns();
     const App = this;
-    columns.push({
-        title:'编辑',
-        dataIndex:'edit',
-        key:'edit',
-        width:10,
-        render:function(_,record){
-            return <Button type="primary" onClick={()=>App.ModalEditShow(record)} >编辑</Button>
-        }
-    })
+    const {Fuc_Edit} = this.state;
+    if(Fuc_Edit){
+        columns.push({
+            title:'编辑',
+            dataIndex:'edit',
+            key:'edit',
+            width:10,
+            render:function(_,record){
+                return <Button type="primary" onClick={()=>App.ModalEditShow(record)} >编辑</Button>
+            }
+        })
+    }
+    
     //isModalEditShow
     return <Table bordered size="small" rowKey="ID" columns={columns} dataSource={data} pagination={false}></Table>
     }
     render() {
-        const {dataSource,loading,isModalEditShow} = this.state;
+        const {dataSource,loading,isModalEditShow,Fuc_Edit} = this.state;
         const expandedRowRender = this.expandedRowRender;
         return (
             <div className="main">

@@ -69,6 +69,13 @@ export const createMenuObj = (obj) => {
 }
 //查找用户 拥有该页面的哪些权限
 export const getPageRoles = async (mapKey) => {
+    //派生页面更改为主页面
+    if(mapKey === '/Admin/Deskop'){
+        mapKey = '/Admin/DdOrder/DdOrder';
+    }
+    if(mapKey==='/Admin/DdOrder/DdOrderDet'){
+        mapKey = '/Admin/DdOrder/DdOrder';
+    }
     var formData = new FormData();
     formData.append("mapKey", mapKey);
     formData.append("Roles", localStore.getUser().Roles);
@@ -88,7 +95,11 @@ export const isOpt = (Arr, title) => {
             return false
         }
     })
-    return flg !== undefined;
+    if(flg===undefined){
+        return false;
+    }else{
+        return true;
+    }
 }
 //将Json对象转为formData
 export const ConvertFomrData = (jsons) => {

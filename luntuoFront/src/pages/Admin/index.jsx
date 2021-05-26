@@ -58,6 +58,7 @@ class Admin extends Component {
     }
     //获取用户权限
     getAuth = async ()=>{
+        const { history } = this.props;
         //获取用户的权限，和侧边栏
         const user = memoryUtils.user;
         let formData = new FormData();
@@ -74,7 +75,8 @@ class Admin extends Component {
             })
             //用树
         }else{
-            message.error("获取侧边栏失败");
+            history.push({ pathname: "/Login",redict:true});
+            message.error("账号还没有设置权限");
         }
     }
     render() {

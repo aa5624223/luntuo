@@ -5,6 +5,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import './index.less'
 //自定义组件
 //引入工具类
+import memoryUtils from '../../utils/memoryUtils'
 import {depTree,OrderTree} from '../../utils'
 //获取配置
 import { UserConfig_columns } from '../../config/table-columns'
@@ -276,6 +277,8 @@ export default class AdminUserConfig extends Component {
         //获取标签
         let formData = new FormData();
         let myTabs;
+        const user = memoryUtils.user;
+        formData.append('AuthConfig',user.Roles);
         const result = await getSite_Roles(formData);
         if(result.status===0){
             const {Site_Roles} = result.data;

@@ -28,6 +28,7 @@ class Login extends Component {
         event.preventDefault();
         const form = this.formRef.current;
         const {username,password} = form.getFieldsValue(true);
+        //redict
         var formData = new FormData();
         formData.append("username",username);
         formData.append("password",password);
@@ -40,6 +41,10 @@ class Login extends Component {
         if(result.status===0){//登录成功
             if(result.data==null || result.data.UserInfo.length===0){
                 message.warn("账号或密码错误");
+                return;
+            }
+            if(result.data.UserInfo[0].Roles==='NULL' ||result.data.UserInfo[0].Roles===undefined||result.data.UserInfo[0].Roles===""){
+                message.warn("账号还没有设置权限");
                 return;
             }
             message.success("登录成功");
@@ -57,6 +62,7 @@ class Login extends Component {
             memoryUtils.user = user;//将当前登录用户保存到内存中
             //保存到本地
             storageUtils.saveUser(user);
+            
             this.props.history.replace('/Page/MainPage');
         }else if(result.status===1){//没有找到账号密码
             message.error("账号密码错误");
@@ -69,9 +75,13 @@ class Login extends Component {
         const user = storageUtils.getUser();
         //storageUtils.removeUser();
         //console.log(user.ID);
+        var {redict} = this.props.location;
         if(user && user.ID){
-            memoryUtils.user = user;//将当前登录用户保存到内存中
-            return <Redirect to='/Admin' />
+            if(redict!==true){
+                memoryUtils.user = user;//将当前登录用户保存到内存中
+                return <Redirect to='/Admin' />
+            }
+            
         }
         return (
             <div className="login">

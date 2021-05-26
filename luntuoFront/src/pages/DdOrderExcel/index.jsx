@@ -54,13 +54,27 @@ export default class DdOrderExcel extends Component {
                                 }
                                 columns.forEach(item2 => {
                                     if (item[item2.title] !== undefined) {
+                                        console.dir(item2.title);
                                         if (item2.title.indexOf('日期') !== -1 || item2.title.indexOf('时间') !== -1) {
                                             if (item[item2.title] instanceof Date) {
-                                                single[item2.dataIndex] = moment(item[item2.title]).add(1, 'days').format('YYYYMMDD');
-                                            } else {
+                                                single[item2.dataIndex] = moment(item[item2.title]).format('YYYYMMDD');
+                                            }else if((item[item2.title]+"").indexOf('/') !== -1 ){
+                                                var dts = item[item2.title].split('/');
+                                                var YYYYMMDD = dts[0];
+                                                if(dts[1].length===1){
+                                                    dts[1] = 0 + dts[1];
+                                                }
+                                                if(dts[2].length===1){
+                                                    dts[2] = 0 + dts[2];
+                                                }
+                                                YYYYMMDD +=dts[1] +dts[2]
+                                                single[item2.dataIndex] = YYYYMMDD;
+                                            }  else {
+                                                console.dir(item[item2.title]);
                                                 single[item2.dataIndex] = item[item2.title]
                                             }
-                                        } else {
+                                        }
+                                        else {
                                             single[item2.dataIndex] = item[item2.title]
                                         }
 
