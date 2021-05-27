@@ -15,8 +15,8 @@ const menuList = [
       children:[] 
     },
     {
-      id:"2",
-      title: '报表查询',
+      id:"2", 
+      title: '业务菜单',
       key: '/Admin/ReportSearch',
       icon: 'appstore',
       isMenu:true,
@@ -25,8 +25,8 @@ const menuList = [
       children: [ // 子菜单列表
         {
           id:"3",
-          title: '调度单查询',
-          key: '/Admin/ReportSearch/Report1',
+          title: '调度单发布与执行',
+          key: '/Admin/DdOrder/DdOrder',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -34,8 +34,8 @@ const menuList = [
         },
         {
           id:"4",
-          title: '钣金需求单查询',
-          key: '/Admin/ReportSearch/Report2',
+          title: '钣金需求分解',
+          key: '/Admin/Service/Service2',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -43,8 +43,8 @@ const menuList = [
         },
         {
           id:"5",
-          title: '机加需求单查询',
-          key: '/Admin/ReportSearch/Report3',
+          title: '机加需求分解',
+          key: '/Admin/Service/Service3',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -52,8 +52,8 @@ const menuList = [
         },
         {
           id:"6",
-          title: '采购需求单查询',
-          key: '/Admin/ReportSearch/Report4',
+          title: '采购需求分解',
+          key: '/Admin/Service/Service4',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -63,7 +63,7 @@ const menuList = [
     },
     {
       id:"7",
-      title: '业务菜单',
+      title: '报表查询',
       key: '/Admin/Service',
       icon: 'appstore',
       isMenu:true,
@@ -72,8 +72,8 @@ const menuList = [
       children: [ // 子菜单列表
         {
           id:"8",
-          title: '调度单发布',
-          key: '/Admin/Service/Service1',
+          title: '钣金需求单查询',
+          key: '/Admin/ReportSearch/Report2_1',
           isMenu:true,
           isAuth:true,
           icon: 'bars',
@@ -110,8 +110,8 @@ const menuList = [
         },
         {
           id:"12",
-          title: '钣金需求分解',
-          key: '/Admin/Service/Service2',
+          title: '钣金需求单查询',
+          key: '/Admin/ReportSearch/Report2_1',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -119,8 +119,8 @@ const menuList = [
         },
         {
           id:"13",
-          title: '机加需求分解',
-          key: '/Admin/Service/Service3',
+          title: '机加需求单查询',
+          key: '/Admin/ReportSearch/Report3_1',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -128,8 +128,8 @@ const menuList = [
         },
         {
           id:"14",
-          title: '采购需求分解',
-          key: '/Admin/Service/Service4',
+          title: '采购需求单查询',
+          key: '/Admin/ReportSearch/Report4_1',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
@@ -166,8 +166,8 @@ const menuList = [
         },
         {
           id:"18",
-          title: '操作日志',
-          key: '/Admin/Admin/AdminOptLog',
+          title: '操作记录',
+          key: '/Admin/Admin/OptRecord',
           isMenu:true,
           isAuth:true,
           isSubMenu:false,
