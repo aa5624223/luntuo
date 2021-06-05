@@ -319,6 +319,7 @@ export default class Report2_1 extends Component {
             {wch:45},//五层名称
             {wch:10},//五层数量
             {wch:10},//五层工艺
+            {wch:20},//六层编码
             {wch:45},//六层名称
             {wch:10},//六层数量
             {wch:10},//六层工艺

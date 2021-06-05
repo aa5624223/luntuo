@@ -43,13 +43,14 @@ export default class ExcelUp extends Component {
                     const workbook = XLSX.read(result, { type: 'binary',cellDates:true});
                     let data = []; // 存储获取到的数据
                     // 遍历每张工作表进行读取（这里默认只读取第一张表）
+                    var flg = false;
                     for (const sheet in workbook.Sheets) {
                         if (workbook.Sheets.hasOwnProperty(sheet)) {
                             // 利用 sheet_to_json 方法将 excel 转成 json 数据
                             data = data.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
-                            data = data.map(item=>{
+                            data = data.map((item,index)=>{
                                 let single ={}
-                                columns.forEach(item2=>{
+                                columns.forEach((item2,index2)=>{
                                     if(item[item2.title]!==undefined){
                                         console.dir(item2.title);
                                         if(item2.title.indexOf('日期')!==-1 || item2.title.indexOf('时间')!==-1){
@@ -72,11 +73,15 @@ export default class ExcelUp extends Component {
                                                     YYYYMMDD +=dts[1] +dts[2]
                                                     single[item2.dataIndex] = YYYYMMDD;
                                                 }else{
+                                                    
                                                     if(item[item2.title].length===8){
                                                         single[item2.dataIndex] = item[item2.title];
                                                     }else{
-                                                        var dt = new Date(item[item2.title]);
-                                                        single[item2.dataIndex] = moment(dt).format('YYYYMMDD');
+                                                        if((item[item2.title]+"").length!==8){
+                                                            message.error("日期位数不对,无法导入,发生在第"+(index+1)+"行，"+index2+"列");
+                                                            flg = true;
+                                                        }
+                                                        single[item2.dataIndex] = item[item2.title];
                                                     }
                                                     
                                                 }
@@ -91,6 +96,9 @@ export default class ExcelUp extends Component {
                                 single.key="key"+(this.key++)
                                 return single
                             })
+                            if(flg){
+                                return;
+                            }
                         }
                         //只读一张表
                         break;

@@ -668,12 +668,12 @@ namespace Entity.Methods
                 }
                 tr.Commit();
             }
-            catch (Exception)
+            catch (Exception _e)
             {
                 if (tr!=null) {
                     tr.Rollback();
                 }
-                return false;
+                throw _e;
             }
             finally
             {

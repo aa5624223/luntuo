@@ -2057,7 +2057,7 @@ namespace luntuo.Controllers
                     DdOrder_Det bean = (DdOrder_Det)jsonReader.Deserialize<DdOrder_Det>(fc[$"list[{i}]"]);
                     bean.DID = DdBean.ID;
                     bean.status = "待执行";
-
+                    bean.Matnr = bean.Matnr.Trim();
                     beans.Add(bean);
                 }
                 List<string> sqls = Common.adds<DdOrder_Det>(beans);

@@ -147,11 +147,11 @@
     <Content Include="luntuo\css\reset.css" />
     <Content Include="luntuo\favicon.ico" />
     <Content Include="luntuo\index.html" />
-    <Content Include="luntuo\static\css\2.122c27d5.chunk.css" />
+    <Content Include="luntuo\static\css\2.81fe8ddd.chunk.css" />
     <Content Include="luntuo\static\css\main.6eaf64ea.chunk.css" />
     <Content Include="luntuo\static\js\2.caed3c29.chunk.js" />
     <Content Include="luntuo\static\js\2.caed3c29.chunk.js.LICENSE.txt" />
-    <Content Include="luntuo\static\js\main.b02ada34.chunk.js" />
+    <Content Include="luntuo\static\js\main.a067c36a.chunk.js" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js" />
     <Content Include="luntuo\static\media\999.b9883ce8.png" />
     <Content Include="luntuo\static\media\cf_b.7b69f992.jpg" />
@@ -173,10 +173,10 @@
     <Content Include="ExcelDemo\调度单模板.xls" />
     <Content Include="ExcelDemo\物料班组.xlsx" />
     <Content Include="luntuo\asset-manifest.json" />
-    <Content Include="luntuo\static\css\2.122c27d5.chunk.css.map" />
+    <Content Include="luntuo\static\css\2.81fe8ddd.chunk.css.map" />
     <Content Include="luntuo\static\css\main.6eaf64ea.chunk.css.map" />
     <Content Include="luntuo\static\js\2.caed3c29.chunk.js.map" />
-    <Content Include="luntuo\static\js\main.b02ada34.chunk.js.map" />
+    <Content Include="luntuo\static\js\main.a067c36a.chunk.js.map" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

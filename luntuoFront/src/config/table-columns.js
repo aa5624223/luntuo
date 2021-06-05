@@ -636,6 +636,12 @@ export const V_BjInfo_columns = [
         width: 12,
     },
     {
+        title: '六层编码',
+        dataIndex: 'SixthCode',
+        key: 'SixthCode',
+        width: 60,
+    },
+    {
         title: '六层名称',
         dataIndex: 'SixthName',
         key: 'SixthName',
