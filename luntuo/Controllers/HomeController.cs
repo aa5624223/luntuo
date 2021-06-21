@@ -1957,16 +1957,16 @@ namespace luntuo.Controllers
             int Count = int.Parse(fc["Count"]);
             //int type = int.Parse(fc["type"]);
             List<WBInfo> beans = new List<WBInfo>();
-            string Matnrs = "";
+            //string Matnrs = "";
             for (int i = 0; i < Count; i++)
             {
                 WBInfo bean = (WBInfo)jsonReader.Deserialize<WBInfo>(fc[$"list[{i}]"]);
-                Matnrs += bean.Matnr+",";
+                //Matnrs += bean.Matnr+",";
                 beans.Add(bean);
             }
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             List<string> sqls = Common.adds<WBInfo>(beans);
-            string logSql = InsertLog("Excel导入添加物料班组", $"物料:{Matnrs}", OptUserCode);
+            string logSql = InsertLog("Excel导入添加物料班组", $"物料:", OptUserCode);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
             if (flg)
@@ -2240,6 +2240,7 @@ namespace luntuo.Controllers
             bean.ID = int.Parse(fc["ID"]);
             string OptUserCode = fc["OptUserCode"];
             string dt = fc["dt"];
+            string UserName = fc["UserName"];
             #endregion
 
             #region 检查
@@ -2269,6 +2270,7 @@ namespace luntuo.Controllers
                     string sq1l = InsertLog("调度单接口执行", $"调度单id:{bean.ID}", OptUserCode);
                     sqls.Add(sq1l);
                     string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    sq1l = $"UPDATE DdOrder SET CgTime='{nowDate1}',BjTime='{nowDate1}',JjTime='{nowDate1}',CgPer='{UserName}',BjPer='{UserName}',JjPer='{UserName}' WHERE ID=" + bean.ID;
                     //if (ClientResult=="完成")
                     //{
                     //     sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
@@ -2278,16 +2280,19 @@ namespace luntuo.Controllers
                     //{
                     //    sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
                     //}
-                    //sqls.Add(sq1l);
-                    Common.OptCommond(sq1l, ServerPath);
+                    sqls.Add(sq1l);
+                    Common.OptCommond(sqls, ServerPath);
 
                 }
                 catch (Exception _e)
                 {
                     string logsql = InsertLog("调度单接口执行超时", $"调度单id:{bean.ID}", OptUserCode);
                     string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                    string sq1l = $"UPDATE DdOrder SET BjStatus='超时',JjStatus='超时',CgStatus='超时',RecTime='{nowDate1}' WHERE ID=" + bean.ID;
-                    Common.OptCommond(logsql, ServerPath);
+                    string sq1l = $"UPDATE DdOrder SET CgTime='{nowDate1}',BjTime='{nowDate1}',JjTime='{nowDate1}',CgPer='{UserName}',BjPer='{UserName}',JjPer='{UserName}' WHERE ID=" + bean.ID;
+                    List<string> sqls = new List<string>();
+                    sqls.Add(logsql);
+                    sqls.Add(sq1l);
+                    Common.OptCommond(sqls, ServerPath);
                     throw _e;
                 }
             });
@@ -2313,6 +2318,7 @@ namespace luntuo.Controllers
             string dt = fc["dt"];
             string IDS = fc["IDS"];
             string type = fc["type"];
+            string UserName = fc["UserName"];
             #endregion
 
             #region 检查
@@ -2383,15 +2389,46 @@ namespace luntuo.Controllers
                     //    sq1l = $"UPDATE DdOrder SET RecTime='{nowDate1}' WHERE ID=" + bean.ID;
                     //}
                     //sqls.Add(sq1l);
-                    Common.OptCommond(sq1l, ServerPath);
+                    List<string> sqls2 = new List<string>();
+                    string sq12 = "";
+                    if (type == "bj")
+                    {
+                        sq12 = $"UPDATE DdOrder SET BjTime='{nowDate1}',BjPer='{UserName}' WHERE ID=" + bean.ID;
+                    }
+                    else if (type == "cg")
+                    {
+                        sq12 = $"UPDATE DdOrder SET CgTime='{nowDate1}',CgPer='{UserName}' WHERE ID=" + bean.ID;
+                    }
+                    else if (type == "jj")
+                    {
+                        sq12 = $"UPDATE DdOrder SET JjTime='{nowDate1}',JjPer='{UserName}' WHERE ID=" + bean.ID;
+                    }
+                    sqls.Add(sq12);
+                    Common.OptCommond(sqls, ServerPath);
 
                 }
                 catch (Exception _e)
                 {
                     string logsql = InsertLog("调度单接口执行超时", $"调度单id:{bean.ID}", OptUserCode);
                     string nowDate1 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    List<string> sqls = new List<string>();
+                    string sq12 = "";
+                    if (type == "bj")
+                    {
+                        sq12 = $"UPDATE DdOrder SET BjTime='{nowDate1}',BjPer='{UserName}' WHERE ID=" + bean.ID;
+                    }
+                    else if (type == "cg")
+                    {
+                        sq12 = $"UPDATE DdOrder SET CgTime='{nowDate1}',CgPer='{UserName}' WHERE ID=" + bean.ID;
+                    }
+                    else if (type == "jj")
+                    {
+                        sq12 = $"UPDATE DdOrder SET JjTime='{nowDate1}',JjPer='{UserName}' WHERE ID=" + bean.ID;
+                    }
                     string sq1l = $"UPDATE DdOrder SET BjStatus='超时',JjStatus='超时',CgStatus='超时',RecTime='{nowDate1}' WHERE ID=" + bean.ID;
-                    Common.OptCommond(logsql, ServerPath);
+                    //sqls.Add(sq1l);
+                    sqls.Add(sq12);
+                    Common.OptCommond(sqls, ServerPath);
                     throw _e;
                 }
             });

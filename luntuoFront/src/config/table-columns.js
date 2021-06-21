@@ -935,8 +935,9 @@ export const V_LogInfo_columns =[
     },
 ]
 //DdOrder
-export const GetDdOrder_columns = _this=>( 
-    [
+export const GetDdOrder_columns = _this=>{
+    const {Fuc_Bj,Fuc_Jj,Fuc_Cg} = _this.state;
+    let column = [
         {
             title: '调度单号',
             dataIndex: 'LTOrder',
@@ -970,8 +971,11 @@ export const GetDdOrder_columns = _this=>(
                 multiple:1,
             },
             render:function (val) {
-                //return val!==""?moment(val).format("YYYYMM"):val
-                return val;
+                if(val!==""){
+                    return moment(val).format("YYYY/MM/DD");
+                }else{
+                    return val;
+                }
             }
         },
         {
@@ -1017,6 +1021,18 @@ export const GetDdOrder_columns = _this=>(
             }
         },
         {
+            title: '钣金执行人',
+            dataIndex: 'BjPer',
+            key: 'BjPer',
+            width: 28
+        },
+        {
+            title: '钣金执行时间',
+            dataIndex: 'BjTime',
+            key: 'BjTime',
+            width: 28
+        },
+        {
             title: '机加状态',
             dataIndex: 'JjStatus1',
             key: 'JjStatus1',
@@ -1040,6 +1056,18 @@ export const GetDdOrder_columns = _this=>(
                     </LinkButton>
                 }
             }
+        },
+        {
+            title: '机加执行人',
+            dataIndex: 'JjPer',
+            key: 'JjPer',
+            width: 28
+        },
+        {
+            title: '机加执行时间',
+            dataIndex: 'JjTime',
+            key: 'JjTime',
+            width: 28
         },
         {
             title: '采购状态',
@@ -1067,16 +1095,29 @@ export const GetDdOrder_columns = _this=>(
             }
         },
         {
-            title: '最近执行时间',
-            dataIndex: 'RecTime',
-            key: 'RecTime',
-            width: 32, 
-            sorter: {
-                multiple:4,
-            },
-            render:function (val) {
-                return val;
-                //return val!==""?moment(val).format("YYYYMM"):val
+            title: '采购执行人',
+            dataIndex: 'CgPer',
+            key: 'CgPer',
+            width: 28
+        },
+        {   
+            title: '采购执行时间',
+            dataIndex: 'CgTime',
+            key: 'CgTime',
+            width: 28
+        },
+        {
+            title:'采购库存基准日期',
+            dataIndex: 'CgBaseTime',
+            key: 'CgBaseTime',
+            width: 28,
+            render:function(val) {
+                if(val!==""){
+                    return moment(val).format("YYYY/MM/DD");
+                }else{
+                    return val;
+                }
+                
             }
         },
         {
@@ -1110,27 +1151,29 @@ export const GetDdOrder_columns = _this=>(
             }
         }
     ]
-)
-export const GetDdOrder_Det_Status = ()=>{
-    return [
+    column = column.filter(item=>{
+        if(!Fuc_Bj&&(item.key==='BjStatus1'||item.key==='BjPer'||item.key==='BjTime')){
+            return false;
+        }
+        if(!Fuc_Jj&&(item.key==='JjStatus1'||item.key==='JjPer'||item.key==='JjTime')){
+            return false;
+        }
+        if(!Fuc_Cg&&(item.key==='CgStatus1'||item.key==='CgPer'||item.key==='CgTime'||item.key==='CgBaseTime')){
+            return false;
+        }
+        return true;
+    })
+    return column;
+}
+export const GetDdOrder_Det_Status = _this=>{
+    const {Fuc_Bj,Fuc_Jj,Fuc_Cg} = _this.state;
+    let column =  [
         {
             title: '投产日期',
             dataIndex: 'Datetime1',
             key: 'Datetime1',
             width: 30,
         },
-        // {
-        //     title: '物料编码',
-        //     dataIndex: 'Matnr',
-        //     key: 'Matnr',
-        //     width: 30,
-        // },
-        // {
-        //     title: '整机编码',
-        //     dataIndex: 'ZjNo',
-        //     key: 'ZjNo',
-        //     width: 30,
-        // },
         {
             title: '钣金状态',
             dataIndex: 'BjStatus',
@@ -1177,6 +1220,19 @@ export const GetDdOrder_Det_Status = ()=>{
             }
         },
     ]
+    column = column.filter(item=>{
+        if(!Fuc_Bj&&item.key==='BjStatus'){
+            return false;
+        }
+        if(!Fuc_Jj&&item.key==='JjStatus'){
+            return false;
+        }
+        if(!Fuc_Cg&&item.key==='CgStatus'){
+            return false;
+        }
+        return true;
+    })
+    return column;
 }
 export const DdOrder_Det_columns = ()=>(
     [
@@ -1551,13 +1607,13 @@ export const DdOrder_CgInfo_columns = (model)=>{
             width: 12,
         },
         {
-            title:'月初寄售库存',
+            title:'寄售库存',
             dataIndex:'Num1',
             key: 'Num1',
             width: 14,
         },
         {
-            title:'月初材料库存',
+            title:'材料库存',
             dataIndex:'Num2',
             key: 'Num2',
             width: 14,
@@ -1613,13 +1669,13 @@ export const DdOrder_CgInfo_columns = (model)=>{
             width: 12,
         },
         {
-            title:'月初寄售库存',
+            title:'寄售库存',
             dataIndex:'Num1',
             key: 'Num1',
             width: 14,
         },
         {
-            title:'月初材料库存',
+            title:'材料库存',
             dataIndex:'Num2',
             key: 'Num2',
             width: 14,

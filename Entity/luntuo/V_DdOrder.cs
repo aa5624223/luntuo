@@ -97,6 +97,51 @@ namespace Entity.luntuo
         [Property()]
         public string CgStatus1 { get; set; }
 
+
+        /// <summary>
+        /// 采购最近执行时间
+        /// </summary>
+        [Property()]
+        public DateTime CgTime { get; set; }
+
+        /// <summary>
+        /// 采购最近执行人
+        /// </summary>
+        [Property()]
+        public string CgPer { get; set; }
+
+        /// <summary>
+        /// 钣金最近执行时间
+        /// </summary>
+        [Property()]
+        public DateTime BjTime { get; set; }
+
+
+        /// <summary>
+        /// 钣金最近执行人
+        /// </summary>
+        [Property()]
+        public string BjPer { get; set; }
+
+        /// <summary>
+        /// 机加最近执行时间
+        /// </summary>
+        [Property()]
+        public DateTime JjTime { get; set; }
+
+        /// <summary>
+        /// 机加最近执行人
+        /// </summary>
+        [Property()]
+        public string JjPer { get; set; }
+
+        /// <summary>
+        /// 库存基准日期
+        /// </summary>
+        [Property()]
+        public DateTime CgBaseTime { get; set; }
+
+
         #endregion
     }
 }

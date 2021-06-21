@@ -137,6 +137,7 @@ export default class DdOrder_CgInfo extends Component {
         current: 1,
         dataTotal: 0,
         LTOrders: "",
+        BaseTime: "",
         ExcelLoading: false,
         SpinTip:'',
         model: 0,
@@ -265,18 +266,20 @@ export default class DdOrder_CgInfo extends Component {
     }
     componentDidMount = () => {
         //DIDS 和LTOrdders 必须对应
-        var { DIDS, LTOrders } = this.props.location;
+        var { DIDS, LTOrders,BaseTime } = this.props.location;
         //用于测试后期删掉
         //DIDS = "76,77,78";
         //LTOrders = "LT20210201,LT20210301,LT20210401";
         if (DIDS === undefined || LTOrders === undefined) {
             DIDS = store.get("DdOrder_JjInfo_DIDS");
             LTOrders = store.get("DdOrder_JjInfo_LTOrders");
+            BaseTime = store.get("DdOrder_JjInfo_BaseTime");
         } else {
             store.set("DdOrder_JjInfo_DIDS", DIDS);
             store.set("DdOrder_JjInfo_LTOrders", LTOrders);
+            store.set("DdOrder_JjInfo_BaseTime", BaseTime);
         }
-        this.setState({ DIDS: DIDS, LTOrders }, () => {
+        this.setState({ DIDS: DIDS, LTOrders,BaseTime}, () => {
             this.SearchData();
         })
     }
@@ -385,7 +388,8 @@ export default class DdOrder_CgInfo extends Component {
         this.setState({ expandRowKeys });
     }
     render() {
-        const { loading, dataSource, LTOrders, current, dataTotal, ExcelLoading, model, expandRowKeys ,SpinTip} = this.state;
+        const { loading, dataSource, LTOrders,BaseTime, current, dataTotal, ExcelLoading, model, expandRowKeys ,SpinTip} = this.state;
+        
         return (
             <div className="main">
                 <div className="toolArea">
@@ -456,7 +460,7 @@ export default class DdOrder_CgInfo extends Component {
                     <div style={{ width: "75%", float: "left" }}>
                         <h1 style={{ fontSize: '20px', paddingLeft: '20px', lineHeight: '35px' }}>
                             <Button onClick={() => this.OpenOrCloseAll()}>展开/关闭所有行</Button>
-                            &nbsp;单号:{LTOrders}
+                            &nbsp;单号:{LTOrders},库存基准日期:{BaseTime}
                         </h1>
                     </div>
                     <div style={{ width: "24%", float: "left", textAlign: 'right' }}>

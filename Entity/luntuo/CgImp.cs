@@ -17,19 +17,19 @@ namespace Entity.luntuo
         public long ID { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 
         /// </summary>
         [Property()]
         public string MATNR { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 
         /// </summary>
         [Property()]
         public string Menge { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 
         /// </summary>
         [Property()]
         public string Datetime1 { get; set; }

@@ -90,18 +90,36 @@ namespace Entity.luntuo
         public string Bz { get; set; }
 
         /// <summary>
+        /// 钣金执行状态
+        /// </summary>
+        [Property()]
+        public string BjStatus { get; set; }
+
+        /// <summary>
+        //  机加执行状态
+        /// </summary>
+        [Property()]
+        public string JjStatus { get; set; }
+
+        /// <summary>
+        /// 采购执行状态
+        /// </summary>
+        [Property()]
+        public string CgStatus { get; set; }
+
+        /// <summary>
         /// 交库时间
         /// </summary>
         [Property()]
         public string Datetime2 { get; set; }
 
         /// <summary>
-        /// 是否被勾选状态
+        /// 钣金是否被勾选状态
         /// </summary>
         public int BjFlg { get; set; }
 
         /// <summary>
-        /// 是否被勾选状态
+        /// 机加是否被勾选状态
         /// </summary>
         public int JjFlg { get; set; }
 

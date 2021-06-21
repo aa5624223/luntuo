@@ -29,13 +29,13 @@ namespace Entity.luntuo
         public string Matnr { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// MRP
         /// </summary>
         [Property()]
         public string MRP { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 单位
         /// </summary>
         [Property()]
         public string Meins { get; set; }
@@ -96,6 +96,7 @@ namespace Entity.luntuo
         /// </summary>
         public long DID { get; set; }
 
+        
         #endregion
     }
 }

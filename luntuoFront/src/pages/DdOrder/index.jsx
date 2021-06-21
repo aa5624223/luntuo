@@ -3,7 +3,7 @@ import { Table, Button, message, Modal, Input, Form, DatePicker,Select } from 'a
 import moment from 'moment'
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-
+import memoryUtils from '../../utils/memoryUtils'
 //引入配置
 
 import { GetDdOrder_columns, GetDdOrder_Det_Status } from '../../config/table-columns'
@@ -11,7 +11,7 @@ import { GetDdOrder_columns, GetDdOrder_Det_Status } from '../../config/table-co
 import { getPageRoles,isOpt,ConvertFomrData } from '../../utils'
 //引入api
 import { getDdOrder, editDdOrder, DdOrder_DetExt, editDdOrder_status, delDdOrder, demantExe, getV_DdOrder_Det } from '../../api'
-//引入模拟数据
+//引入模拟数据3
 const { confirm } = Modal;
 export default class DdOrder extends Component {
     //对话框配置
@@ -153,12 +153,13 @@ export default class DdOrder extends Component {
     //明细汇总
     OrderDet = () => {
         const { history } = this.props;
-        const { selectedRowKeys } = this.state;
+        const { selectedRowKeys,dataSource} = this.state;
         //IDS
         if (selectedRowKeys.length === 0) {
             message.warn("请先选择要汇总的调度单");
             return;
         }
+        //
         history.push({ pathname: "/Admin/DdOrder/DdOrderDet", IDS: selectedRowKeys.join(',') });
     }
     //表格更改时调用的方法 confirm({ closeDropdown: false }); =查询
@@ -205,13 +206,12 @@ export default class DdOrder extends Component {
         formData.append(key, SearchContation[key]);
     }
 }
-console.dir(SorterContation);
 formData.append('Order', SorterContation);
-
 this.setState({ loading: true })
 let result = await getDdOrder(formData);
 try {
     if (result.status === 0) {
+        console.dir(result);
         const { V_DdOrder, V_DdOrder_Count } = result.data;
         this.setState({ loading: false, dataSource: V_DdOrder, SearchContation, dataTotal: V_DdOrder_Count, current: SearchContation.page })
     } else {
@@ -246,8 +246,6 @@ SearchDet = async (DID, flg) => {
                 }
             }
         }
-        console.dir(newData);
-
         this.setState({ isModalDetStatusShow: true, DataSource_DetStatus: newData, isDetTools: flg, selectedRowKeys2: [] })
         //GetDdOrder_Det_Status
     } else {
@@ -295,6 +293,7 @@ demantExe_Det = async (type) => {
         return;
     }
     var formdata = new FormData();
+    let user = memoryUtils.user;
     formdata.append("DID", this.Modal_DID);
     let IDS = "";
     //DataSource_DetStatus
@@ -302,6 +301,7 @@ demantExe_Det = async (type) => {
     formdata.append("IDS", selectedRowKeys2.join(','));
     formdata.append("type", type);
     formdata.append("dt", moment(this.statusDt).format("YYYYMMDD"));
+    formdata.append("UserName",user.UserName);
     message.success("需求计划执行中，请等待");
     const result = await DdOrder_DetExt(formdata);
     if (result.status === 0) {
@@ -321,9 +321,11 @@ ModalExeOk = async () => {
     }
     var data = form.getFieldsValue(true);
     data.newdt = moment(data.dt).format("YYYYMMDD");
+    let user = memoryUtils.user;
     var formData = new FormData();
     formData.append("ID", data.ID);
     formData.append("dt", data.newdt);
+    formData.append("UserName",user.UserName);
     //
     message.success("需求计划执行中，请等待");
     const result = await demantExe(formData);
@@ -438,7 +440,7 @@ demantCg = () => {
     })
     for (let i = 0; i < newRecord.length; i++) {
         if (newRecord[i].JjStatus !== '已完成') {
-            message.warn("不能选择未完成的调度单");
+            message.warn("不能选择<未完成>的调度单");
             return;
         }
         LTOrders.push(newRecord[i].LTOrder);
@@ -446,13 +448,23 @@ demantCg = () => {
     for (let i = 0; i < newRecord.length; i++) {
         for (let j = i + 1; j < newRecord.length; j++) {
             if (newRecord[i].PlanDt !== newRecord[j].PlanDt) {
-                message.warn("不能选择计划月份不同的调度单");
+                message.warn("不能选择<计划月份>不同的调度单");
                 return;
             }
         }
     }
+    for(let i=0;i<newRecord.length;i++){
+        if(newRecord[0].CgBaseTime!==newRecord[i].CgBaseTime){
+            message.warn("请选择<采购库存基准日期>相同的调度单");
+            return;
+        }
+    }
+    let BaseTime = "";
+    if(newRecord[0].CgBaseTime!==""){
+        BaseTime = moment(newRecord[0].CgBaseTime).format("YYYY/MM/DD");
+    }
     const { history } = this.props;
-    history.push({ pathname: "/Admin/DdOrder/DdOrder_CgInfo", DIDS: selectedRowKeys.join(','), LTOrders: LTOrders.join(',') });
+    history.push({ pathname: "/Admin/DdOrder/DdOrder_CgInfo", DIDS: selectedRowKeys.join(','), LTOrders: LTOrders.join(','),BaseTime:BaseTime});
 
 }
 ModalMsgHide = () => {
@@ -492,6 +504,7 @@ componentDidMount = async () => {
         this.setState({Fuc_Edit,Fuc_Exe,Fuc_Bj,Fuc_Jj,Fuc_Cg,Fuc_BjExe,Fuc_JiExe,Fuc_CgExe});
 }
 render() {
+    //判断权限
 
     const DdOrder_columns = GetDdOrder_columns(this);
     const { dataSource, loading, SearchContation, ModalTitle, isModalEditShow, current, dataTotal, selectedRowKeys, selectedRowKeys2, isModalExeShow, isModalDetStatusShow, DataSource_DetStatus, isDetTools, isModalMsgShow ,Fuc_Edit,Fuc_Exe,Fuc_Bj,Fuc_Jj,Fuc_Cg,Fuc_BjExe,Fuc_JiExe,Fuc_CgExe} = this.state;
@@ -659,7 +672,7 @@ render() {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Modal title="" width={1100} visible={isModalDetStatusShow} onOk={() => this.ModalDetStatusCancel()} onCancel={() => this.ModalDetStatusCancel()}>
+            <Modal title="" width={1000} visible={isModalDetStatusShow} onOk={() => this.ModalDetStatusCancel()} onCancel={() => this.ModalDetStatusCancel()}>
                 <div style={{ maxHeight: "700px", overflowY: "scroll" }}>
                     {
                         isDetTools ?
@@ -685,7 +698,7 @@ render() {
                         rowKey="ID"
                         bordered
                         dataSource={DataSource_DetStatus}
-                        columns={GetDdOrder_Det_Status()}
+                        columns={GetDdOrder_Det_Status(this)}
                         size="middle"
                         pagination={false}
                     >

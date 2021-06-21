@@ -106,6 +106,7 @@ namespace Entity.luntuo
         [Property()]
         public DateTime Datetime1 { get; set; }
 
+        
         #endregion
     }
 }
