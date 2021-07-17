@@ -85,7 +85,7 @@ data.forEach((item,index) => {
         let dt5 = moment(newData[index2]["dt"]).startOf("month");
         let dt6 = moment(newData[index2]["dt"]).endOf("month");
         if(moment(dt3).isBetween(dt5,dt6)){
-            newData[index2][moment(dt3).format('DD')] = item.Menge*1;
+            newData[index2][moment(dt3).format('DD')] += item.Menge*1;
         }
         //moment(dt3).format('YYYYMM')
         

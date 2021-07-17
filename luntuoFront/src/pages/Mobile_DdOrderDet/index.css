@@ -1,0 +1,14 @@
+.loading-example {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .am-card-header-content{
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  .data-item{
+    margin:10px;
+  }
+  .my-list .spe .am-list-extra {
+    flex-basis: initial;
+  }

@@ -70,6 +70,7 @@ class Admin extends Component {
             //获取侧边栏
             let menuList = depTree(Site_Roles,0);
             menuList = OrderTree(menuList);
+            menuList = menuList.filter(item=>!item.isMobile)
             this.setState({
                 menuList
             })
@@ -90,7 +91,6 @@ class Admin extends Component {
             return <Redirect to='/Login' />
         }
         //const menuList = await this.getAuth();
-        
         return (
             <Layout style={{height:'936px'}}>
                 <Sider >

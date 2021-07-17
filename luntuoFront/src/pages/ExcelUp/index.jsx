@@ -6,7 +6,6 @@ import moment from 'moment';
 import LinkButton from '../../components/link-button';
 //api
 import {submitBjImp,submitCgImp,submitJjImp,submitWBInfo} from '../../api'
-import { isForOfStatement } from 'typescript';
 const { confirm } = Modal;
 //用于处理 Excel 上传的页面
 export default class ExcelUp extends Component {
@@ -46,6 +45,7 @@ export default class ExcelUp extends Component {
                     var flg = false;
                     for (const sheet in workbook.Sheets) {
                         if (workbook.Sheets.hasOwnProperty(sheet)) {
+                            
                             // 利用 sheet_to_json 方法将 excel 转成 json 数据
                             data = data.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
                             data = data.map((item,index)=>{
@@ -54,11 +54,9 @@ export default class ExcelUp extends Component {
                                     if(item[item2.title]!==undefined){
                                         console.dir(item2.title);
                                         if(item2.title.indexOf('日期')!==-1 || item2.title.indexOf('时间')!==-1){
-                                            
                                             if(item[item2.title] instanceof Date){
                                                 single[item2.dataIndex] = moment(item[item2.title]).format('YYYYMMDD');
                                             }else{
-                                                
                                                 if(typeof(item[item2.title])==='number'){
                                                     single[item2.dataIndex] = item[item2.title];
                                                 }else if((item[item2.title]+"").indexOf('/') !== -1 ){

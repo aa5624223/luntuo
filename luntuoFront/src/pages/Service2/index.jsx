@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import XLSX from 'xlsx';
 import { Table, Button, Modal, Form, Input,message} from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 //引入自定义组件
@@ -185,9 +184,9 @@ export default class Service2 extends Component {
         this.setState({ isModalEditShow: false })
     }
     ModalExcelOut = ()=>{
-        const {dataSource} = this.state;
+        //const {dataSource} = this.state;
         //let obj = [];
-        const range = XLSX.utils.decode_range(dataSource);
+        //const range = XLSX.utils.decode_range(dataSource);
     }
     DownLoadDemo = ()=>{
         downloadDemoFile("钣金需求分解模板.xls");

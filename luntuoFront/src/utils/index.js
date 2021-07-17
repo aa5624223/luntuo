@@ -1,5 +1,5 @@
 import XLSX from 'xlsx';
-import {Button,Space,Input,Form} from 'antd'
+import {Button,Space,Input} from 'antd'
 import FileSaver from "file-saver";
 
 import { SearchOutlined } from '@ant-design/icons';
@@ -65,6 +65,7 @@ export const createMenuObj = (obj) => {
     rtObj.children = [];
     rtObj.isAuth = obj.isAuth === "True";
     rtObj.isSubMenu = obj.isSubMenu === "True";
+    rtObj.isMobile = obj.isMobile === "True"
     return rtObj;
 }
 //查找用户 拥有该页面的哪些权限
@@ -256,9 +257,18 @@ export const getColumnSearchPropsSelect = (dataIndex,_this,key)=>({
     )
 })
 export const YYYYMMDD_To_Datetime = (Str)=>{
-    if(typeof(Str) ==='String'){
+    if(typeof(Str) ==='string'){
         return Str.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3");
     }else{
         return Str;
+    }
+}
+export const getClientType = (agentStr)=>{
+    if(!!agentStr.match(/AppleWebKit.*Mobile.*/)){
+        return 'Mobile';//
+    }else if(agentStr.indexOf('Android') > -1 || agentStr.indexOf('Linux') > -1){
+        return 'Mobile';
+    }else{
+        return 'PC';
     }
 }

@@ -139,7 +139,7 @@ namespace Entity.luntuo
         /// 库存基准日期
         /// </summary>
         [Property()]
-        public DateTime CgBaseTime { get; set; }
+        public string CgBaseTime { get; set; }
 
 
         #endregion

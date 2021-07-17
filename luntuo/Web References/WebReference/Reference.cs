@@ -23,7 +23,7 @@ namespace luntuo.WebReference {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="LTPCwebserviceSoap", Namespace="http://tempuri.org/")]
@@ -40,6 +40,8 @@ namespace luntuo.WebReference {
         private System.Threading.SendOrPostCallback JjxufjOperationCompleted;
         
         private System.Threading.SendOrPostCallback ChkSapOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetKcOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -102,6 +104,9 @@ namespace luntuo.WebReference {
         
         /// <remarks/>
         public event ChkSapCompletedEventHandler ChkSapCompleted;
+        
+        /// <remarks/>
+        public event GetKcCompletedEventHandler GetKcCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
@@ -270,6 +275,52 @@ namespace luntuo.WebReference {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("MySoapHeaderValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetKc", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetKc(string strKcDate, string strUserCode, string iDID, string strDateB, string strDateE, string strSeries, string strMrp, string strMatnr, string strLifnr) {
+            object[] results = this.Invoke("GetKc", new object[] {
+                        strKcDate,
+                        strUserCode,
+                        iDID,
+                        strDateB,
+                        strDateE,
+                        strSeries,
+                        strMrp,
+                        strMatnr,
+                        strLifnr});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetKcAsync(string strKcDate, string strUserCode, string iDID, string strDateB, string strDateE, string strSeries, string strMrp, string strMatnr, string strLifnr) {
+            this.GetKcAsync(strKcDate, strUserCode, iDID, strDateB, strDateE, strSeries, strMrp, strMatnr, strLifnr, null);
+        }
+        
+        /// <remarks/>
+        public void GetKcAsync(string strKcDate, string strUserCode, string iDID, string strDateB, string strDateE, string strSeries, string strMrp, string strMatnr, string strLifnr, object userState) {
+            if ((this.GetKcOperationCompleted == null)) {
+                this.GetKcOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetKcOperationCompleted);
+            }
+            this.InvokeAsync("GetKc", new object[] {
+                        strKcDate,
+                        strUserCode,
+                        iDID,
+                        strDateB,
+                        strDateE,
+                        strSeries,
+                        strMrp,
+                        strMatnr,
+                        strLifnr}, this.GetKcOperationCompleted, userState);
+        }
+        
+        private void OnGetKcOperationCompleted(object arg) {
+            if ((this.GetKcCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetKcCompleted(this, new GetKcCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -289,7 +340,7 @@ namespace luntuo.WebReference {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -336,11 +387,11 @@ namespace luntuo.WebReference {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     public delegate void DddxqfjCompletedEventHandler(object sender, DddxqfjCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class DddxqfjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -362,11 +413,11 @@ namespace luntuo.WebReference {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     public delegate void CgxufjCompletedEventHandler(object sender, CgxufjCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class CgxufjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -388,11 +439,11 @@ namespace luntuo.WebReference {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     public delegate void BjxufjCompletedEventHandler(object sender, BjxufjCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class BjxufjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -414,11 +465,11 @@ namespace luntuo.WebReference {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     public delegate void JjxufjCompletedEventHandler(object sender, JjxufjCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class JjxufjCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -440,11 +491,11 @@ namespace luntuo.WebReference {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     public delegate void ChkSapCompletedEventHandler(object sender, ChkSapCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ChkSapCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -452,6 +503,32 @@ namespace luntuo.WebReference {
         private object[] results;
         
         internal ChkSapCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
+    public delegate void GetKcCompletedEventHandler(object sender, GetKcCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetKcCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetKcCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

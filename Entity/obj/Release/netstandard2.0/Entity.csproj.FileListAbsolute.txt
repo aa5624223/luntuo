@@ -3,10 +3,10 @@ D:\WorkSpace\luntuo\Entity\bin\Release\netstandard2.0\Entity.dll
 D:\WorkSpace\luntuo\Entity\bin\Release\netstandard2.0\Entity.pdb
 D:\WorkSpace\luntuo\Entity\bin\Release\netstandard2.0\project_Lw_Utils.dll
 D:\WorkSpace\luntuo\Entity\bin\Release\netstandard2.0\project_Lw_Utils.pdb
-D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.csprojAssemblyReference.cache
 D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.AssemblyInfoInputs.cache
 D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.AssemblyInfo.cs
 D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.csproj.CoreCompileInputs.cache
 D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.csproj.CopyComplete
 D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.dll
 D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.pdb
+D:\WorkSpace\luntuo\Entity\obj\Release\netstandard2.0\Entity.csproj.AssemblyReference.cache

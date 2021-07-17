@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, message, Modal, Input, Form, DatePicker,Select } from 'antd'
+import { Table, Button, message, Modal, Input, Form, DatePicker,Select} from 'antd'
 import moment from 'moment'
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -10,12 +10,11 @@ import { GetDdOrder_columns, GetDdOrder_Det_Status } from '../../config/table-co
 //引入工具
 import { getPageRoles,isOpt,ConvertFomrData } from '../../utils'
 //引入api
-import { getDdOrder, editDdOrder, DdOrder_DetExt, editDdOrder_status, delDdOrder, demantExe, getV_DdOrder_Det } from '../../api'
-//引入模拟数据3
+import { getDdOrder, editDdOrder, DdOrder_DetExt, editDdOrder_status, delDdOrder, demantExe, getV_DdOrder_Det,updateCgBaseBum } from '../../api'
 const { confirm } = Modal;
 export default class DdOrder extends Component {
     //对话框配置
-    formRef = React.createRef();
+    formRef = React.createRef(); 
     formRef2 = React.createRef();
     Modal_DID = 0;
     statusDt = moment();
@@ -36,7 +35,6 @@ export default class DdOrder extends Component {
         //记录当前查询条件
         SearchContation: {},
         Fuc_Del: true,
-        Fuc_Edit: true,
         loading: true,
         current: 1,
         dataTotal: 0,
@@ -56,7 +54,10 @@ export default class DdOrder extends Component {
         Fuc_Exe:false,
         Fuc_Bj:false,
         Fuc_Jj:false,
-        Fuc_Cg:false
+        Fuc_Cg:false,
+        //页面值绑定
+        CgBaseTime:'',
+        Btn_CgBaseload:false
     }
 
     handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -153,7 +154,7 @@ export default class DdOrder extends Component {
     //明细汇总
     OrderDet = () => {
         const { history } = this.props;
-        const { selectedRowKeys,dataSource} = this.state;
+        const { selectedRowKeys} = this.state;
         //IDS
         if (selectedRowKeys.length === 0) {
             message.warn("请先选择要汇总的调度单");
@@ -161,8 +162,7 @@ export default class DdOrder extends Component {
         }
         //
         history.push({ pathname: "/Admin/DdOrder/DdOrderDet", IDS: selectedRowKeys.join(',') });
-    }
-    //表格更改时调用的方法 confirm({ closeDropdown: false }); =查询
+    }//表格更改时调用的方法 confirm({ closeDropdown: false }); =查询
     handleTableChange = async (pagination = {}, filters = {}, sorter = {}) => {
         const { SearchContation } = this.state;
         let { SorterContation } = this.state;
@@ -286,7 +286,7 @@ demantExe = async () => {
 //需求计划明细执行
 demantExe_Det = async (type) => {
     //selectedRowKeys2
-    const { selectedRowKeys2,DataSource_DetStatus} = this.state;
+    const { selectedRowKeys2} = this.state;
     //console.dir(moment(this.statusDt).format("YYYYMMDD"));
     if (selectedRowKeys2.length === 0) {
         message.warn("请选择先选择明细");
@@ -295,7 +295,7 @@ demantExe_Det = async (type) => {
     var formdata = new FormData();
     let user = memoryUtils.user;
     formdata.append("DID", this.Modal_DID);
-    let IDS = "";
+    //let IDS = "";
     //DataSource_DetStatus
 
     formdata.append("IDS", selectedRowKeys2.join(','));
@@ -467,9 +467,45 @@ demantCg = () => {
     history.push({ pathname: "/Admin/DdOrder/DdOrder_CgInfo", DIDS: selectedRowKeys.join(','), LTOrders: LTOrders.join(','),BaseTime:BaseTime});
 
 }
+//更新采购需求基准日期
+demantCgBaseTime = async ()=>{
+    //strKcDate YYYYMMDD
+    //strUserCode 不输入 
+    //iDID 1,2,3
+    const {CgBaseTime,selectedRowKeys,dataSource} = this.state;
+    if(CgBaseTime===""){
+        message.warn("请选择采购库存基准日期");
+        return;
+    }
+    if(selectedRowKeys==="" || selectedRowKeys.length===0){
+        message.warn("请选择要更新采购基准日期的调度单");
+        return;
+    }
+    let datas = dataSource.filter(item=>selectedRowKeys.find(item2=>item2===item.ID));
+    const strKcDate = CgBaseTime.format("YYYYMMDD");
+    datas = datas.find(item=>item.CgStatus!=='已完成');
+    if(datas!==undefined){
+        message.warn("请选择采购状态已完成的调度单");
+        return;
+    }
+    let formData =  new FormData();
+    formData.append("strKcDate",strKcDate);
+    formData.append("iDID",selectedRowKeys.join(','));
+    this.setState({Btn_CgBaseload:true});
+    const result = await updateCgBaseBum(formData);
+    if(result.status === 0){
+        this.setState({Btn_CgBaseload:false});
+        message.success("库存更新成功");
+    }else{
+        this.setState({Btn_CgBaseload:false});
+        message.error("服务器无响应");
+    }
+}
 ModalMsgHide = () => {
     this.setState({ isModalMsgShow: false });
+
 }
+
 componentDidMount = async () => {
     this.handleTableChange();
     let Fuc_Edit=false,Fuc_Exe=false;
@@ -507,7 +543,7 @@ render() {
     //判断权限
 
     const DdOrder_columns = GetDdOrder_columns(this);
-    const { dataSource, loading, SearchContation, ModalTitle, isModalEditShow, current, dataTotal, selectedRowKeys, selectedRowKeys2, isModalExeShow, isModalDetStatusShow, DataSource_DetStatus, isDetTools, isModalMsgShow ,Fuc_Edit,Fuc_Exe,Fuc_Bj,Fuc_Jj,Fuc_Cg,Fuc_BjExe,Fuc_JiExe,Fuc_CgExe} = this.state;
+    const { dataSource,Btn_CgBaseload, loading, SearchContation, ModalTitle, isModalEditShow, current, dataTotal, selectedRowKeys, selectedRowKeys2, isModalExeShow, isModalDetStatusShow, DataSource_DetStatus, isDetTools, isModalMsgShow ,Fuc_Edit,Fuc_Exe,Fuc_Bj,Fuc_Jj,Fuc_Cg,Fuc_BjExe,Fuc_JiExe,Fuc_CgExe} = this.state;
     const rowSelection = {
         selectedRowKeys,
         columnWidth: 15,
@@ -569,16 +605,20 @@ render() {
         <div className="main">
             <div className="toolArea">
                     {Fuc_Edit?<Button type="primary" onClick={() => this.ExcelIn()}>导入调度单</Button>:""}
-                    &emsp;
+                    {Fuc_Edit?" ":""}
                     <Button type="primary" onClick={() => this.OrderDet()} >调度单明细</Button>
                     &emsp;
                     {Fuc_Exe?<Button type="primary" onClick={() => this.demantExe()} >需求计划执行</Button>:""}
-                    &emsp;
+                    {Fuc_Exe?" ":""}
                     {Fuc_Bj?<Button type="primary" onClick={() => this.demantBj()} >钣金需求报表</Button>:""}
-                    &emsp;
+                    {Fuc_Bj?" ":""}
                     {Fuc_Jj?<Button type="primary" onClick={() => this.demantJj()} >机加需求报表</Button>:""}
-                    &emsp;
+                    {Fuc_Jj?" ":""}
                     {Fuc_Cg?<Button type="primary" onClick={() => this.demantCg()} >采购需求报表</Button>:""}
+                    {/* {Fuc_Cg?" ":""}
+                    {Fuc_Cg?<Button type="primary" loading={Btn_CgBaseload} onClick={() => this.demantCgBaseTime()} >更新采购库存基准日期</Button>:""}
+                    {Fuc_Cg?" ":""}
+                    {Fuc_Cg?<DatePicker locale={locale}  format="YYYYMMDD" onChange={(val)=>this.setState({CgBaseTime:val})}></DatePicker>:""} */}
                     <p style={{ textAlign: "left", fontSize: "22px" }}>
                         当前查询条件:
                         {SearchContation.LTOrder ? "订单号:" + SearchContation.LTOrder + "" : ""}

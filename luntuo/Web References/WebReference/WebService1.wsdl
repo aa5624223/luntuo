@@ -89,6 +89,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetKc">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strKcDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strUserCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="iDID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDateB" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strDateE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strSeries" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMrp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strMatnr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strLifnr" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetKcResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetKcResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="DddxqfjSoapIn">
@@ -136,6 +158,15 @@
   <wsdl:message name="ChkSapMySoapHeader">
     <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
   </wsdl:message>
+  <wsdl:message name="GetKcSoapIn">
+    <wsdl:part name="parameters" element="tns:GetKc" />
+  </wsdl:message>
+  <wsdl:message name="GetKcSoapOut">
+    <wsdl:part name="parameters" element="tns:GetKcResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetKcMySoapHeader">
+    <wsdl:part name="MySoapHeader" element="tns:MySoapHeader" />
+  </wsdl:message>
   <wsdl:portType name="LTPCwebserviceSoap">
     <wsdl:operation name="Dddxqfj">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">调度单需求分解</wsdl:documentation>
@@ -161,6 +192,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">物料及BOM有效性检查</wsdl:documentation>
       <wsdl:input message="tns:ChkSapSoapIn" />
       <wsdl:output message="tns:ChkSapSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKc">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取库存</wsdl:documentation>
+      <wsdl:input message="tns:GetKcSoapIn" />
+      <wsdl:output message="tns:GetKcSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LTPCwebserviceSoap" type="tns:LTPCwebserviceSoap">
@@ -215,6 +251,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetKc">
+      <soap:operation soapAction="http://tempuri.org/GetKc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetKcMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="LTPCwebserviceSoap12" type="tns:LTPCwebserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -263,6 +309,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:ChkSapMySoapHeader" part="MySoapHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKc">
+      <soap12:operation soapAction="http://tempuri.org/GetKc" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetKcMySoapHeader" part="MySoapHeader" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -178,6 +178,15 @@ export const editDdOrderDet = (formdata) =>{
     formdata.append("OptUserCode",user.UserCode);
     return ajax(BASE+'Home/editDdOrderDet',formdata,'POST')
 }
+/**
+ * 更新采购基准库存
+ * @param {*} formdata 
+ */
+export const updateCgBaseBum = (formdata)=>{ 
+    const user = localStore.getUser();
+    formdata.append("OptUserCode",user.UserCode);
+    return ajax(BASE+'Home/updateCgBaseBum',formdata,'POST')
+}
 /* 修改End */
 /* 删除 */
 //删除用户

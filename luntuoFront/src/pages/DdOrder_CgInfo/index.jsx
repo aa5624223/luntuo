@@ -13,7 +13,7 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 //自定义方法
 import { ConvertFomrData } from '../../utils'
 //导入api
-import { getV_Sum_Num_CgInfo } from '../../api'
+import { getV_Sum_Num_CgInfo,updateCgBaseBum } from '../../api'
 //Excel
 import XLSX from 'xlsx'
 //导入配置
@@ -22,7 +22,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 //引入缓存
 import store from 'store'
 const { RangePicker } = DatePicker;
-//表格扩展
+//表格扩展 
 const expandedRowRender = (record, index) => {
     //DdOrder_Det_Sum_columns
     //console.dir(record);
@@ -86,15 +86,14 @@ const expandedRowRender = (record, index) => {
             newColums.push(singleColums);
             newData.push(singleArr);
         }
-        
         newColums.forEach((item2,index2)=>{
             let dt5 = moment(newData[index2]["dt"]).startOf("month");
             let dt6 = moment(newData[index2]["dt"]).endOf("month");
             if(moment(dt3).isBetween(dt5,dt6)){
-                newData[index2][moment(dt3).format('DD')] = item.Menge*1;
+                //console.log(newData[index2][moment(dt3).format('DD')] );
+                newData[index2][moment(dt3).format('DD')] += item.Menge*1;
             }
             //moment(dt3).format('YYYYMM')
-            
         })
     })
     // return (<div>
@@ -131,13 +130,16 @@ export default class DdOrder_CgInfo extends Component {
     formRef = React.createRef();
     state = {
         dataSource: [],
+        ViewMode:'V_CgInfo',//当前对应的视图是哪个 V_CgInfo V_CgInfo_kc
         loading: true,
+        Btn_CgBaseload:false,
         DIDS: "",
         SearchContation: {},
         current: 1,
         dataTotal: 0,
         LTOrders: "",
         BaseTime: "",
+        CgBaseTime:"",
         ExcelLoading: false,
         SpinTip:'',
         model: 0,
@@ -152,8 +154,9 @@ export default class DdOrder_CgInfo extends Component {
             return "";
         }
     }
+    //导出Excel
     ModalExcelOut = async () => {
-        var { DIDS, ExcelLoading, LTOrders ,model} = this.state;//当前的订单
+        var { DIDS, ExcelLoading, LTOrders ,model,ViewMode} = this.state;//当前的订单
         if (ExcelLoading) {
             message.warn("数据打包中，请勿重复点击");
             return;
@@ -167,6 +170,7 @@ export default class DdOrder_CgInfo extends Component {
         if(tempFormData.model!==undefined && tempFormData.model.length!==undefined){
             tempFormData.model = tempFormData.model[0];
         }
+        tempFormData.ViewMode = ViewMode;
         const FormData = ConvertFomrData(tempFormData);
         //添加loading效果
         this.setState({ ExcelLoading: true ,SpinTip:'Excel数据打包中'});
@@ -180,7 +184,7 @@ export default class DdOrder_CgInfo extends Component {
             var i = 0;
             for (; i < jo_V_CgInfoSum.length; i++) {
                 jo_V_CgInfoSum[i].ID = "ID" + i;
-                let TimeColum = [];
+                //let TimeColum = [];
                 for (var j=0; j < jo_V_CgInfo.length; j++) {
                     if (model === "1") {
                         if (jo_V_CgInfoSum[i].Matnr === jo_V_CgInfo[j].Matnr && jo_V_CgInfoSum[i].Series === jo_V_CgInfo[j].Series) {
@@ -218,6 +222,8 @@ export default class DdOrder_CgInfo extends Component {
                         let temp = timeCol.find(item=>{
                             if(item===Number(key2)){
                                 return true;
+                            }else{
+                                return false;
                             }
                         })
                         if(temp===undefined){
@@ -264,6 +270,33 @@ export default class DdOrder_CgInfo extends Component {
         const { history } = this.props;
         history.goBack();
     }
+    //更新库存基准日期
+    demantCgBaseTime = async ()=>{
+        const {CgBaseTime,DIDS} = this.state;
+        if(CgBaseTime===""){
+            message.warn("请选择采购库存基准日期");
+            return;
+        }
+        
+        let strKcDate =  CgBaseTime.format("YYYYMMDD");
+        let BaseTime = CgBaseTime.format("YYYY/MM/DD");
+        let formData =  new FormData();
+        formData.append("strKcDate",strKcDate);
+        formData.append("iDID",DIDS);
+        this.setState({Btn_CgBaseload:true});
+        const result = await updateCgBaseBum(formData);
+        if(result.code === "200"){
+            this.setState({Btn_CgBaseload:false,BaseTime:BaseTime,ViewMode:'V_CgInfo_kc'},()=>{//更改当前的查询条件
+                this.SearchData();
+            });
+            message.success("库存更新成功,等待查询数据...");
+            //接下来更新库存上的内容
+            
+        }else{
+            this.setState({Btn_CgBaseload:false});
+            message.error("服务器无响应");
+        }
+    }
     componentDidMount = () => {
         //DIDS 和LTOrdders 必须对应
         var { DIDS, LTOrders,BaseTime } = this.props.location;
@@ -284,7 +317,7 @@ export default class DdOrder_CgInfo extends Component {
         })
     }
     SearchData = async (pagination = {}) => {
-        var { DIDS, SearchContation } = this.state;
+        var { DIDS, SearchContation,ViewMode} = this.state;
         const form = this.formRef.current;
         if (pagination.page === undefined) {
             SearchContation.page = 1;
@@ -307,7 +340,7 @@ export default class DdOrder_CgInfo extends Component {
 
         tempFormData.page = SearchContation.page;
         tempFormData.pageSize = SearchContation.pageSize;
-
+        tempFormData.ViewMode = ViewMode;
         const FormData = ConvertFomrData(tempFormData);
         this.setState({ loading: true })
         const result = await getV_Sum_Num_CgInfo(FormData);
@@ -352,6 +385,7 @@ export default class DdOrder_CgInfo extends Component {
                     preSum = jo_V_CgInfoSum[i];
                 }
             }
+            console.dir(jo_V_CgInfoSum);
             this.setState({ loading: false, dataSource: jo_V_CgInfoSum, current: tempFormData.page, dataTotal: result.jo_V_CgInfoSum.V_CgInfo_Count, model: tempFormData.model })
         } else {
             this.setState({ loading: false });
@@ -388,7 +422,7 @@ export default class DdOrder_CgInfo extends Component {
         this.setState({ expandRowKeys });
     }
     render() {
-        const { loading, dataSource, LTOrders,BaseTime, current, dataTotal, ExcelLoading, model, expandRowKeys ,SpinTip} = this.state;
+        const { loading,Btn_CgBaseload, dataSource, LTOrders,BaseTime, current, dataTotal, ExcelLoading, model, expandRowKeys ,SpinTip} = this.state;
         
         return (
             <div className="main">
@@ -457,13 +491,17 @@ export default class DdOrder_CgInfo extends Component {
                     </Form>
                 </div>
                 <div>
-                    <div style={{ width: "75%", float: "left" }}>
-                        <h1 style={{ fontSize: '20px', paddingLeft: '20px', lineHeight: '35px' }}>
+                    <div style={{ width: "59%", float: "left" }}>
+                        <h1 style={{ fontSize: '18px', paddingLeft: '15px', lineHeight: '35px'}}>
                             <Button onClick={() => this.OpenOrCloseAll()}>展开/关闭所有行</Button>
                             &nbsp;单号:{LTOrders},库存基准日期:{BaseTime}
                         </h1>
                     </div>
-                    <div style={{ width: "24%", float: "left", textAlign: 'right' }}>
+                    <div style={{ width: "40%", float: "left", textAlign: 'right',lineHeight: '35px'}}>
+                        <Button type="primary" loading={Btn_CgBaseload} onClick={() => this.demantCgBaseTime()} >更新库存基准日期</Button>
+                        &emsp;
+                        <DatePicker locale={locale}  format="YYYYMMDD" onChange={(val)=>this.setState({CgBaseTime:val})}></DatePicker>
+                        &emsp;
                         <Button type="primary" onClick={() => this.ModalExcelOut()} >Excel导出</Button>
                     </div>
                 </div>

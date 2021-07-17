@@ -1,0 +1,27 @@
+/* pages/login/login.wxss */
+.wrapper{
+    position:relative;
+    z-index: 90;
+    padding-bottom: 40px;
+  }
+  .left-top-sign{
+    font-size: 55px;
+    color: #f6f6f6;
+    position:relative;
+    left: 16px;
+    width: 65%;
+  }
+  .welcome{
+    position:relative;
+    left: 30px;
+    top: -55px;
+    font-size: 25px;
+    color: #555;
+    width: 65%;
+  }
+  .InputArea{
+    padding: 0 30px;
+  }
+  .loginBtn{
+    width: 100%;
+  }

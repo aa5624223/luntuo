@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import { Button, Input, Form, DatePicker, Table, message, Spin, Checkbox } from 'antd'
 //导入方法
 import moment from 'moment'
-//自定义组件
-import LinkButton from '../../components/link-button';
 //引入less
 import './index.less'
 //本地化
@@ -13,13 +11,11 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 //自定义方法
 import { ConvertFomrData } from '../../utils'
 //导入api
-import { getV_Sum_Num_CgInfo } from '../../api'
+import { getV_Sum_Num_CgInfo,updateCgBaseBum } from '../../api'
 //Excel
 import XLSX from 'xlsx'
 //导入配置
 import { DdOrder_CgInfo_columns } from '../../config/table-columns'
-//引入缓存
-import store from 'store'
 const { RangePicker } = DatePicker;
 //表格扩展
 const expandedRowRender = (record, index) => {
@@ -90,7 +86,7 @@ const expandedRowRender = (record, index) => {
             let dt5 = moment(newData[index2]["dt"]).startOf("month");
             let dt6 = moment(newData[index2]["dt"]).endOf("month");
             if (moment(dt3).isBetween(dt5, dt6)) {
-                newData[index2][moment(dt3).format('DD')] = item.Menge * 1;
+                newData[index2][moment(dt3).format('DD')] += item.Menge * 1;
             }
             //moment(dt3).format('YYYYMM')
 
@@ -130,7 +126,9 @@ export default class Report4_1 extends Component {
     formRef = React.createRef();
     state = {
         dataSource: [],
+        ViewMode:'V_CgInfo',
         loading: true,
+        Btn_CgBaseload:false,
         SearchContation: {},
         current: 1,
         dataTotal: 0,
@@ -148,7 +146,7 @@ export default class Report4_1 extends Component {
         }
     }
     ModalExcelOut = async () => {
-        var {ExcelLoading,model} = this.state;//当前的订单
+        var {ExcelLoading,model,ViewMode} = this.state;//当前的订单
         if (ExcelLoading) {
             message.warn("数据打包中，请勿重复点击");
             return;
@@ -161,6 +159,7 @@ export default class Report4_1 extends Component {
         if(tempFormData.model!==undefined && tempFormData.model.length!==undefined){
             tempFormData.model = tempFormData.model[0];
         }
+        tempFormData = ViewMode;
         const FormData = ConvertFomrData(tempFormData);
         this.setState({ ExcelLoading: true ,SpinTip:'Excel数据打包中'});
         const result = await getV_Sum_Num_CgInfo(FormData);
@@ -209,6 +208,7 @@ export default class Report4_1 extends Component {
                             if(item===Number(key2)){
                                 return true;
                             }
+                            return false;
                         })
                         if(temp===undefined){
                             timeCol.push(Number(key2));
@@ -250,13 +250,43 @@ export default class Report4_1 extends Component {
             message.error("网络错误")
         }
     }
-
+    demantCgBaseTime = async ()=>{
+        const {CgBaseTime,dataSource} = this.state;
+        if(CgBaseTime===""){
+            message.warn("请选择采购库存基准日期");
+            return;
+        }
+        if(dataSource.length===0){
+            message.warn("没有采购数据,无法更新库存");
+            return;
+        }
+        let strKcDate =  CgBaseTime.format("YYYYMMDD");
+        let BaseTime = CgBaseTime.format("YYYY/MM/DD");
+        let formData =  new FormData();
+        formData.append("strKcDate",strKcDate);
+        this.setState({Btn_CgBaseload:true});
+        const result = await updateCgBaseBum(formData);
+        if(result.code === "200"){
+            setTimeout(3000,()=>{
+                this.setState({Btn_CgBaseload:false,ViewMode:'V_CgInfo_kc'},()=>{//更改当前的查询条件
+                    this.SearchData();
+                
+                });
+                
+            })
+            
+            message.success("库存更新成功,等待查询数据...");
+        }else{
+            this.setState({Btn_CgBaseload:false});
+            message.error("服务器无响应");
+        }
+    }
     componentDidMount = ()=>{
         this.SearchData();
     }
 
     SearchData = async  (pagination = {}) => {
-        var { SearchContation } = this.state;
+        var { SearchContation,ViewMode} = this.state;
         const form = this.formRef.current;
         if (pagination.page === undefined) {
             SearchContation.page = 1;
@@ -273,6 +303,7 @@ export default class Report4_1 extends Component {
         }
         tempFormData.page = SearchContation.page;
         tempFormData.pageSize = SearchContation.pageSize;
+        tempFormData.ViewMode = ViewMode;
         const FormData = ConvertFomrData(tempFormData);
         this.setState({ loading: true })
         const result = await getV_Sum_Num_CgInfo(FormData);
@@ -322,6 +353,7 @@ export default class Report4_1 extends Component {
             message.error("网络错误");
         }
     }
+    
     OpenOrCloseAll = () => {
         //expandRowKeys
         const { expandRowKeys, dataSource } = this.state;
@@ -352,7 +384,7 @@ export default class Report4_1 extends Component {
     }
 
     render() {
-        const { loading, dataSource, current, dataTotal, ExcelLoading, model, expandRowKeys ,SpinTip} = this.state;
+        const { loading,Btn_CgBaseload, dataSource, current, dataTotal, ExcelLoading, model, expandRowKeys ,SpinTip} = this.state;
         return (
             <div className="main">
                 <div className="toolArea" >
@@ -416,12 +448,16 @@ export default class Report4_1 extends Component {
                     </Form>
                 </div>
                 <div>
-                    <div style={{ width: "75%", float: "left" }}>
+                    <div style={{ width: "59%", float: "left" }}>
                         <h1 style={{ fontSize: '20px', paddingLeft: '20px', lineHeight: '35px' }}>
                             <Button onClick={() => this.OpenOrCloseAll()}>展开/关闭所有行</Button>
                         </h1>
                     </div>
-                    <div style={{ width: "24%", float: "left", textAlign: 'right' }}>
+                    <div style={{ width: "40%", float: "left", textAlign: 'right' }}>
+                    <Button type="primary" loading={Btn_CgBaseload} onClick={() => this.demantCgBaseTime()} >更新库存基准日期</Button>
+                        &emsp;
+                        <DatePicker locale={locale}  format="YYYYMMDD" onChange={(val)=>this.setState({CgBaseTime:val})}></DatePicker>
+                        &emsp;
                         <Button type="primary" onClick={() => this.ModalExcelOut()} >Excel导出</Button>
                     </div>
                 </div>

@@ -65,7 +65,7 @@ class Header extends Component {
                 </div>
                 <div className="Header-btm">
                     <div className="Header-btm-left">
-                        <h1>{TopTitle}</h1>
+                        <h1 style={{fontSize:'100%',margin:'0px'}}>{TopTitle}</h1>
                     </div>
                     <div className="Header-btn-right">
                         {/* <span>时间:{cTime}</span> */}

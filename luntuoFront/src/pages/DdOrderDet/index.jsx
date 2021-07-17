@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 //引入组件
-import {Table,message,Button,Modal,Input,Form,DatePicker,Test} from 'antd'
+import {Table,message,Button,Modal,Input,Form,DatePicker} from 'antd'
 import moment from 'moment'
 //自定义组件
 import LinkButton from '../../components/link-button';
@@ -164,7 +164,7 @@ export default class DdOrderDet extends Component {
             sheetArray
         );
         sheet["!cols"]=[
-            {wch:15},{wch:18},{wch:18},{wch:12},{wch:15},{wch:12},{wch:80},{wch:12},,{wch:12},{wch:12},{wch:25}
+            {wch:15},{wch:18},{wch:18},{wch:12},{wch:15},{wch:12},{wch:80},{wch:12},{wch:12},{wch:12},{wch:25}
         ];
         XLSX.utils.book_append_sheet(book, sheet, 'Sheet1')
         XLSX.writeFile(book, '调度单'+moment().format('YYYYMMDD')+'.xlsx')
@@ -224,7 +224,7 @@ export default class DdOrderDet extends Component {
     return <Table bordered size="small" rowKey="ID" columns={columns} dataSource={data} pagination={false}></Table>
     }
     render() {
-        const {dataSource,loading,isModalEditShow,Fuc_Edit} = this.state;
+        const {dataSource,loading,isModalEditShow} = this.state;
         const expandedRowRender = this.expandedRowRender;
         return (
             <div className="main">

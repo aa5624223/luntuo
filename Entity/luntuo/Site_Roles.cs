@@ -59,16 +59,23 @@ namespace Entity.luntuo
         public string cComponey { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 是否需要权限赋值
         /// </summary>
         [Property(Model = 3)]
         public int isAuth { get; set; }
 
         /// <summary>
-        /// 用户名
+        /// 是否有子菜单
         /// </summary>
         [Property(Model = 3)]
         public int isSubMenu { get; set; }
+
+        /// <summary>
+        /// 是否为手机端
+        /// </summary>
+        [Property(Model = 3)]
+        public int isMobile { get; set; }
+
 
         #endregion
     }

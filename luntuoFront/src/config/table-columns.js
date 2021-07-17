@@ -971,11 +971,13 @@ export const GetDdOrder_columns = _this=>{
                 multiple:1,
             },
             render:function (val) {
-                if(val!==""){
-                    return moment(val).format("YYYY/MM/DD");
-                }else{
-                    return val;
-                }
+                
+                // if(val!==""){
+                //     return moment(val).format("YYYY/MM/DD");
+                // }else{
+                //     return val;
+                // }
+                return val;
             }
         },
         {
@@ -1112,12 +1114,7 @@ export const GetDdOrder_columns = _this=>{
             key: 'CgBaseTime',
             width: 28,
             render:function(val) {
-                if(val!==""){
-                    return moment(val).format("YYYY/MM/DD");
-                }else{
-                    return val;
-                }
-                
+                return val;
             }
         },
         {

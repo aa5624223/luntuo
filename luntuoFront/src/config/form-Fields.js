@@ -17,7 +17,13 @@ const TypeList = (TypeInfo)=>{
   })
   return Options;
 } 
-
+//获得工厂类别下拉列表
+export const GetFalineList = ()=>{
+  return [
+    {label:'南线',value:'南线'},
+    {label:'北线',value:'北线'}
+  ]
+}
 //入库单的搜索表单配置
 /*
     类型 

@@ -226,7 +226,7 @@ export default class AdminUserConfig extends Component {
                     {
                         myTabs.map(item => {
                             return (
-                                <TabPane tab={item.title} key={item.key}>
+                                <TabPane tab={item.isMobile?'(手机版)'+item.title:item.title} key={item.key}>
                                     {
                                         item.children.map(item2 => {
                                             if (item2.isAuth) {
@@ -285,6 +285,7 @@ export default class AdminUserConfig extends Component {
             let menuList = depTree(Site_Roles,0);
             menuList = OrderTree(menuList);
             myTabs = menuList.filter(item => {
+                console.dir(item);
                 if (item.isAuth) {
                     return true;
                 } else {
@@ -350,7 +351,6 @@ export default class AdminUserConfig extends Component {
                 }
             }
         )
-
         //UserConfigFielsds
         return (
             <Row className="Content-main">

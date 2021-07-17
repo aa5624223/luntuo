@@ -88,9 +88,9 @@ D:\WorkSpace\luntuo\luntuo\bin\zh-Hans\System.Web.Razor.resources.dll
 D:\WorkSpace\luntuo\luntuo\bin\zh-Hans\System.Web.WebPages.resources.dll
 D:\WorkSpace\luntuo\luntuo\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
 D:\WorkSpace\luntuo\luntuo\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
-D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.csprojAssemblyReference.cache
 D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.csproj.CoreCompileInputs.cache
 D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.csproj.CopyComplete
 D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.dll
 D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.pdb
 D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.XmlSerializers.dll
+D:\WorkSpace\luntuo\luntuo\obj\Release\luntuo.csproj.AssemblyReference.cache

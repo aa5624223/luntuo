@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\iiswork\luntuo</_PublishTargetUrl>
-    <History>True|2021-06-18T05:09:02.1376445Z;True|2021-06-18T13:07:55.0002442+08:00;True|2021-06-17T08:52:10.6698786+08:00;True|2021-06-04T14:31:06.9693452+08:00;True|2021-05-31T10:09:25.2066904+08:00;True|2021-05-31T09:40:46.6724397+08:00;True|2021-05-31T09:27:30.0560522+08:00;True|2021-05-27T14:18:47.3490808+08:00;True|2021-05-26T14:57:18.1464482+08:00;True|2021-05-26T10:34:06.0262147+08:00;True|2021-05-25T11:11:03.9432199+08:00;True|2021-05-24T16:51:23.0889169+08:00;True|2021-05-21T14:09:23.6480802+08:00;True|2021-05-19T10:15:36.8490023+08:00;True|2021-05-19T09:34:10.6411501+08:00;True|2021-05-18T15:29:34.5069542+08:00;True|2021-05-10T15:00:42.4041124+08:00;True|2021-05-10T13:26:55.1668100+08:00;True|2021-05-10T13:26:00.3266184+08:00;True|2021-05-10T10:49:33.2892113+08:00;True|2021-05-10T10:40:31.5546024+08:00;True|2021-05-10T10:01:39.4866062+08:00;True|2021-05-08T14:33:03.7862633+08:00;True|2021-05-08T10:41:31.2838640+08:00;True|2021-05-08T10:40:15.9719169+08:00;True|2021-05-08T10:04:21.9160511+08:00;True|2021-05-08T09:27:53.6811226+08:00;True|2021-05-08T09:12:13.0562485+08:00;True|2021-05-07T17:08:14.5968240+08:00;True|2021-05-07T11:03:37.2543563+08:00;True|2021-05-07T10:51:30.1215628+08:00;True|2021-05-07T09:43:57.2875025+08:00;True|2021-05-06T17:02:31.3992789+08:00;True|2021-05-06T13:56:17.8336092+08:00;True|2021-05-06T11:13:11.9473407+08:00;True|2021-04-30T15:54:32.2320904+08:00;True|2021-04-29T13:18:53.9393607+08:00;True|2021-04-28T15:28:34.9248799+08:00;True|2021-04-28T15:15:26.9039985+08:00;True|2021-04-28T10:26:30.8492048+08:00;True|2021-04-27T16:59:14.8091450+08:00;True|2021-04-27T16:53:40.8182697+08:00;True|2021-04-24T15:44:11.0218478+08:00;True|2021-04-24T15:07:11.9545863+08:00;True|2021-04-24T14:34:22.5149206+08:00;True|2021-04-23T12:55:44.7437092+08:00;True|2021-04-22T17:01:30.2831407+08:00;True|2021-04-21T11:01:24.7797881+08:00;True|2021-04-21T10:30:37.8598931+08:00;True|2021-04-18T12:48:20.7785096+08:00;True|2021-04-17T13:54:01.7161049+08:00;True|2021-04-15T16:21:20.3305117+08:00;True|2021-04-15T16:02:58.2470938+08:00;True|2021-04-15T13:39:23.7311929+08:00;</History>
+    <History>True|2021-06-23T02:56:30.9202282Z;True|2021-06-23T10:54:17.4876708+08:00;True|2021-06-18T13:09:02.1376445+08:00;True|2021-06-18T13:07:55.0002442+08:00;True|2021-06-17T08:52:10.6698786+08:00;True|2021-06-04T14:31:06.9693452+08:00;True|2021-05-31T10:09:25.2066904+08:00;True|2021-05-31T09:40:46.6724397+08:00;True|2021-05-31T09:27:30.0560522+08:00;True|2021-05-27T14:18:47.3490808+08:00;True|2021-05-26T14:57:18.1464482+08:00;True|2021-05-26T10:34:06.0262147+08:00;True|2021-05-25T11:11:03.9432199+08:00;True|2021-05-24T16:51:23.0889169+08:00;True|2021-05-21T14:09:23.6480802+08:00;True|2021-05-19T10:15:36.8490023+08:00;True|2021-05-19T09:34:10.6411501+08:00;True|2021-05-18T15:29:34.5069542+08:00;True|2021-05-10T15:00:42.4041124+08:00;True|2021-05-10T13:26:55.1668100+08:00;True|2021-05-10T13:26:00.3266184+08:00;True|2021-05-10T10:49:33.2892113+08:00;True|2021-05-10T10:40:31.5546024+08:00;True|2021-05-10T10:01:39.4866062+08:00;True|2021-05-08T14:33:03.7862633+08:00;True|2021-05-08T10:41:31.2838640+08:00;True|2021-05-08T10:40:15.9719169+08:00;True|2021-05-08T10:04:21.9160511+08:00;True|2021-05-08T09:27:53.6811226+08:00;True|2021-05-08T09:12:13.0562485+08:00;True|2021-05-07T17:08:14.5968240+08:00;True|2021-05-07T11:03:37.2543563+08:00;True|2021-05-07T10:51:30.1215628+08:00;True|2021-05-07T09:43:57.2875025+08:00;True|2021-05-06T17:02:31.3992789+08:00;True|2021-05-06T13:56:17.8336092+08:00;True|2021-05-06T11:13:11.9473407+08:00;True|2021-04-30T15:54:32.2320904+08:00;True|2021-04-29T13:18:53.9393607+08:00;True|2021-04-28T15:28:34.9248799+08:00;True|2021-04-28T15:15:26.9039985+08:00;True|2021-04-28T10:26:30.8492048+08:00;True|2021-04-27T16:59:14.8091450+08:00;True|2021-04-27T16:53:40.8182697+08:00;True|2021-04-24T15:44:11.0218478+08:00;True|2021-04-24T15:07:11.9545863+08:00;True|2021-04-24T14:34:22.5149206+08:00;True|2021-04-23T12:55:44.7437092+08:00;True|2021-04-22T17:01:30.2831407+08:00;True|2021-04-21T11:01:24.7797881+08:00;True|2021-04-21T10:30:37.8598931+08:00;True|2021-04-18T12:48:20.7785096+08:00;True|2021-04-17T13:54:01.7161049+08:00;True|2021-04-15T16:21:20.3305117+08:00;True|2021-04-15T16:02:58.2470938+08:00;True|2021-04-15T13:39:23.7311929+08:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -15,22 +15,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/Entity.dll">
-      <publishTime>06/17/2021 14:48:50</publishTime>
+      <publishTime>07/09/2021 15:24:22</publishTime>
     </File>
     <File Include="bin/Entity.pdb">
-      <publishTime>06/17/2021 14:48:50</publishTime>
+      <publishTime>07/09/2021 15:24:22</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>10/19/2020 06:40:10</publishTime>
     </File>
     <File Include="bin/luntuo.dll">
-      <publishTime>06/18/2021 13:09:01</publishTime>
+      <publishTime>07/09/2021 15:24:23</publishTime>
     </File>
     <File Include="bin/luntuo.pdb">
-      <publishTime>06/18/2021 13:09:01</publishTime>
+      <publishTime>07/09/2021 15:24:23</publishTime>
     </File>
     <File Include="bin/luntuo.XmlSerializers.dll">
-      <publishTime>06/18/2021 13:09:01</publishTime>
+      <publishTime>07/09/2021 15:24:23</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>
@@ -42,10 +42,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/22/2019 01:06:16</publishTime>
     </File>
     <File Include="bin/project_Lw_Utils.dll">
-      <publishTime>04/12/2021 15:12:34</publishTime>
+      <publishTime>06/23/2021 10:43:08</publishTime>
     </File>
     <File Include="bin/project_Lw_Utils.pdb">
-      <publishTime>04/12/2021 15:12:34</publishTime>
+      <publishTime>06/23/2021 10:43:08</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>08/08/2018 05:38:48</publishTime>
@@ -270,19 +270,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/16/2021 14:46:38</publishTime>
     </File>
     <File Include="ExcelDemo/机加需求分解模板.xls">
-      <publishTime>04/24/2021 14:33:39</publishTime>
+      <publishTime>06/30/2021 08:40:21</publishTime>
     </File>
     <File Include="ExcelDemo/物料班组.xlsx">
-      <publishTime>05/07/2021 11:03:07</publishTime>
+      <publishTime>06/30/2021 08:40:22</publishTime>
     </File>
     <File Include="ExcelDemo/调度单模板.xls">
-      <publishTime>04/29/2021 13:13:13</publishTime>
+      <publishTime>06/30/2021 08:40:22</publishTime>
     </File>
     <File Include="ExcelDemo/采购需求分解模板.xls">
-      <publishTime>04/23/2021 12:53:35</publishTime>
+      <publishTime>06/30/2021 08:40:23</publishTime>
     </File>
     <File Include="ExcelDemo/钣金需求分解模板.xls">
-      <publishTime>04/24/2021 14:33:12</publishTime>
+      <publishTime>06/30/2021 08:40:21</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>03/16/2021 14:46:38</publishTime>
@@ -309,16 +309,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/29/2021 08:32:16</publishTime>
     </File>
     <File Include="luntuo/asset-manifest.json">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/css/reset.css">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/favicon.ico">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/index.html">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
+    </File>
+    <File Include="luntuo/logo.png">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/manifest.json">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/robots.txt">
+      <publishTime>07/02/2021 17:28:58</publishTime>
     </File>
     <File Include="luntuo/static/css/2.02e8c717.chunk.css">
       <publishTime>05/26/2021 10:33:43</publishTime>
@@ -391,6 +400,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="luntuo/static/css/2.49162b99.chunk.css.map">
       <publishTime>04/30/2021 15:54:13</publishTime>
+    </File>
+    <File Include="luntuo/static/css/2.4eea24c6.chunk.css">
+      <publishTime>06/30/2021 08:30:41</publishTime>
+    </File>
+    <File Include="luntuo/static/css/2.4eea24c6.chunk.css.map">
+      <publishTime>06/30/2021 08:30:41</publishTime>
     </File>
     <File Include="luntuo/static/css/2.5330fe9b.chunk.css">
       <publishTime>04/18/2021 12:47:58</publishTime>
@@ -494,6 +509,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="luntuo/static/css/2.b07ba230.chunk.css.map">
       <publishTime>04/27/2021 16:53:27</publishTime>
     </File>
+    <File Include="luntuo/static/css/2.b6541f7d.chunk.css">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/static/css/2.b6541f7d.chunk.css.map">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
     <File Include="luntuo/static/css/2.bc2b3fe6.chunk.css">
       <publishTime>05/07/2021 10:50:15</publishTime>
     </File>
@@ -525,10 +546,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/10/2021 15:00:26</publishTime>
     </File>
     <File Include="luntuo/static/css/2.ee4c51f4.chunk.css">
-      <publishTime>04/29/2021 13:18:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/css/2.ee4c51f4.chunk.css.map">
-      <publishTime>04/29/2021 13:18:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/css/2.f280dfc3.chunk.css">
       <publishTime>04/22/2021 17:01:15</publishTime>
@@ -560,17 +581,29 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="luntuo/static/css/main.4359855e.chunk.css.map">
       <publishTime>04/30/2021 15:54:13</publishTime>
     </File>
+    <File Include="luntuo/static/css/main.53ec0668.chunk.css">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/static/css/main.53ec0668.chunk.css.map">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
     <File Include="luntuo/static/css/main.541060d1.chunk.css">
-      <publishTime>04/28/2021 10:25:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/css/main.541060d1.chunk.css.map">
-      <publishTime>04/28/2021 10:25:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/css/main.6eaf64ea.chunk.css">
       <publishTime>06/18/2021 13:08:40</publishTime>
     </File>
     <File Include="luntuo/static/css/main.6eaf64ea.chunk.css.map">
       <publishTime>06/18/2021 13:08:40</publishTime>
+    </File>
+    <File Include="luntuo/static/css/main.7ad4c926.chunk.css">
+      <publishTime>06/30/2021 08:30:41</publishTime>
+    </File>
+    <File Include="luntuo/static/css/main.7ad4c926.chunk.css.map">
+      <publishTime>06/30/2021 08:30:41</publishTime>
     </File>
     <File Include="luntuo/static/css/main.dc9bc78f.chunk.css">
       <publishTime>04/28/2021 15:27:45</publishTime>
@@ -644,6 +677,15 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="luntuo/static/js/2.61ca7ea1.chunk.js.map">
       <publishTime>04/15/2021 16:02:37</publishTime>
     </File>
+    <File Include="luntuo/static/js/2.6db71dbe.chunk.js">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/static/js/2.6db71dbe.chunk.js.LICENSE.txt">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/static/js/2.6db71dbe.chunk.js.map">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
     <File Include="luntuo/static/js/2.6e99e515.chunk.js">
       <publishTime>05/08/2021 09:11:56</publishTime>
     </File>
@@ -654,13 +696,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/08/2021 09:11:56</publishTime>
     </File>
     <File Include="luntuo/static/js/2.84ca4254.chunk.js">
-      <publishTime>04/28/2021 10:25:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/js/2.84ca4254.chunk.js.LICENSE.txt">
-      <publishTime>04/28/2021 10:25:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/js/2.84ca4254.chunk.js.map">
-      <publishTime>04/28/2021 10:25:33</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
+    </File>
+    <File Include="luntuo/static/js/2.88001299.chunk.js">
+      <publishTime>06/30/2021 08:30:41</publishTime>
+    </File>
+    <File Include="luntuo/static/js/2.88001299.chunk.js.LICENSE.txt">
+      <publishTime>06/30/2021 08:30:41</publishTime>
+    </File>
+    <File Include="luntuo/static/js/2.88001299.chunk.js.map">
+      <publishTime>06/30/2021 08:30:41</publishTime>
     </File>
     <File Include="luntuo/static/js/2.a2ef00d5.chunk.js">
       <publishTime>05/07/2021 17:07:55</publishTime>
@@ -866,6 +917,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="luntuo/static/js/main.83dc974e.chunk.js.map">
       <publishTime>05/26/2021 10:33:43</publishTime>
     </File>
+    <File Include="luntuo/static/js/main.858770ff.chunk.js">
+      <publishTime>07/09/2021 15:23:33</publishTime>
+    </File>
+    <File Include="luntuo/static/js/main.858770ff.chunk.js.map">
+      <publishTime>07/09/2021 15:23:33</publishTime>
+    </File>
     <File Include="luntuo/static/js/main.8dffee31.chunk.js">
       <publishTime>04/28/2021 15:27:45</publishTime>
     </File>
@@ -914,6 +971,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="luntuo/static/js/main.a33767b9.chunk.js.map">
       <publishTime>05/19/2021 09:33:56</publishTime>
     </File>
+    <File Include="luntuo/static/js/main.a7624d31.chunk.js">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
+    <File Include="luntuo/static/js/main.a7624d31.chunk.js.map">
+      <publishTime>07/02/2021 17:28:58</publishTime>
+    </File>
     <File Include="luntuo/static/js/main.afd4f2ad.chunk.js">
       <publishTime>04/24/2021 15:43:48</publishTime>
     </File>
@@ -956,6 +1019,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="luntuo/static/js/main.d9153da4.chunk.js.map">
       <publishTime>05/08/2021 10:39:59</publishTime>
     </File>
+    <File Include="luntuo/static/js/main.dae9dda6.chunk.js">
+      <publishTime>06/30/2021 08:30:41</publishTime>
+    </File>
+    <File Include="luntuo/static/js/main.dae9dda6.chunk.js.map">
+      <publishTime>06/30/2021 08:30:41</publishTime>
+    </File>
     <File Include="luntuo/static/js/main.eb3f3080.chunk.js">
       <publishTime>04/15/2021 13:36:42</publishTime>
     </File>
@@ -987,16 +1056,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/19/2021 10:15:18</publishTime>
     </File>
     <File Include="luntuo/static/js/runtime-main.938f2412.js">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/js/runtime-main.938f2412.js.map">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/media/999.b9883ce8.png">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
     </File>
     <File Include="luntuo/static/media/cf_b.7b69f992.jpg">
-      <publishTime>06/18/2021 13:08:40</publishTime>
+      <publishTime>07/09/2021 15:23:33</publishTime>
+    </File>
+    <File Include="luntuo/static/media/联图二维码.b5c57ece.png">
+      <publishTime>07/02/2021 17:28:58</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/16/2021 14:46:40</publishTime>

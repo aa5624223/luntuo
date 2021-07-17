@@ -163,6 +163,7 @@ namespace luntuo.Controllers
             }
             return msg.ToString();
         }
+
         /// <summary>
         /// 获取功能的权限
         /// </summary>
@@ -758,6 +759,7 @@ namespace luntuo.Controllers
             bean.Faline = fc["Faline"];
             bean.LTOrder = fc["LTOrder"];
             bean.status = fc["status"];
+            bean.PlanDt = fc["PlantDt"];
             string OrderBy = fc["Order"];
             if (string.IsNullOrEmpty(OrderBy))
             {
@@ -1121,14 +1123,18 @@ namespace luntuo.Controllers
 
             string DIDS = fc["DIDS"];
             string model = fc["model"];
+            //需要查哪一张视图
+            string ViewMode = fc["ViewMode"];
+            if (string.IsNullOrEmpty(ViewMode))
+            {
+                ViewMode = "V_CgInfo";
+            }
             int page = int.Parse(fc["page"]);
             int pageSize = int.Parse(fc["pageSize"]);
             #endregion
-
             #region 获取sql
             //查找查询出来的机加表
             string WhereSql = null;
-
             if (!string.IsNullOrEmpty(DIDS))
             {
                 WhereSql = $" WHERE DID IN ({DIDS})";
@@ -1167,16 +1173,16 @@ namespace luntuo.Controllers
                 WhereSql += $" AND Name1 like '%{Name1}%'";
             }
 
-            string sql = $"SELECT * FROM V_CgInfo a " + WhereSql + " ORDER BY Matnr,Datetime1";
+            string sql = $"SELECT * FROM {ViewMode} a " + WhereSql + " ORDER BY Matnr,Datetime1";
             //查找出DdSum表s
             JObject jo_V_CgInfo = Common.findCommond(sql, typeof(V_CgInfo), 1, 9999999, ServerPath);
             if (model=="1")
             {
-                sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,SUM(Num1) as Num1,SUM(Num2) as Num2 ,a.Series FROM V_CgInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1 ORDER BY Matnr";
+                sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,Num1,Num2 ,a.Series FROM {ViewMode} a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,a.Num1,a.Num2 ORDER BY Matnr";
             }
             else
             {
-                sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,SUM(Num1) as Num1,SUM(Num2) as Num2  FROM V_CgInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1 ORDER BY Matnr";
+                sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,Num1,Num2 FROM {ViewMode} a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,a.Num1,a.Num2 ORDER BY Matnr";
             }
            
             JObject jo_V_CgInfoSum = Common.findCommond(sql, typeof(V_CgInfo), page, pageSize, ServerPath);
@@ -1668,7 +1674,7 @@ namespace luntuo.Controllers
                         sqls1.Add(logSql1);
                         flg1 = Common.OptCommond(sqls1, ServerPath);
                     }
-                } catch (Exception _e) {
+                } catch (Exception ) {
                     //超时处理
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
@@ -1799,7 +1805,7 @@ namespace luntuo.Controllers
                         flg1 = Common.OptCommond(sqls, ServerPath);
                     }
                 }
-                catch (Exception _e)
+                catch (Exception )
                 {
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
@@ -1856,6 +1862,7 @@ namespace luntuo.Controllers
             for (int i = 0; i < Count; i++)
             {
                 JjImp bean = (JjImp)jsonReader.Deserialize<JjImp>(fc[$"list[{i}]"]);
+                bean.Matnr = bean.Matnr.Replace(" ", "");
                 bean.UserCode = OptUserCode;
                 bean.TbCount = MaxTab;
                 bean.status = "执行中";
@@ -1922,7 +1929,7 @@ namespace luntuo.Controllers
                         flg1 = Common.OptCommond(sqls, ServerPath);
                     }
                 }
-                catch (Exception _e)
+                catch (Exception )
                 {
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
@@ -2120,7 +2127,7 @@ namespace luntuo.Controllers
                 }
                 return msg.ToString();
             }
-            catch (Exception _e)
+            catch (Exception )
             {
 
                 throw;
@@ -2751,6 +2758,20 @@ namespace luntuo.Controllers
             return msg.ToString();
 
             #endregion
+        }
+
+        /// <summary>
+        /// 更新采购库存
+        /// </summary>
+        /// <returns></returns>
+        public string updateCgBaseBum(FormCollection fc)
+        {
+            string strKcDate = fc["strKcDate"];
+            string iDID = fc["iDID"];
+            string OptUserCode = fc["OptUserCode"];
+            LTPCwebservice client = getServiceMethod();
+            string result = client.GetKc(strKcDate, OptUserCode, iDID,"","","","","","");
+            return result;
         }
 
         #endregion
