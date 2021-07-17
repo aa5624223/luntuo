@@ -2040,7 +2040,7 @@ namespace luntuo.Controllers
             DdBean.JjStatus = "待执行";
             DdBean.CgStatus = "待执行";
             string addSql = Common.add<DdOrder>(DdBean);
-            
+            List<string> Tempsqls;
             try
             {
                 //创建调度单
@@ -2068,6 +2068,7 @@ namespace luntuo.Controllers
                     beans.Add(bean);
                 }
                 List<string> sqls = Common.adds<DdOrder_Det>(beans);
+                Tempsqls = sqls;
                 string logsql = InsertLog("Excel导入调度单", $"调度单id:{DdBean.ID},插入了明细{Count}条", OptUserCode);
                 sqls.Add(logsql);
                 bool flg = Common.OptCommond(sqls,ServerPath);
@@ -2127,7 +2128,7 @@ namespace luntuo.Controllers
                 }
                 return msg.ToString();
             }
-            catch (Exception )
+            catch (Exception _e)
             {
 
                 throw;
