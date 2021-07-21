@@ -650,6 +650,12 @@ namespace luntuo.Controllers
             #endregion
         }
 
+        /// <summary>
+        /// 获取日志
+        /// OptUserCode 用户编号 =sys系统管理员查看所有
+        /// </summary>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         public string getLogInfo(FormCollection fc)
         {
             JObject msg = new JObject();
@@ -737,6 +743,12 @@ namespace luntuo.Controllers
             return msg.ToString();
             #endregion
         }
+
+        /// <summary>
+        /// 获取订单
+        /// </summary>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         [HttpPost]
         public string getDdOrder(FormCollection fc)
         {
@@ -783,6 +795,11 @@ namespace luntuo.Controllers
             #endregion
         }
 
+        /// <summary>
+        /// 获取订单明细
+        /// </summary>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         public string getV_DdOrder_Det(FormCollection fc) {
             JObject msg = new JObject();
 
@@ -1029,6 +1046,11 @@ namespace luntuo.Controllers
             #endregion
         }
 
+        /// <summary>
+        /// 获取机加信息
+        /// </summary>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         public string getV_Sum_Num_JiInfo(FormCollection fc)
         {
             JObject msg = new JObject();
@@ -1104,6 +1126,11 @@ namespace luntuo.Controllers
             #endregion
         }
 
+        /// <summary>
+        /// 获取采购信息
+        /// </summary>
+        /// <param name="fc"></param>
+        /// <returns></returns>
         public string getV_Sum_Num_CgInfo(FormCollection fc)
         {
             JObject msg = new JObject();
@@ -1376,10 +1403,11 @@ namespace luntuo.Controllers
             msg.Add("V_BjInfo_Det", jo_Det);
             return msg.ToString();
         }
-        
+
         /// <summary>
         /// 新版 订单钣金查询
         /// </summary>
+        /// <param name="fc"></param>
         /// <returns></returns>
         public string getV_Sum_Num_BjInfo2(FormCollection fc)
         {
@@ -1442,30 +1470,6 @@ namespace luntuo.Controllers
             {
                 WhereSql.Add($" (Pline1 = '{Pline}' OR  Pline2='{Pline}' OR  Pline3='{Pline}' OR  Pline4='{Pline}' OR  Pline5='{Pline}' OR  Pline6='{Pline}' ) ");
             }
-            //if (!string.IsNullOrEmpty(FirstCode))
-            //{
-            //    switch (level)
-            //    {
-            //        case null: case "1":
-            //            WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
-            //            break;
-            //        case "2":
-            //            WhereSql.Add($" SecondCode like '%{FirstCode}%' ");
-            //            break;
-            //        case "3":
-            //            WhereSql.Add($" ThirdCode like '%{FirstCode}%' ");
-            //            break;
-            //        case "4":
-            //            WhereSql.Add($" FourthCode like '%{FirstCode}%' ");
-            //            break;
-            //        case "5":
-            //            WhereSql.Add($" FifthCode like '%{FirstCode}%' ");
-            //            break;
-            //        default:
-            //            WhereSql.Add($" FirstCode like '%{FirstCode}%' ");
-            //            break;
-            //    }
-            //}
 
             if (!string.IsNullOrEmpty(FirstCode))
             {
