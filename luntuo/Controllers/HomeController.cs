@@ -1156,8 +1156,19 @@ namespace luntuo.Controllers
             {
                 ViewMode = "V_CgInfo";
             }
-            int page = int.Parse(fc["page"]);
-            int pageSize = int.Parse(fc["pageSize"]);
+            int page;
+            int pageSize;
+            if (string.IsNullOrEmpty(fc["page"]))
+            {
+                page = 1;
+                pageSize = 20;
+            }
+            else
+            {
+                page = int.Parse(fc["page"]);
+                pageSize = int.Parse(fc["pageSize"]);
+            }
+             
             #endregion
             #region 获取sql
             //查找查询出来的机加表
