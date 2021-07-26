@@ -525,6 +525,7 @@ namespace luntuo.Controllers
             return msg.ToString();
             #endregion
         }
+
         [HttpPost]
         public string getV_JjInfo(FormCollection fc)
         {
@@ -3175,6 +3176,7 @@ namespace luntuo.Controllers
         #endregion
 
         #region 日志操作
+
         public string InsertLog(string TypeName,string Contents,string UserCode) {
             LogInfo log = new LogInfo()
             {
@@ -3185,6 +3187,7 @@ namespace luntuo.Controllers
             };
             return Common.add<LogInfo>(log);
         }
+
         #endregion
 
         #region 工具方法
