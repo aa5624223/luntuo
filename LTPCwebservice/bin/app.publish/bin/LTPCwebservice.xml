@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LTPCwebservice</name>
+    </assembly>
+    <members>
+        <member name="T:LTPCwebservice.WebService1">
+            <summary>
+            WebService1 的摘要说明
+            </summary>
+        </member>
+        <member name="F:LTPCwebservice.WebService1.header">
+            <summary>
+            api登录验证
+            </summary>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.IsValiToken">
+            <summary>
+            验证是安全令牌是否正确
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.Dddxqfj(System.String,System.Int32,System.String)">
+            <summary>
+            调度单需求分解
+            </summary>
+            <param name="strDate">库存日期</param>
+            <param name="iDID">调度单序号</param>
+            <param name="strType">调度单执行方式      ""：全新执行；“cg”：明细采购执行；“bj”：明细钣金执行；“jj”：明细机加执行</param>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.Cgxufj(System.String,System.String,System.Int32)">
+            <summary>
+            采购需求分解
+            </summary>
+            <param name="strDate">库存日期</param>
+            <param name="strUserCode">用户帐号</param>
+            <param name="iDID">调度单序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.SaveCgData(System.Data.DataTable,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            将采购需求数据更新进数据库
+            </summary>
+            <param name="dt"></param>
+            <param name="strUserCode">用户帐号</param>
+            <param name="iDID">调度单序号</param>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.Bjxufj(System.String,System.Int32)">
+            <summary>
+            钣金需求分解
+            </summary>
+            <param name="strUserCode">用户帐号</param>
+            <param name="iDID">调度单序号</param>
+            <returns></returns>
+            <returns></returns>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.SaveBjData(System.Data.DataTable,System.String,System.String,System.Int32)">
+            <summary>
+            将钣金需求数据更新进数据库
+            </summary>
+            <param name="dt"></param>
+            <param name="strUserCode">用户帐号</param>
+            <param name="iDID">调度单序号</param>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.Jjxufj(System.String,System.Int32)">
+            <summary>
+            机加需求分解
+            </summary>
+            <param name="strUserCode">用户帐号</param>
+            <param name="iDID">调度单序号</param>
+            <returns></returns>
+            <returns></returns>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.SaveJjData(System.Data.DataTable,System.String,System.String,System.Int32)">
+            <summary>
+            将机加需求数据更新进数据库
+            </summary>
+            <param name="dt"></param>
+            <param name="strUserCode">用户帐号</param>
+            <param name="iDID">调度单序号</param>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.ChkSap(System.String,System.String,System.Int32)">
+            <summary>
+            物料及BOM有效性检查
+            </summary>
+            <param name="strType">类型：ddh 调度单；cg 采购需求单；jj 机加需求单； bj 钣金需求单</param>
+            <param name="strUserCode">strType为cg jj bj时，需指定</param>
+            <param name="iDID">strType 为ddh时，需指定</param>
+            <returns>code=200 表示执行成功</returns>
+        </member>
+        <member name="M:LTPCwebservice.WebService1.GetKc(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            获取库存
+            </summary>
+            <param name="strKcDate">库存日期  格式20200101</param>
+            <param name="strUserCode">根据usercode同步库存，必输</param>
+            <param name="iDID">根据DID同步库存,默认为空，多个DID用逗号隔开：  1,2,3 </param>
+            <param name="strDateB">开始日期  格式2020-01-01</param>
+            <param name="strDateE">截至日期  格式2020-01-01</param>
+            <param name="strSeries">系列</param>
+            <param name="strMrp">MRP控制者</param>
+            <param name="strMatnr">物料编码</param>
+            <param name="strLifnr">供应商代码</param>
+            <returns>SapKc.code=200 表示执行成功</returns>
+        </member>
+        <member name="T:LTPCwebservice.WebService1.MySoapHeader">
+            <summary>
+            头部验证
+            </summary>
+        </member>
+        <member name="T:LTPCwebservice.WebService1.Chk">
+            <summary>
+            物料及BOM有效性检查
+            </summary>
+        </member>
+        <member name="T:LTPCwebservice.WebService1.SapResulr">
+            <summary>
+            物料及BOM有效性检查
+            </summary>
+        </member>
+        <member name="T:LTPCwebservice.WebService1.SapKc">
+            <summary>
+            库存
+            </summary>
+        </member>
+    </members>
+</doc>

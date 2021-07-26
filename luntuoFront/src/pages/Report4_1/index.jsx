@@ -159,13 +159,20 @@ export default class Report4_1 extends Component {
         if(tempFormData.model!==undefined && tempFormData.model.length!==undefined){
             tempFormData.model = tempFormData.model[0];
         }
-        tempFormData = ViewMode;
+        tempFormData.ViewMode = ViewMode;
+        console.dir(tempFormData);
         const FormData = ConvertFomrData(tempFormData);
         this.setState({ ExcelLoading: true ,SpinTip:'Excel数据打包中'});
         const result = await getV_Sum_Num_CgInfo(FormData);
         if (result.status === 0) {
             const jo_V_CgInfo = result.jo_V_CgInfo.V_CgInfo;
             var jo_V_CgInfoSum = result.jo_V_CgInfoSum.V_CgInfo;
+            let V_CgInfo_Count = result.jo_V_CgInfo.V_CgInfo_Count;
+            if(V_CgInfo_Count===0){
+                message.warn("无数据可导出");
+                this.setState({ ExcelLoading: false});
+                return;
+            }
             //console.dir(jo_V_CgInfo);
             const colums = DdOrder_CgInfo_columns(tempFormData.model);
             this.setState({ ExcelLoading: false });

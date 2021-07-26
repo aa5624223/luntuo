@@ -1440,6 +1440,7 @@ namespace luntuo.Controllers
             string model = fc["model"];
             int page = 1;
             int pageSize = 100;
+            //
             if (!string.IsNullOrEmpty(fc["page"]))
             {
                 page = int.Parse(fc["page"]);
@@ -1465,6 +1466,7 @@ namespace luntuo.Controllers
             {
                 WhereSql.Add($" UserCode = '{OptUserCode}'");
             }
+
             if (!string.IsNullOrEmpty(Series))
             {
                 WhereSql.Add($" Series = '{Series}' ");
@@ -1484,12 +1486,12 @@ namespace luntuo.Controllers
 
             if (!string.IsNullOrEmpty(FirstCode))
             {
-                WhereSql.Add($" FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%' OR SixthCode like '%{FirstCode}%' ");
+                WhereSql.Add($" (FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%' OR SixthCode like '%{FirstCode}%') ");
             }
 
             if (!string.IsNullOrEmpty(FirstName))
             {
-                WhereSql.Add($" FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' OR SixthName like '%{FirstName}%' ");
+                WhereSql.Add($" (FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' OR SixthName like '%{FirstName}%') ");
             }
             string Where = "";
             if (WhereSql.Count > 0)

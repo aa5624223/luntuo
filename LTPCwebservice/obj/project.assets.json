@@ -1,0 +1,59 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.0": {},
+    ".NETFramework,Version=v4.0/win": {},
+    ".NETFramework,Version=v4.0/win-x64": {},
+    ".NETFramework,Version=v4.0/win-x86": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.0": []
+  },
+  "packageFolders": {
+    "C:\\Users\\w541\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "G:\\DevelopWork\\轮拖排产\\LTPCwebservice\\LTPCwebservice.csproj",
+      "projectName": "LTPCwebservice",
+      "projectPath": "G:\\DevelopWork\\轮拖排产\\LTPCwebservice\\LTPCwebservice.csproj",
+      "packagesPath": "C:\\Users\\w541\\.nuget\\packages\\",
+      "outputPath": "G:\\DevelopWork\\轮拖排产\\LTPCwebservice\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "configFilePaths": [
+        "C:\\Users\\w541\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net40"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://dotnet.myget.org/f/aspnetcore-dev/api/v3/index.json": {}
+      },
+      "frameworks": {
+        "net40": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net40": {}
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}
