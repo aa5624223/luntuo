@@ -36,9 +36,11 @@ namespace luntuo.Controllers
 
         public ActionResult About()
         {
+
             ViewBag.Message = "Your application description page.";
 
             return View();
+
         }
 
         public ActionResult Contact()
@@ -415,10 +417,13 @@ namespace luntuo.Controllers
             #endregion
 
             #region 返回数据
+
             msg.Add("status", 0);
             msg.Add("data", result);
             return msg.ToString();
-            #endregion
+
+            #endregion  
+
         }
 
         public string getTypeInfo(FormCollection fc) {
@@ -1135,6 +1140,7 @@ namespace luntuo.Controllers
         public string getV_Sum_Num_CgInfo(FormCollection fc)
         {
             JObject msg = new JObject();
+
             #region 获取数据
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             V_JjInfo bean = new V_JjInfo();
@@ -1171,6 +1177,7 @@ namespace luntuo.Controllers
             }
              
             #endregion
+
             #region 获取sql
             //查找查询出来的机加表
             string WhereSql = null;
@@ -1413,6 +1420,7 @@ namespace luntuo.Controllers
             msg.Add("status",0);
             msg.Add("V_BjInfo_Sum", jo_Sum);
             msg.Add("V_BjInfo_Det", jo_Det);
+
             return msg.ToString();
         }
 
