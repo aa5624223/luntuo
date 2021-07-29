@@ -28,6 +28,17 @@ namespace luntuo.Controllers
             return client;
         }
 
+        private static LTPCWeb.LTPCwebservice getServiceMethod2()
+        {
+            LTPCWeb.LTPCwebservice client = new LTPCWeb.LTPCwebservice();
+            LTPCWeb.MySoapHeader myHeader = new LTPCWeb.MySoapHeader();
+            myHeader.UserName = "cc";
+            myHeader.PassWord = "admin&cc";
+            client.MySoapHeaderValue = myHeader;
+            return client;
+        }
+
+
         public ActionResult Index()
         {
             Response.Redirect("/luntuo/index.html");
@@ -1781,10 +1792,11 @@ namespace luntuo.Controllers
             //    //await update()
             //});
             LTPCwebservice client = getServiceMethod();
+            //LTPCWeb.LTPCwebservice client = getServiceMethod2();
             Task.Run(() =>
             {
                 try
-                {
+                { 
                     BaseDate = BaseDate.Replace("-", "");
                     bool flg1 = false;
                     if (type == 1)
@@ -2280,6 +2292,7 @@ namespace luntuo.Controllers
             #region 检查
 
             LTPCwebservice client = getServiceMethod();
+            //LTPCWeb.LTPCwebservice client = getServiceMethod2();
             string result = client.ChkSap("ddh", OptUserCode,(int)bean.ID);
             if (result.Contains("\"etype\": \"E\"")) {
                 string logsql = InsertLog("执行调度单需求失败", $"调度单id:{bean.ID}", OptUserCode);
@@ -2797,6 +2810,11 @@ namespace luntuo.Controllers
             string iDID = fc["iDID"];
             string OptUserCode = fc["OptUserCode"];
             LTPCwebservice client = getServiceMethod();
+            //LTPCWeb.LTPCwebservice client = getServiceMethod2();
+            if (iDID==null)
+            {
+                iDID = "";
+            }
             string result = client.GetKc(strKcDate, OptUserCode, iDID,"","","","","","");
             return result;
         }

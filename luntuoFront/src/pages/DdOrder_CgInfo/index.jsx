@@ -392,7 +392,7 @@ export default class DdOrder_CgInfo extends Component {
                 }
             }
             console.dir(jo_V_CgInfoSum);
-            this.setState({ loading: false, dataSource: jo_V_CgInfoSum, current: tempFormData.page, dataTotal: result.jo_V_CgInfoSum.V_CgInfo_Count, model: tempFormData.model })
+            this.setState({ loading: false, dataSource: jo_V_CgInfoSum, current: tempFormData.page, dataTotal: result.jo_V_CgInfoSum.V_CgInfo_Count, model: tempFormData.model,Btn_CgBaseload:false })
         } else {
             this.setState({ loading: false });
             message.error("网络错误");

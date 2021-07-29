@@ -81,7 +81,7 @@ class Login extends Component {
       <div className="login">
         <div className="login-header">
           <img src={logo} alt="logo" className="Loginlogo"></img>
-          <h1>常发轮拖排产系统</h1>
+          <h1>常发轮拖排产系统</h1> 
         </div>
         <section className="login-content">
           <div style={{width:"200px",float:"left",textAlign:'center'}}>

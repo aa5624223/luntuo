@@ -18,7 +18,7 @@ export default class App extends Component {
                 <HashRouter>
                     <Switch>
                         <Route path="/Admin" component={Admin}/>
-                        <Route path="/Login" component={Login} ></Route>
+                        <Route path="/Login" component={Login}/>
                         <Redirect to="/Login"/>
                     </Switch>
                 </HashRouter>
@@ -28,7 +28,7 @@ export default class App extends Component {
                 <HashRouter>
                     <Switch>
                         <Route path="/Mobile_Login" component={Mobile_Login}/>
-                        <Route path="/Mobile_Admin" component={Mobile_Admin} ></Route>
+                        <Route path="/Mobile_Admin" component={Mobile_Admin}/>
                         <Redirect to="/Mobile_Login"/>
                     </Switch>
                 </HashRouter>

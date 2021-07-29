@@ -259,6 +259,7 @@ export default class Report4_1 extends Component {
     }
     demantCgBaseTime = async ()=>{
         const {CgBaseTime,dataSource} = this.state;
+        console.dir(CgBaseTime);
         if(CgBaseTime===""){
             message.warn("请选择采购库存基准日期");
             return;
@@ -274,14 +275,9 @@ export default class Report4_1 extends Component {
         this.setState({Btn_CgBaseload:true});
         const result = await updateCgBaseBum(formData);
         if(result.code === "200"){
-            setTimeout(3000,()=>{
-                this.setState({Btn_CgBaseload:false,ViewMode:'V_CgInfo_kc'},()=>{//更改当前的查询条件
-                    this.SearchData();
-                
-                });
-                
-            })
-            
+            this.setState({Btn_CgBaseload:false,ViewMode:'V_CgInfo_kc'},()=>{//更改当前的查询条件
+                this.SearchData();
+            });
             message.success("库存更新成功,等待查询数据...");
         }else{
             this.setState({Btn_CgBaseload:false});
@@ -354,7 +350,7 @@ export default class Report4_1 extends Component {
                     preSum = jo_V_CgInfoSum[i];
                 }
             }
-            this.setState({ loading: false, dataSource: jo_V_CgInfoSum, current: tempFormData.page, dataTotal: result.jo_V_CgInfoSum.V_CgInfo_Count, model: tempFormData.model })
+            this.setState({ loading: false, dataSource: jo_V_CgInfoSum, current: tempFormData.page, dataTotal: result.jo_V_CgInfoSum.V_CgInfo_Count, model: tempFormData.model,Btn_CgBaseload:false })
         }else{
             this.setState({ loading: false });
             message.error("网络错误");

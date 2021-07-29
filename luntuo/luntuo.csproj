@@ -56,6 +56,8 @@
       <HintPath>packages\System.Data.SqlClient.4.8.2\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -127,6 +129,16 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Connected Services\ServiceReference1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\ServiceReference2\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -136,6 +148,11 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\LTPCWeb\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\WebReference\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -149,15 +166,72 @@
     <Content Include="luntuo\index.html" />
     <Content Include="luntuo\logo.png" />
     <Content Include="luntuo\robots.txt" />
-    <Content Include="luntuo\static\css\2.aa611917.chunk.css" />
+    <Content Include="luntuo\static\css\2.03bd1d95.chunk.css" />
     <Content Include="luntuo\static\css\main.53ec0668.chunk.css" />
     <Content Include="luntuo\static\js\2.230cd072.chunk.js" />
     <Content Include="luntuo\static\js\2.230cd072.chunk.js.LICENSE.txt" />
-    <Content Include="luntuo\static\js\main.b6bfaf7f.chunk.js" />
+    <Content Include="luntuo\static\js\main.e3f7cf34.chunk.js" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js" />
     <Content Include="luntuo\static\media\999.b9883ce8.png" />
     <Content Include="luntuo\static\media\cf_b.7b69f992.jpg" />
     <Content Include="luntuo\static\media\联图二维码.b5c57ece.png" />
+    <Content Include="Connected Services\ServiceReference1\luntuo.ServiceReference1.BjxufjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference1\luntuo.ServiceReference1.CgxufjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference1\luntuo.ServiceReference1.ChkSapResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference1\luntuo.ServiceReference1.DddxqfjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference1\luntuo.ServiceReference1.GetKcResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference1\luntuo.ServiceReference1.JjxufjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="luntuo\asset-manifest.json" />
+    <Content Include="luntuo\manifest.json" />
+    <Content Include="luntuo\static\css\2.03bd1d95.chunk.css.map" />
+    <Content Include="luntuo\static\css\main.53ec0668.chunk.css.map" />
+    <Content Include="luntuo\static\js\2.230cd072.chunk.js.map" />
+    <Content Include="luntuo\static\js\main.e3f7cf34.chunk.js.map" />
+    <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
+    <None Include="Connected Services\ServiceReference1\WebService1.disco" />
+    <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference1\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Connected Services\ServiceReference2\luntuo.ServiceReference2.BjxufjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference2\luntuo.ServiceReference2.CgxufjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference2\luntuo.ServiceReference2.ChkSapResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference2\luntuo.ServiceReference2.DddxqfjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference2\luntuo.ServiceReference2.GetKcResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReference2\luntuo.ServiceReference2.JjxufjResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\ServiceReference2\WebService1.disco" />
+    <None Include="Connected Services\ServiceReference2\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReference2\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReference2\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -169,19 +243,19 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="log4net.config" />
+    <Content Include="Web References\LTPCWeb\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\LTPCWeb\WebService1.disco" />
     <Content Include="website\HtmlPage1.html" />
     <Content Include="ExcelDemo\机加需求分解模板.xls" />
     <Content Include="ExcelDemo\采购需求分解模板.xls" />
     <Content Include="ExcelDemo\钣金需求分解模板.xls" />
     <Content Include="ExcelDemo\调度单模板.xls" />
     <Content Include="ExcelDemo\物料班组.xlsx" />
-    <Content Include="luntuo\asset-manifest.json" />
-    <Content Include="luntuo\manifest.json" />
-    <Content Include="luntuo\static\css\2.aa611917.chunk.css.map" />
-    <Content Include="luntuo\static\css\main.53ec0668.chunk.css.map" />
-    <Content Include="luntuo\static\js\2.230cd072.chunk.js.map" />
-    <Content Include="luntuo\static\js\main.b6bfaf7f.chunk.js.map" />
-    <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
+    <None Include="Connected Services\ServiceReference1\WebService1.wsdl" />
+    <None Include="Connected Services\ServiceReference2\WebService1.wsdl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -197,6 +271,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <None Include="Web References\LTPCWeb\WebService1.wsdl" />
     <None Include="Web References\WebReference\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -266,6 +341,21 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>luntuo_WebReference_LTPCwebservice</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="https://localhost:44359/WebService1.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\LTPCWeb\</RelPath>
+      <UpdateFromURL>https://localhost:44359/WebService1.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>luntuo_LTPCWeb_LTPCwebservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ServiceReference1\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReference2\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
