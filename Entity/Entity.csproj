@@ -13,4 +13,19 @@
     <ProjectReference Include="..\..\project_Lw_Utils\project_Lw_Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="SAP.Connector">
+      <HintPath>E:\林林临时文件\.Net lib包\SAP.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="SAP.Connector.Rfc">
+      <HintPath>E:\林林临时文件\.Net lib包\SAP.Connector.Rfc.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco">
+      <HintPath>E:\林林临时文件\.Net lib包\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils">
+      <HintPath>E:\林林临时文件\.Net lib包\sapnco_utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,11 @@
           "NETStandard.Library": "2.0.3",
           "Newtonsoft.Json": "12.0.3",
           "System.Data.SqlClient": "4.8.2",
-          "project_Lw_Utils": "1.0.0"
+          "project_Lw_Utils": "1.0.0",
+          "SAP.Connector": "2.0.0.0",
+          "SAP.Connector.Rfc": "2.0.0.0",
+          "sapnco": "3.0.0.42",
+          "sapnco_utils": "3.0.0.42"
         },
         "runtime": {
           "Entity.dll": {}
@@ -158,6 +162,38 @@
         "runtime": {
           "project_Lw_Utils.dll": {}
         }
+      },
+      "SAP.Connector/2.0.0.0": {
+        "runtime": {
+          "SAP.Connector.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.23"
+          }
+        }
+      },
+      "SAP.Connector.Rfc/2.0.0.0": {
+        "runtime": {
+          "SAP.Connector.Rfc.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.23"
+          }
+        }
+      },
+      "sapnco/3.0.0.42": {
+        "runtime": {
+          "sapnco.dll": {
+            "assemblyVersion": "3.0.0.42",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
+      "sapnco_utils/3.0.0.42": {
+        "runtime": {
+          "sapnco_utils.dll": {
+            "assemblyVersion": "3.0.0.42",
+            "fileVersion": "3.0.1.0"
+          }
+        }
       }
     }
   },
@@ -288,6 +324,26 @@
     },
     "project_Lw_Utils/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SAP.Connector/2.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SAP.Connector.Rfc/2.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "sapnco/3.0.0.42": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "sapnco_utils/3.0.0.42": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

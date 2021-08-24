@@ -369,6 +369,7 @@ export default class DdOrder_CgInfo extends Component {
                                 jo_V_CgInfoSum[i].Det = [];
                             }
                             jo_V_CgInfoSum[i].Det.push(jo_V_CgInfo[j]);
+                            console.dir("Series");
                         }
                     } else {
                         if (jo_V_CgInfoSum[i].Matnr === jo_V_CgInfo[j].Matnr && jo_V_CgInfoSum[i].Lifnr === jo_V_CgInfo[j].Lifnr) {
@@ -376,6 +377,7 @@ export default class DdOrder_CgInfo extends Component {
                                 jo_V_CgInfoSum[i].Det = [];
                             }
                             jo_V_CgInfoSum[i].Det.push(jo_V_CgInfo[j]);
+                            console.dir("Not Series");
                         }
 
                     }

@@ -92,3 +92,5 @@ D:\WorkSpace\luntuo\luntuo\obj\Debug\luntuo.pdb
 D:\WorkSpace\luntuo\luntuo\bin\System.Data.SqlClient.dll
 D:\WorkSpace\luntuo\luntuo\bin\System.Data.SqlClient.xml
 D:\WorkSpace\luntuo\luntuo\obj\Debug\luntuo.csproj.AssemblyReference.cache
+D:\WorkSpace\luntuo\luntuo\bin\sapnco.dll
+D:\WorkSpace\luntuo\luntuo\bin\sapnco_utils.dll

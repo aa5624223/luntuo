@@ -550,7 +550,10 @@ namespace Entity.Methods
         /// </summary>
         /// <param name="sqls"></param>
         /// <param name="Types"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// Type:[]
+        /// Type_Count:
+        /// </returns>
         public static JObject findCommond(List<string> sqls, List<Type> types, int page, int pageSize,string ConnPath)
         {
             if (sqls.Count == 0 || sqls.Count != types.Count)

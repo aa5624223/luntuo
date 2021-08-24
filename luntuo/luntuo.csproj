@@ -166,11 +166,11 @@
     <Content Include="luntuo\index.html" />
     <Content Include="luntuo\logo.png" />
     <Content Include="luntuo\robots.txt" />
-    <Content Include="luntuo\static\css\2.03bd1d95.chunk.css" />
+    <Content Include="luntuo\static\css\2.bab8abfa.chunk.css" />
     <Content Include="luntuo\static\css\main.53ec0668.chunk.css" />
     <Content Include="luntuo\static\js\2.230cd072.chunk.js" />
     <Content Include="luntuo\static\js\2.230cd072.chunk.js.LICENSE.txt" />
-    <Content Include="luntuo\static\js\main.e3f7cf34.chunk.js" />
+    <Content Include="luntuo\static\js\main.f5097759.chunk.js" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js" />
     <Content Include="luntuo\static\media\999.b9883ce8.png" />
     <Content Include="luntuo\static\media\cf_b.7b69f992.jpg" />
@@ -195,10 +195,10 @@
     </Content>
     <Content Include="luntuo\asset-manifest.json" />
     <Content Include="luntuo\manifest.json" />
-    <Content Include="luntuo\static\css\2.03bd1d95.chunk.css.map" />
+    <Content Include="luntuo\static\css\2.bab8abfa.chunk.css.map" />
     <Content Include="luntuo\static\css\main.53ec0668.chunk.css.map" />
     <Content Include="luntuo\static\js\2.230cd072.chunk.js.map" />
-    <Content Include="luntuo\static\js\main.e3f7cf34.chunk.js.map" />
+    <Content Include="luntuo\static\js\main.f5097759.chunk.js.map" />
     <Content Include="luntuo\static\js\runtime-main.938f2412.js.map" />
     <None Include="Connected Services\ServiceReference1\WebService1.disco" />
     <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />

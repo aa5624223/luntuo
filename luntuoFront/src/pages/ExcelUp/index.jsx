@@ -52,7 +52,6 @@ export default class ExcelUp extends Component {
                                 let single ={}
                                 columns.forEach((item2,index2)=>{
                                     if(item[item2.title]!==undefined){
-                                        console.dir(item2.title);
                                         if(item2.title.indexOf('日期')!==-1 || item2.title.indexOf('时间')!==-1){
                                             if(item[item2.title] instanceof Date){
                                                 single[item2.dataIndex] = moment(item[item2.title]).format('YYYYMMDD');
@@ -101,8 +100,26 @@ export default class ExcelUp extends Component {
                         //只读一张表
                         break;
                     }
-                    console.dir(data);
-                    this.setState({dataSource:data,uploadState:1});
+                    
+                    for(let i=0;i<data.length;i++){
+                        if(data[i].find===true){
+                            continue;
+                        }
+                        for(let j=i+1;j<data.length;j++){
+                            if(data[j].find===true){
+                                continue;
+                            }
+                            if(data[i].Matnr === data[j].Matnr){
+                                data[i].Menge += data[j].Menge;
+                                data[j].find = true;
+                            }
+                        }
+                    }
+                    let new_Data  = data.filter(item=>{
+                        return item.find===undefined;
+                    })
+                    console.dir(new_Data);
+                    this.setState({dataSource:new_Data,uploadState:1});
                 } catch (e) {
                     message.error("请上传Excel文件");
                     return false;

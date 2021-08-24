@@ -33,6 +33,7 @@ export default class DdOrderDet extends Component {
         if(isOpt(this.Roles,"明细编辑")){
             Fuc_Edit = true;
         }
+        console.dir("pathname:"+pathname);
         this.setState({Fuc_Edit});
     }
     SearchData = async ()=>{

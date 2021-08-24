@@ -75,7 +75,8 @@ namespace luntuo.Controllers
             UserInfo bean = new UserInfo();
             bean.UserCode = fc["username"];
             bean.PWD = fc["password"];
-            if (bean.UserCode == null || bean.PWD == null) {
+            if (bean.UserCode == null || bean.PWD == null)
+            {
                 msg.Add("status", 1);
                 msg.Add("data", null);
                 return msg.ToString();
@@ -109,7 +110,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpGet]
-        public string getUserList(FormCollection fc) {
+        public string getUserList(FormCollection fc)
+        {
             //查找用户数据
             JObject msg = new JObject();
 
@@ -158,7 +160,8 @@ namespace luntuo.Controllers
                 Site_Roles bean = new Site_Roles();
                 string ServerPath = Server.MapPath("/WebCfg/Db.json");
                 string sql = Common.find<Site_Roles>(bean);
-                if (!string.IsNullOrEmpty(AuthString)) {
+                if (!string.IsNullOrEmpty(AuthString))
+                {
                     sql += " WHERE id IN (" + AuthString + ") or parentId=0 or isAuth=0";
                 }
                 JObject result = Common.findCommond(sql, typeof(Site_Roles), 1, 99999, ServerPath);
@@ -183,7 +186,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string getSite_Roles_Opt(FormCollection fc) {
+        public string getSite_Roles_Opt(FormCollection fc)
+        {
             JObject msg = new JObject();
             string Role = fc["Roles"];
             string mapKey = fc["mapKey"];
@@ -216,15 +220,18 @@ namespace luntuo.Controllers
                     result = Common.findCommond(sql, typeof(Site_Roles), 1, 99999, ServerPath);
                     string[] Roles = Role.Split(',');
                     JArray ret = new JArray();
-                    foreach (string item in Roles) {
+                    foreach (string item in Roles)
+                    {
                         JArray ja = result.Value<JArray>("Site_Roles");
-                        foreach (JToken jt in ja) {
+                        foreach (JToken jt in ja)
+                        {
                             JObject jo = (JObject)jt;
                             if (jo.Value<string>("ID") == item)
                             {
                                 ret.Add(jo);
                             }
-                            if (jo.Value<string>("isAuth") == "False") {
+                            if (jo.Value<string>("isAuth") == "False")
+                            {
                                 ret.Add(jo);
                             }
                         }
@@ -244,7 +251,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string getBjInfo(FormCollection fc) {
+        public string getBjInfo(FormCollection fc)
+        {
             //查找用户数据
             JObject msg = new JObject();
             #region 获取数据
@@ -314,7 +322,8 @@ namespace luntuo.Controllers
             #endregion
         }
         [HttpPost]
-        public string getCgInfo(FormCollection fc) {
+        public string getCgInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             CgInfo bean = new CgInfo();
@@ -322,11 +331,16 @@ namespace luntuo.Controllers
             string str1 = fc["Budat[0]"];
             string str2 = fc["Budat[1]"];
             //str1->Date
-            if (!string.IsNullOrEmpty(str1) && !string.IsNullOrEmpty(str2)) {
+            if (!string.IsNullOrEmpty(str1) && !string.IsNullOrEmpty(str2))
+            {
                 //bean.Budat = str1 + "," + str2;
-            } else if (!string.IsNullOrEmpty(str1)) {
+            }
+            else if (!string.IsNullOrEmpty(str1))
+            {
                 //bean.Budat = str1;
-            } else if (!string.IsNullOrEmpty(str2)) {
+            }
+            else if (!string.IsNullOrEmpty(str2))
+            {
                 //bean.Budat = "," + str2;
             }
             bean.MRP = fc["MRP"];
@@ -352,12 +366,14 @@ namespace luntuo.Controllers
             #endregion
         }
         [HttpPost]
-        public string getWBInfo(FormCollection fc) {
+        public string getWBInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             WBInfo bean = new WBInfo();
             bean.Matnr = fc["Matnr"];
-            if (!string.IsNullOrEmpty(bean.Matnr)) {
+            if (!string.IsNullOrEmpty(bean.Matnr))
+            {
                 bean.Matnr = bean.Matnr.ToUpper();
             }
             bean.Maktx = fc["Maktx"];
@@ -388,15 +404,18 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string getV_MRPInfo(FormCollection fc) {
+        public string getV_MRPInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             V_MRPInfo bean = new V_MRPInfo();
             bean.MRP = fc["MRP"];
-            if (!string.IsNullOrEmpty(bean.MRP)) {
+            if (!string.IsNullOrEmpty(bean.MRP))
+            {
                 bean.MRP = bean.MRP.ToUpper();
             }
-            if (fc["TypeID"] != null) {
+            if (fc["TypeID"] != null)
+            {
                 bean.TypeID = int.Parse(fc["TypeID"]);
             }
             #endregion
@@ -404,12 +423,14 @@ namespace luntuo.Controllers
             #region 获取sql
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql;
-            if (string.IsNullOrEmpty(bean.MRP) && !string.IsNullOrEmpty(fc["TypeID"])) {
+            if (string.IsNullOrEmpty(bean.MRP) && !string.IsNullOrEmpty(fc["TypeID"]))
+            {
                 sql = Common.find<V_MRPInfo>(bean) + " WHERE TypeID= " + bean.TypeID;
             }
             else
             {
-                if (!string.IsNullOrEmpty(fc["TypeID"])) {
+                if (!string.IsNullOrEmpty(fc["TypeID"]))
+                {
                     sql = Common.find<V_MRPInfo>(bean) + " AND TypeID= " + bean.TypeID;
                 }
                 else
@@ -437,8 +458,10 @@ namespace luntuo.Controllers
 
         }
 
-        public string getTypeInfo(FormCollection fc) {
+        public string getTypeInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
+
             #region 获取数据
             TypeInfo bean = new TypeInfo();
             #endregion
@@ -516,16 +539,16 @@ namespace luntuo.Controllers
             }
             if (!string.IsNullOrEmpty(FirstCode))
             {
-                sql+=$" AND (FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%'  OR SixthCode like '%{FirstCode}%' ) ";
+                sql += $" AND (FirstCode like '%{FirstCode}%' OR SecondCode like '%{FirstCode}%' OR ThirdCode like '%{FirstCode}%' OR FourthCode like '%{FirstCode}%' OR FifthCode like '%{FirstCode}%'  OR SixthCode like '%{FirstCode}%' ) ";
             }
 
             if (!string.IsNullOrEmpty(FirstName))
             {
-                sql+=$" AND  (FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' OR SixthName like '%{FirstName}%' ) ";
+                sql += $" AND  (FirstName like '%{FirstName}%' OR SecondName like '%{FirstName}%' OR ThirdName like '%{FirstName}%' OR FourthName like '%{FirstName}%' OR FifthName like '%{FirstName}%' OR SixthName like '%{FirstName}%' ) ";
             }
             if (!string.IsNullOrEmpty(Pline))
             {
-                sql+=$" AND (Pline1 = '{Pline}' OR Pline2 = '{Pline}' OR Pline3 = '{Pline}' OR Pline3 = '{Pline}' OR Pline4 = '{Pline}' OR Pline5 = '{Pline}' OR Pline6 = '{Pline}' ) ";
+                sql += $" AND (Pline1 = '{Pline}' OR Pline2 = '{Pline}' OR Pline3 = '{Pline}' OR Pline3 = '{Pline}' OR Pline4 = '{Pline}' OR Pline5 = '{Pline}' OR Pline6 = '{Pline}' ) ";
             }
             //查询所有数据
             JObject result = Common.findCommond(sql, typeof(V_BjInfo), page, pageSize, ServerPath);
@@ -584,7 +607,8 @@ namespace luntuo.Controllers
             #endregion
         }
         [HttpPost]
-        public string getV_CgInfo(FormCollection fc) {
+        public string getV_CgInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             V_CgInfo bean = new V_CgInfo();
@@ -643,7 +667,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string getUploadInfo(FormCollection fc) {
+        public string getUploadInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             UploadInfo bean = new UploadInfo();
@@ -817,7 +842,8 @@ namespace luntuo.Controllers
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public string getV_DdOrder_Det(FormCollection fc) {
+        public string getV_DdOrder_Det(FormCollection fc)
+        {
             JObject msg = new JObject();
 
             #region 获取数据
@@ -848,7 +874,8 @@ namespace luntuo.Controllers
 
         #region add Update
 
-        public string getBjImp(FormCollection fc) {
+        public string getBjImp(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             BjImp bean = new BjImp();
@@ -885,10 +912,13 @@ namespace luntuo.Controllers
                 result = Common.findCommond(sql, typeof(BjImp), 1, 9999, ServerPath);
                 Tabflg = false;
                 int MaxTab = -2;
-                if (result["BjImp"] != null && result["BjImp"].ToString() != "[]" && result["BjImp"][0] != null && result["BjImp"][0]["TbCount"] != null && result["BjImp"][0]["status"].ToString() != "已完成") {
+                if (result["BjImp"] != null && result["BjImp"].ToString() != "[]" && result["BjImp"][0] != null && result["BjImp"][0]["TbCount"] != null && result["BjImp"][0]["status"].ToString() != "已完成")
+                {
                     Tabflg = int.TryParse(result["BjImp"][0]["TbCount"].ToString(), out MaxTab);
-                    if (Tabflg) {
-                        if (MaxTab == MaxInfoTab) {
+                    if (Tabflg)
+                    {
+                        if (MaxTab == MaxInfoTab)
+                        {
                             List<string> sqls = new List<string>();
                             //string optSql = $"UPDATE BjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
                             string logSql = InsertLog("钣金需求接口", "执行完成", OptUserCode);
@@ -963,9 +993,9 @@ namespace luntuo.Controllers
                         if (MaxTab == MaxInfoTab)
                         {
                             List<string> sqls = new List<string>();
-                           // string optSql = $"UPDATE JjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
+                            // string optSql = $"UPDATE JjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount='{MaxTab}'";
                             string logSql = InsertLog("机加需求接口", "执行完成", OptUserCode);
-                           // sqls.Add(optSql);
+                            // sqls.Add(optSql);
                             sqls.Add(logSql);
                             Tabflg = Common.OptCommond(sqls, ServerPath);
                         }
@@ -1096,10 +1126,12 @@ namespace luntuo.Controllers
             {
                 WhereSql = $" WHERE UserCode = '{OptUserCode}' ";
             }
-            if (!string.IsNullOrEmpty(Series)) {
+            if (!string.IsNullOrEmpty(Series))
+            {
                 WhereSql += $" AND Series ='{Series}'";
             }
-            if (!string.IsNullOrEmpty(Datetime1)) {
+            if (!string.IsNullOrEmpty(Datetime1))
+            {
                 WhereSql += $" AND Datetime1 >='{Datetime1}' AND Datetime1<='{Datetime2}'";
             }
             if (!string.IsNullOrEmpty(Matnr))
@@ -1117,7 +1149,7 @@ namespace luntuo.Controllers
             string sql = $"SELECT * FROM V_JjInfo a " + WhereSql + " ORDER BY Matnr,Datetime1";
             //查找出DdSum表
             JObject jo_V_JjInfo = Common.findCommond(sql, typeof(V_JjInfo), 1, 99999999, ServerPath);
-            if (model=="1")//区分系列
+            if (model == "1")//区分系列
             {
                 sql = $"SELECT a.Matnr,a.Maktx,a.Meins,a.Bz,SUM(a.Menge) as Menge,a.Series FROM V_JjInfo a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.Meins,a.Bz ORDER BY Matnr";
             }
@@ -1186,7 +1218,7 @@ namespace luntuo.Controllers
                 page = int.Parse(fc["page"]);
                 pageSize = int.Parse(fc["pageSize"]);
             }
-             
+
             #endregion
 
             #region 获取sql
@@ -1233,7 +1265,7 @@ namespace luntuo.Controllers
             string sql = $"SELECT * FROM {ViewMode} a " + WhereSql + " ORDER BY Matnr,Datetime1";
             //查找出DdSum表s
             JObject jo_V_CgInfo = Common.findCommond(sql, typeof(V_CgInfo), 1, 9999999, ServerPath);
-            if (model=="1")
+            if (model == "1")
             {
                 sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,Num1,Num2 ,a.Series FROM {ViewMode} a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Series,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,a.Num1,a.Num2 ORDER BY Matnr";
             }
@@ -1241,7 +1273,7 @@ namespace luntuo.Controllers
             {
                 sql = $"SELECT a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,SUM(a.Menge) as Menge,SUM(PEIE) as PEIE,Num1,Num2 FROM {ViewMode} a LEFT JOIN DdOrder b ON a.DID=b.ID " + WhereSql + " GROUP BY a.Matnr,a.Maktx,a.MRP,a.Meins,a.Lifnr,a.Name1,a.Num1,a.Num2 ORDER BY Matnr";
             }
-           
+
             JObject jo_V_CgInfoSum = Common.findCommond(sql, typeof(V_CgInfo), page, pageSize, ServerPath);
 
 
@@ -1263,7 +1295,8 @@ namespace luntuo.Controllers
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public string getV_Sum_Num_BjInfo(FormCollection fc) {
+        public string getV_Sum_Num_BjInfo(FormCollection fc)
+        {
             /*
              SELECT FirstCode,Datetime1,Series,SUM(Num1)
              FROM(
@@ -1286,7 +1319,8 @@ namespace luntuo.Controllers
             string model = fc["model"];
             int page = 1;
             int pageSize = 100;
-            if (!string.IsNullOrEmpty(fc["page"])) {
+            if (!string.IsNullOrEmpty(fc["page"]))
+            {
                 page = int.Parse(fc["page"]);
             }
             if (!string.IsNullOrEmpty(fc["pageSize"]))
@@ -1307,7 +1341,7 @@ namespace luntuo.Controllers
             switch (level)
             {
                 case "1":
-                    
+
                     sqlOut_Det = " SELECT FirstCode,FirstName,Datetime1,Series,Num1 ";
                     sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,Num1,Datetime1,Series FROM V_BjInfo WHERE Num1>0 ";
                     if (model == "1")
@@ -1324,7 +1358,7 @@ namespace luntuo.Controllers
                     OrderBy = " ORDER BY FirstCode ";
                     break;
                 case "2":
-                    
+
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,Datetime1,Series,Num2 AS Num1";
                     sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,Num2,Datetime1,Series FROM V_BjInfo WHERE Num2>0 ";
                     if (model == "1")
@@ -1337,12 +1371,12 @@ namespace luntuo.Controllers
                         sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,SUM(Num2) AS Num1";
                         GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName";
                     }
-                    
+
                     //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName, Series ,Datetime1,Num2";
                     OrderBy = " ORDER BY FirstCode,SecondCode ";
                     break;
                 case "3":
-                    
+
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Datetime1,Series,Num3 AS Num1 ";
                     sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,Num3,Datetime1,Series FROM V_BjInfo WHERE Num3>0 ";
                     if (model == "1")
@@ -1355,15 +1389,15 @@ namespace luntuo.Controllers
                         sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,SUM(Num3)AS Num1 ";
                         GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName";
                     }
-                    
+
                     //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName, Series ,Datetime1,Num3";
                     OrderBy = " ORDER BY FirstCode,SecondCode,ThirdCode ";
                     break;
                 case "4":
-                    
+
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Datetime1,Series,Num4 AS Num1 ";
                     sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Num4,Datetime1,Series FROM V_BjInfo WHERE Num4>0 ";
-                    
+
                     if (model == "1")
                     {
                         sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,Series,SUM(Num4) AS Num1 ";
@@ -1378,7 +1412,7 @@ namespace luntuo.Controllers
                     OrderBy = " ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode ";
                     break;
                 case "5":
-                   
+
                     sqlOut_Det = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Datetime1,Series,Num5 AS Num1 ";
                     sqlIn = " SELECT DISTINCT DID,FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,Num5,Datetime1,Series FROM V_BjInfo WHERE Num5>0 ";
                     if (model == "1")
@@ -1391,7 +1425,7 @@ namespace luntuo.Controllers
                         sqlOut = " SELECT FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,SUM(Num5) AS Num1 ";
                         GroupBy = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName  ";
                     }
-                   
+
                     //GroupBy_Det = " GROUP BY FirstCode,FirstName,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName, Series ,Datetime1,Num5";
                     OrderBy = " ORDER BY FirstCode,SecondCode,ThirdCode,FourthCode,FifthCode ";
                     break;
@@ -1420,15 +1454,15 @@ namespace luntuo.Controllers
                 WhereSql.Add($" Datetime1 <= '{Datetime2}' ");
             }
             string Where = "";
-            if (WhereSql.Count>0)
+            if (WhereSql.Count > 0)
             {
                 Where = " AND " + string.Join(" AND ", WhereSql);
             }
             string sql_Sum = sqlOut + $" FROM ({sqlIn + Where}) AS T1 {GroupBy} {OrderBy} ";
             string sql_Det = sqlOut_Det + $" FROM ({sqlIn + Where}) AS T1  {OrderBy},Datetime1 ";
-            JObject jo_Sum = Common.findCommond(sql_Sum, typeof(V_BjInfo),page,pageSize,ServerPath);
+            JObject jo_Sum = Common.findCommond(sql_Sum, typeof(V_BjInfo), page, pageSize, ServerPath);
             JObject jo_Det = Common.findCommond(sql_Det, typeof(V_BjInfo), 1, 99999999, ServerPath);
-            msg.Add("status",0);
+            msg.Add("status", 0);
             msg.Add("V_BjInfo_Sum", jo_Sum);
             msg.Add("V_BjInfo_Det", jo_Det);
 
@@ -1516,14 +1550,14 @@ namespace luntuo.Controllers
             string Where = "";
             if (WhereSql.Count > 0)
             {
-                Where =  string.Join(" AND ", WhereSql);
+                Where = string.Join(" AND ", WhereSql);
             }
 
             #endregion
 
             #region 生成SQL
             string SqlSeries = "";
-            if (model=="1")
+            if (model == "1")
             {
                 SqlSeries = "Series";
             }
@@ -1532,7 +1566,7 @@ namespace luntuo.Controllers
                 SqlSeries = "('') AS Series";
             }
             string GroupBy = "FirstCode,FirstName,Prooerty,SecondCode,SecondName,ThirdCode,ThirdName,FourthCode,FourthName,FifthCode,FifthName,SixthCode,SixthName,Meins,MRP,Pline1,Pline2,Pline3,Pline4,Pline5,Pline6";
-            if (model=="1")
+            if (model == "1")
             {
                 GroupBy += ",Series";
             }
@@ -1544,14 +1578,14 @@ namespace luntuo.Controllers
 
             #region 查询数据
 
-            JObject data = Common.findCommond(Sql, typeof(V_BjInfo),1,999999,ServerPath) ;
+            JObject data = Common.findCommond(Sql, typeof(V_BjInfo), 1, 999999, ServerPath);
 
             #endregion
 
             #region 返回数据
 
-            msg.Add("data",data);
-            msg.Add("status",0);
+            msg.Add("data", data);
+            msg.Add("status", 0);
 
             #endregion
 
@@ -1569,7 +1603,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string addUser(FormCollection fc) {
+        public string addUser(FormCollection fc)
+        {
             //查找用户数据
             JObject msg = new JObject();
             #region 获取数据
@@ -1597,7 +1632,8 @@ namespace luntuo.Controllers
             #endregion
 
             #region 返回数据
-            if (flg) {
+            if (flg)
+            {
                 msg.Add("status", 0);
                 msg.Add("data", "OK");
             }
@@ -1616,7 +1652,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string submitBjImp(FormCollection fc) {
+        public string submitBjImp(FormCollection fc)
+        {
             JObject msg = new JObject();
             JavaScriptSerializer jsonReader = new JavaScriptSerializer();
             string OptUserCode = fc["OptUserCode"];
@@ -1627,12 +1664,14 @@ namespace luntuo.Controllers
             #region 找tbCount最大值
 
             string TbCountMaxsql = $"SELECT MAX(TbCount) AS TbCount FROM BjImp WHERE UserCode='{OptUserCode}'";
-            JObject MaxJo = Common.findCommond(TbCountMaxsql,typeof(BjImp),1,1, ServerPath);
+            JObject MaxJo = Common.findCommond(TbCountMaxsql, typeof(BjImp), 1, 1, ServerPath);
             int MaxTab = -1;
             bool Tabflg = false;
-            if (MaxJo["BjImp"]!=null && MaxJo["BjImp"].ToString()!="[]" && MaxJo["BjImp"][0] !=null  && MaxJo["BjImp"][0]["TbCount"]!=null) {
-                Tabflg = int.TryParse(MaxJo["BjImp"][0]["TbCount"].ToString(),out MaxTab);
-                if (!Tabflg) {
+            if (MaxJo["BjImp"] != null && MaxJo["BjImp"].ToString() != "[]" && MaxJo["BjImp"][0] != null && MaxJo["BjImp"][0]["TbCount"] != null)
+            {
+                Tabflg = int.TryParse(MaxJo["BjImp"][0]["TbCount"].ToString(), out MaxTab);
+                if (!Tabflg)
+                {
                     MaxTab = -1;
                 }
                 else
@@ -1644,7 +1683,8 @@ namespace luntuo.Controllers
             #endregion
 
             List<BjImp> beans = new List<BjImp>();
-            for (int i=0;i<Count;i++) {
+            for (int i = 0; i < Count; i++)
+            {
                 BjImp bean = jsonReader.Deserialize<BjImp>(fc[$"list[{i}]"]);
                 bean.UserCode = OptUserCode;
                 bean.TbCount = MaxTab;
@@ -1657,13 +1697,20 @@ namespace luntuo.Controllers
                 string Delsql = $"Delete BjImp where UserCode='{OptUserCode}'";
                 sqls.Insert(0, Delsql);
             }
-            string logSql = InsertLog("钣金需求接口", "执行中", OptUserCode);
+            //将删除的表数据移动到另一张表 做查询用
+            string CopySql = $"Insert into BjImp_Log(Matnr,Menge,Series,TbCount,UserCode,status,Datetime1,LogTime) select Matnr,Menge,Series,TbCount,UserCode,status,Datetime1,GETDATE() from BjImp  WHERE UserCode='{OptUserCode}'";
+            sqls.Insert(0, CopySql);
+            string logSql = InsertLog("钣金需求接口", "执行开始", OptUserCode);
+
             sqls.Add(logSql);
             //Tabflg = Common.OptCommond(sqls, ServerPath);
 
             bool flg = Common.OptCommond(sqls, ServerPath);
-            
+
             LTPCwebservice client = getServiceMethod();
+            //LTPCWeb.LTPCwebservice client = getServiceMethod2();
+
+
             Task.Run(() =>
             {
                 try
@@ -1671,29 +1718,33 @@ namespace luntuo.Controllers
                     bool flg1 = false;
                     if (type == 1)
                     {
-                        flg1 = client.Bjxufj(OptUserCode,0);
+                        flg1 = client.Bjxufj(OptUserCode, 0);
                     }
                     else
                     {
-                        flg1 = client.Bjxufj(OptUserCode,0);
+                        flg1 = client.Bjxufj(OptUserCode, 0);
                     }
-                    if (flg1) {
+                    if (flg1)
+                    {
                         //判断是否成功 
                         BjInfo bean = new BjInfo();
                         bean.UserCode = OptUserCode;
                         bean.TbCount = MaxTab;
                         string sql = Common.find<BjInfo>(bean);
                         //找info表的最大值
-                        JObject InfoJo = Common.findCommond(sql,typeof(BjInfo),1,1,ServerPath);
+                        JObject InfoJo = Common.findCommond(sql, typeof(BjInfo), 1, 1, ServerPath);
                         Tabflg = false;
                         int InfoMaxTab = -2;
-                        if (InfoJo["BjInfo"]!=null && InfoJo["BjInfo"].ToString()!="[]" && InfoJo["BjInfo"][0]!=null && InfoJo["BjInfo"][0]["TbCount"]!=null) {
+                        if (InfoJo["BjInfo"] != null && InfoJo["BjInfo"].ToString() != "[]" && InfoJo["BjInfo"][0] != null && InfoJo["BjInfo"][0]["TbCount"] != null)
+                        {
                             Tabflg = int.TryParse(InfoJo["BjInfo"][0]["TbCount"].ToString(), out InfoMaxTab);
-                            if (!Tabflg) {
+                            if (!Tabflg)
+                            {
                                 InfoMaxTab = -2;
                             }
                         }
-                        if (InfoMaxTab == MaxTab) {
+                        if (InfoMaxTab == MaxTab)
+                        {
                             List<string> sqls1 = new List<string>();
                             //string optSql = $"UPDATE BjImp SET status='已完成' WHERE UserCode='{OptUserCode}' AND TbCount={MaxTab}";
                             string logSql1 = InsertLog("钣金需求接口", "执行完成", OptUserCode);
@@ -1711,7 +1762,9 @@ namespace luntuo.Controllers
                         sqls1.Add(logSql1);
                         flg1 = Common.OptCommond(sqls1, ServerPath);
                     }
-                } catch (Exception ) {
+                }
+                catch (Exception)
+                {
                     //超时处理
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
@@ -1722,6 +1775,7 @@ namespace luntuo.Controllers
                     flg1 = Common.OptCommond(sqls1, ServerPath);
                 }
             });
+
             #region 返回结果
             if (flg)
             {
@@ -1736,7 +1790,8 @@ namespace luntuo.Controllers
         }
 
         [HttpPost]
-        public string submitCgImp(FormCollection fc) {
+        public string submitCgImp(FormCollection fc)
+        {
             JObject msg = new JObject();
             string BaseDate = fc["BaseDate"];
             string OptUserCode = fc["OptUserCode"];
@@ -1751,7 +1806,7 @@ namespace luntuo.Controllers
             JObject MaxJo = Common.findCommond(TbCountMaxsql, typeof(CgImp), 1, 1, ServerPath);
             int MaxTab = -1;
             bool Tabflg = false;
-            if (MaxJo["CgImp"] != null && MaxJo["CgImp"].ToString()!="[]" && MaxJo["CgImp"][0] != null && MaxJo["CgImp"][0]["TbCount"] != null)
+            if (MaxJo["CgImp"] != null && MaxJo["CgImp"].ToString() != "[]" && MaxJo["CgImp"][0] != null && MaxJo["CgImp"][0]["TbCount"] != null)
             {
                 Tabflg = int.TryParse(MaxJo["CgImp"][0]["TbCount"].ToString(), out MaxTab);
                 if (!Tabflg)
@@ -1775,17 +1830,20 @@ namespace luntuo.Controllers
                 bean.status = "执行中";
                 beans.Add(bean);
             }
-            
+
             List<string> sqls = Common.adds<CgImp>(beans);
             if (type == 1)
             {
                 string Delsql = $"Delete CgImp WHERE UserCode='{OptUserCode}'";
                 sqls.Insert(0, Delsql);
             }
-            string logSql = InsertLog("采购需求接口", "执行中", OptUserCode);
+            //
+            string CopySql = $"Insert into CgImp_Log(Matnr,Menge,TbCount,UserCode,status,Datetime1,Series,LogTime) select Matnr,Menge,TbCount,UserCode,status,Datetime1,Series,GETDATE() from CgImp where UserCode = '{OptUserCode}' ";
+            sqls.Insert(0, CopySql);
+            string logSql = InsertLog("采购需求接口", "执行开始", OptUserCode);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
-            
+
             //Task.Run(async () =>
             //{
             //    //update
@@ -1796,26 +1854,27 @@ namespace luntuo.Controllers
             Task.Run(() =>
             {
                 try
-                { 
+                {
                     BaseDate = BaseDate.Replace("-", "");
                     bool flg1 = false;
                     if (type == 1)
                     {
-                        flg1 = client.Cgxufj(BaseDate,OptUserCode,0);
+                        flg1 = client.Cgxufj(BaseDate, OptUserCode, 0);
                     }
                     else
                     {
-                        flg1 = client.Cgxufj(BaseDate, OptUserCode,0);
+                        flg1 = client.Cgxufj(BaseDate, OptUserCode, 0);
                     }
-                    if (flg1) {
+                    if (flg1)
+                    {
                         CgInfo bean = new CgInfo();
                         bean.UserCode = OptUserCode;
                         bean.TbCount = MaxTab;
                         string sql = Common.find<CgInfo>(bean);
                         JObject InfoJo = Common.findCommond(sql, typeof(CgInfo), 1, 1, ServerPath);
                         Tabflg = false;
-                            int InfoMaxTab = -2;
-                        if (InfoJo["CgInfo"] != null && InfoJo["CgInfo"].ToString()!="[]" && InfoJo["CgInfo"][0] != null && InfoJo["CgInfo"][0]["TbCount"] != null)
+                        int InfoMaxTab = -2;
+                        if (InfoJo["CgInfo"] != null && InfoJo["CgInfo"].ToString() != "[]" && InfoJo["CgInfo"][0] != null && InfoJo["CgInfo"][0]["TbCount"] != null)
                         {
                             Tabflg = int.TryParse(InfoJo["CgInfo"][0]["TbCount"].ToString(), out InfoMaxTab);
                             if (!Tabflg)
@@ -1843,7 +1902,7 @@ namespace luntuo.Controllers
                         flg1 = Common.OptCommond(sqls, ServerPath);
                     }
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
@@ -1867,7 +1926,8 @@ namespace luntuo.Controllers
         }
 
         [HttpPost]
-        public string submitJjImp(FormCollection fc) {
+        public string submitJjImp(FormCollection fc)
+        {
             JObject msg = new JObject();
             JavaScriptSerializer jsonReader = new JavaScriptSerializer();
             string OptUserCode = fc["OptUserCode"];
@@ -1880,7 +1940,7 @@ namespace luntuo.Controllers
             JObject MaxJo = Common.findCommond(TbCountMaxsql, typeof(JjImp), 1, 1, ServerPath);
             int MaxTab = -1;
             bool Tabflg = false;
-            if (MaxJo["JjImp"] != null && MaxJo["JjImp"].ToString() !="[]" && MaxJo["JjImp"][0] != null && MaxJo["JjImp"][0]["TbCount"] != null)
+            if (MaxJo["JjImp"] != null && MaxJo["JjImp"].ToString() != "[]" && MaxJo["JjImp"][0] != null && MaxJo["JjImp"][0]["TbCount"] != null)
             {
                 Tabflg = int.TryParse(MaxJo["JjImp"][0]["TbCount"].ToString(), out MaxTab);
                 if (!Tabflg)
@@ -1906,17 +1966,19 @@ namespace luntuo.Controllers
                 bean.status = "执行中";
                 beans.Add(bean);
             }
-            
+
             List<string> sqls = Common.adds<JjImp>(beans);
             if (type == 1)
             {
                 string Delsql = $"Delete JjImp where UserCode='{OptUserCode}'";
                 sqls.Insert(0, Delsql);
             }
-            string logSql = InsertLog("机加需求接口", "执行中", OptUserCode);
+            string CopySql = $"Insert into CgImp_Log(Matnr,Menge,TbCount,UserCode,status,Datetime1,Series,LogTime) select Matnr,Menge,TbCount,UserCode,status,Datetime1,Series,GETDATE() from CgImp where UserCode = '{OptUserCode}' ";
+            sqls.Insert(0, CopySql);
+            string logSql = InsertLog("机加需求接口", "执行开始", OptUserCode);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
-            
+
             LTPCwebservice client = getServiceMethod();
             Task.Run(() =>
             {
@@ -1925,13 +1987,14 @@ namespace luntuo.Controllers
                     bool flg1 = false;
                     if (type == 1)
                     {
-                        flg1 = client.Jjxufj(OptUserCode,0);
+                        flg1 = client.Jjxufj(OptUserCode, 0);
                     }
                     else
                     {
-                        flg1 = client.Jjxufj(OptUserCode,0);
+                        flg1 = client.Jjxufj(OptUserCode, 0);
                     }
-                    if (flg1) {
+                    if (flg1)
+                    {
                         JjInfo bean = new JjInfo();
                         bean.UserCode = OptUserCode;
                         bean.TbCount = MaxTab;
@@ -1939,7 +2002,7 @@ namespace luntuo.Controllers
                         JObject InfoJo = Common.findCommond(sql, typeof(JjInfo), 1, 1, ServerPath);
                         Tabflg = false;
                         int InfoMaxTab = -2;
-                        if (InfoJo["JjInfo"] != null && InfoJo["JjInfo"].ToString()!="[]" && InfoJo["JjInfo"][0] != null && InfoJo["JjInfo"][0]["TbCount"] != null)
+                        if (InfoJo["JjInfo"] != null && InfoJo["JjInfo"].ToString() != "[]" && InfoJo["JjInfo"][0] != null && InfoJo["JjInfo"][0]["TbCount"] != null)
                         {
                             Tabflg = int.TryParse(InfoJo["JjInfo"][0]["TbCount"].ToString(), out InfoMaxTab);
                             if (!Tabflg)
@@ -1967,7 +2030,7 @@ namespace luntuo.Controllers
                         flg1 = Common.OptCommond(sqls, ServerPath);
                     }
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     bool flg1 = false;
                     List<string> sqls1 = new List<string>();
@@ -2035,7 +2098,8 @@ namespace luntuo.Controllers
         /// <param name="fc"></param>
         /// <returns></returns>
         [HttpPost]
-        public string submitDdOrder(FormCollection fc) {
+        public string submitDdOrder(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
 
@@ -2052,7 +2116,7 @@ namespace luntuo.Controllers
             #region 验证数据
             string start = getDayStart();
             string end = GetDayEnd();
-            
+
             //获取版本号
             string TbCountMaxsql = $"SELECT MAX(TbCount) AS TbCount FROM DdOrder WHERE PlanDt='{DdBean.PlanDt}' AND NO={DdBean.NO} AND UpTime>='{start}' AND UpTime<='{end}' ";
             JObject MaxJo = Common.findCommond(TbCountMaxsql, typeof(DdOrder), 1, 1, ServerPath);
@@ -2067,9 +2131,9 @@ namespace luntuo.Controllers
                     MaxInfoTab = 0;
                 }
             }
-            
+
             //获取单号 LT+YYYY+MM
-            string NO = DdBean.NO > 9 ?""+DdBean.NO:"0"+DdBean.NO;
+            string NO = DdBean.NO > 9 ? "" + DdBean.NO : "0" + DdBean.NO;
             DdBean.LTOrder = "LT" + DdBean.PlanDt + NO;
             DdBean.TbCount = MaxInfoTab + 1;
             DdBean.UpTime = DateTime.Now;
@@ -2089,15 +2153,16 @@ namespace luntuo.Controllers
                     throw new Exception("添加调度单失败");
                 }
                 string sql = Common.find<DdOrder>(DdBean);
-                JObject IDJo = Common.findCommond(sql,typeof(DdOrder),1,1,ServerPath);
-                if (IDJo["DdOrder"] != null && IDJo["DdOrder"].ToString() != "[]" && IDJo["DdOrder"][0] != null && IDJo["DdOrder"][0]["ID"] != null) {
+                JObject IDJo = Common.findCommond(sql, typeof(DdOrder), 1, 1, ServerPath);
+                if (IDJo["DdOrder"] != null && IDJo["DdOrder"].ToString() != "[]" && IDJo["DdOrder"][0] != null && IDJo["DdOrder"][0]["ID"] != null)
+                {
                     DdBean.ID = int.Parse(IDJo["DdOrder"][0]["ID"].ToString());
                 }
                 #endregion
                 //创建调度单明细
                 //读取调度单明细信息
                 List<DdOrder_Det> beans = new List<DdOrder_Det>();
-                for (int i = 0; i<Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     DdOrder_Det bean = (DdOrder_Det)jsonReader.Deserialize<DdOrder_Det>(fc[$"list[{i}]"]);
                     bean.DID = DdBean.ID;
@@ -2109,13 +2174,14 @@ namespace luntuo.Controllers
                 Tempsqls = sqls;
                 string logsql = InsertLog("Excel导入调度单", $"调度单id:{DdBean.ID},插入了明细{Count}条", OptUserCode);
                 sqls.Add(logsql);
-                bool flg = Common.OptCommond(sqls,ServerPath);
-                if (flg) {
+                bool flg = Common.OptCommond(sqls, ServerPath);
+                if (flg)
+                {
                     //检查SAP物料的有效性
                     LTPCwebservice client = getServiceMethod();
-                    string retult = client.ChkSap("ddh","", (int)DdBean.ID);
+                    string retult = client.ChkSap("ddh", "", (int)DdBean.ID);
                     JObject obj = (JObject)JsonConvert.DeserializeObject(retult);
-                    if(obj["code"].ToString()=="200")
+                    if (obj["code"].ToString() == "200")
                     {
                         //少一个判断
                         //"msg": "物料不存在"
@@ -2129,7 +2195,7 @@ namespace luntuo.Controllers
                             sqls.Add(Common.del<DdOrder>(DdBean));
                             logsql = InsertLog("Excel导入调度单物料不存在", $"调度单id:{DdBean.ID} 删除", OptUserCode);
                             sqls.Add(logsql);
-                            Common.OptCommond(sqls,ServerPath);
+                            Common.OptCommond(sqls, ServerPath);
                         }
                         else
                         {//成功调用
@@ -2139,14 +2205,14 @@ namespace luntuo.Controllers
                             sqls.Add(sql);
                             sql = $"UPDATE DdOrder SET status='是' WHERE ID={DdBean.ID}";
                             sqls.Add(sql);
-                            Common.OptCommond(sqls,ServerPath);
+                            Common.OptCommond(sqls, ServerPath);
                             //上个版本的设置为不生效
 
                             msg.Add("status", 0);
                         }
-                        
+
                     }
-                    else if(obj["code"].ToString() == "400")
+                    else if (obj["code"].ToString() == "400")
                     {
                         //SAP接口错误
                         msg.Add("status", 2);
@@ -2162,7 +2228,7 @@ namespace luntuo.Controllers
                 else
                 {
                     //插入失败
-                    msg.Add("status",1);
+                    msg.Add("status", 1);
                 }
                 return msg.ToString();
             }
@@ -2171,11 +2237,12 @@ namespace luntuo.Controllers
 
                 throw;
             }
-            
+
         }
 
         [HttpPost]
-        public string addWBInfo(FormCollection fc) {
+        public string addWBInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             string OptUserCode = fc["OptUserCode"];
@@ -2198,7 +2265,7 @@ namespace luntuo.Controllers
             List<string> sqls = new List<string>();
             string sql = Common.add<WBInfo>(bean);
             //只查一条消息
-            string logSql = InsertLog("添加物料班组", "物料:"+bean.Matnr, OptUserCode);
+            string logSql = InsertLog("添加物料班组", "物料:" + bean.Matnr, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
@@ -2226,7 +2293,8 @@ namespace luntuo.Controllers
         }
 
         [HttpPost]
-        public string addMRPInfo(FormCollection fc) {
+        public string addMRPInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             string OptUserCode = fc["OptUserCode"];
@@ -2236,7 +2304,8 @@ namespace luntuo.Controllers
             {
                 bean.MRP = bean.MRP.ToUpper();
             }
-            if (!string.IsNullOrEmpty(fc["TypeID"])) {
+            if (!string.IsNullOrEmpty(fc["TypeID"]))
+            {
                 bean.TypeID = int.Parse(fc["TypeID"]);
             }
             #endregion
@@ -2246,7 +2315,7 @@ namespace luntuo.Controllers
             string sql = Common.add<MRPInfo>(bean);
             //只查一条消息
             List<string> sqls = new List<string>();
-            string logSql = InsertLog("添加MRP", "MRP:"+bean.MRP, OptUserCode);
+            string logSql = InsertLog("添加MRP", "MRP:" + bean.MRP, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sql, ServerPath);
@@ -2278,7 +2347,8 @@ namespace luntuo.Controllers
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public string demantExe(FormCollection fc) {
+        public string demantExe(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
@@ -2293,12 +2363,13 @@ namespace luntuo.Controllers
 
             LTPCwebservice client = getServiceMethod();
             //LTPCWeb.LTPCwebservice client = getServiceMethod2();
-            string result = client.ChkSap("ddh", OptUserCode,(int)bean.ID);
-            if (result.Contains("\"etype\": \"E\"")) {
+            string result = client.ChkSap("ddh", OptUserCode, (int)bean.ID);
+            if (result.Contains("\"etype\": \"E\""))
+            {
                 string logsql = InsertLog("执行调度单需求失败", $"调度单id:{bean.ID}", OptUserCode);
-                Common.OptCommond(logsql,ServerPath);
-                msg.Add("status",1);
-                msg.Add("msg",result);
+                Common.OptCommond(logsql, ServerPath);
+                msg.Add("status", 1);
+                msg.Add("msg", result);
                 return msg.ToString();
             }
 
@@ -2312,7 +2383,7 @@ namespace luntuo.Controllers
                 try
                 {
                     //string ClientResult = client.Dddxqfj("",dt,(int)bean.ID);
-                    client.Dddxqfj(dt,(int)bean.ID,"");
+                    client.Dddxqfj(dt, (int)bean.ID, "");
                     List<string> sqls = new List<string>();
                     string sq1l = InsertLog("调度单接口执行", $"调度单id:{bean.ID}", OptUserCode);
                     sqls.Add(sq1l);
@@ -2349,8 +2420,8 @@ namespace luntuo.Controllers
             //Common.OptCommond(sql,ServerPath);
 
             #endregion
-            msg.Add("status",0);
-            
+            msg.Add("status", 0);
+
             return msg.ToString();
         }
 
@@ -2385,26 +2456,27 @@ namespace luntuo.Controllers
 
             #region 更新状态
             string sql = "";
-            if(type=="BJ")
+            if (type == "BJ")
             {
                 sql = $"UPDATE DdOrder_Det SET BjFlg=1 WHERE ID IN ({IDS})";
                 type = "bj";
-            }else if (type=="JJ")
+            }
+            else if (type == "JJ")
             {
                 sql = $"UPDATE DdOrder_Det SET JjFlg=1 WHERE ID IN ({IDS})";
                 type = "jj";
             }
-            else if (type=="CG")
+            else if (type == "CG")
             {
                 sql = $"UPDATE DdOrder_Det SET CgFlg=1 WHERE ID IN ({IDS})";
                 type = "cg";
             }
             else
             {
-                msg.Add("status",1);
+                msg.Add("status", 1);
                 return msg.ToString();
             }
-            bool flg = Common.OptCommond(sql,ServerPath);
+            bool flg = Common.OptCommond(sql, ServerPath);
             if (!flg)
             {
                 msg.Add("status", 1);
@@ -2420,7 +2492,7 @@ namespace luntuo.Controllers
                 try
                 {
                     //string ClientResult = client.Dddxqfj("",dt,(int)bean.ID);
-                    int clientResult = client.Dddxqfj(dt, ((int)bean.ID),type);
+                    int clientResult = client.Dddxqfj(dt, ((int)bean.ID), type);
                     //client.
                     List<string> sqls = new List<string>();
                     string sq1l = InsertLog("调度单接口执行", $"调度单id:{bean.ID}", OptUserCode);
@@ -2500,7 +2572,8 @@ namespace luntuo.Controllers
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public string editUser(FormCollection fc) {
+        public string editUser(FormCollection fc)
+        {
             //查找用户数据
             JObject msg = new JObject();
             string OptUserCode = fc["OptUserCode"];
@@ -2517,10 +2590,10 @@ namespace luntuo.Controllers
 
             #region 获得sql
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
-            string sql = Common.updata<UserInfo>(bean,bean2);
+            string sql = Common.updata<UserInfo>(bean, bean2);
             //只查一条消息
             List<string> sqls = new List<string>();
-            string logSql = InsertLog("修改用户", "修改的用户ID:"+bean2.ID, OptUserCode);
+            string logSql = InsertLog("修改用户", "修改的用户ID:" + bean2.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
@@ -2547,7 +2620,8 @@ namespace luntuo.Controllers
             #endregion
         }
 
-        public string editWBInfo(FormCollection fc) {
+        public string editWBInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             string OptUserCode = fc["OptUserCode"];
@@ -2559,7 +2633,8 @@ namespace luntuo.Controllers
             }
             bean.Maktx = fc["Maktx"];
             bean.Bz = fc["Bz"];
-            if (!string.IsNullOrEmpty(bean.Bz)) {
+            if (!string.IsNullOrEmpty(bean.Bz))
+            {
                 bean.Bz = bean.Bz.ToUpper();
             }
             WBInfo bean2 = new WBInfo();
@@ -2568,9 +2643,9 @@ namespace luntuo.Controllers
 
             #region 获得sql
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
-            string sql = Common.updata<WBInfo>(bean,bean2);
+            string sql = Common.updata<WBInfo>(bean, bean2);
             List<string> sqls = new List<string>();
-            string logSql = InsertLog("修改物料班组", "修改的物料班组ID:"+bean2.ID, OptUserCode);
+            string logSql = InsertLog("修改物料班组", "修改的物料班组ID:" + bean2.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             //只查一条消息
@@ -2598,16 +2673,19 @@ namespace luntuo.Controllers
             #endregion
         }
 
-        public string editMRPInfo(FormCollection fc) {
+        public string editMRPInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             string OptUserCode = fc["OptUserCode"];
             MRPInfo bean = new MRPInfo();
             bean.MRP = fc["MRP"];
-            if (!string.IsNullOrEmpty(bean.MRP)) {
+            if (!string.IsNullOrEmpty(bean.MRP))
+            {
                 bean.MRP = bean.MRP.ToUpper();
             }
-            if (!string.IsNullOrEmpty(fc["TypeID"])) {
+            if (!string.IsNullOrEmpty(fc["TypeID"]))
+            {
                 bean.TypeID = int.Parse(fc["TypeID"]);
             }
             MRPInfo bean2 = new MRPInfo();
@@ -2658,7 +2736,7 @@ namespace luntuo.Controllers
             DdOrder bean2 = new DdOrder();
             bean2.ID = int.Parse(fc["ID"]);
             #endregion
-            
+
             #region 获得sql
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             string sql = Common.updata<DdOrder>(bean, bean2);
@@ -2696,7 +2774,8 @@ namespace luntuo.Controllers
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public string editDdOrder_status(FormCollection fc) {
+        public string editDdOrder_status(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
 
@@ -2719,9 +2798,9 @@ namespace luntuo.Controllers
             //WHERE PlanDt='{DdBean.PlanDt}' AND NO={DdBean.NO} AND UpTime>='{start}' AND UpTime<='{end}' ";
             string sql = $"UPDATE DdOrder SET status='否'  WHERE PlanDt='{PlanDt}' AND NO={NO} AND UpTime>='{start}' AND UpTime<='{end}' ";
             sqls.Add(sql);
-            sql = "UPDATE DdOrder SET status='是' WHERE ID = "+bean2.ID;
+            sql = "UPDATE DdOrder SET status='是' WHERE ID = " + bean2.ID;
             //只查一条消息
-            
+
             string logSql = InsertLog("修改调度单生效状态", "修改的调度单 ID:" + bean2.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
@@ -2764,7 +2843,7 @@ namespace luntuo.Controllers
             bean.Datetime2 = fc["Datetime2"];
             bean.Bz = fc["Bz"];
 
-            bean2.ID = int.Parse(fc["ID"].Replace("Det",""));
+            bean2.ID = int.Parse(fc["ID"].Replace("Det", ""));
             #endregion
 
             #region 获得sql
@@ -2772,7 +2851,7 @@ namespace luntuo.Controllers
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             //更改其他的调度单状态
             //WHERE PlanDt='{DdBean.PlanDt}' AND NO={DdBean.NO} AND UpTime>='{start}' AND UpTime<='{end}' ";
-            string sql = Common.updata<DdOrder_Det>(bean,bean2);
+            string sql = Common.updata<DdOrder_Det>(bean, bean2);
             string logSql = InsertLog("修改调度单明细", "修改的调度单明细 ID:" + bean2.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
@@ -2811,11 +2890,11 @@ namespace luntuo.Controllers
             string OptUserCode = fc["OptUserCode"];
             LTPCwebservice client = getServiceMethod();
             //LTPCWeb.LTPCwebservice client = getServiceMethod2();
-            if (iDID==null)
+            if (iDID == null)
             {
                 iDID = "";
             }
-            string result = client.GetKc(strKcDate, OptUserCode, iDID,"","","","","","");
+            string result = client.GetKc(strKcDate, OptUserCode, iDID, "", "", "", "", "", "");
             return result;
         }
 
@@ -2846,7 +2925,7 @@ namespace luntuo.Controllers
             string sql = Common.del<UserInfo>(bean);
             //只查一条消息
             List<string> sqls = new List<string>();
-            string logSql = InsertLog("删除用户", "删除用户ID："+bean.ID, OptUserCode);
+            string logSql = InsertLog("删除用户", "删除用户ID：" + bean.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
@@ -2972,7 +3051,8 @@ namespace luntuo.Controllers
             string OptUserCode = fc["OptUserCode"];
             string[] IDS = fc["IDS"].Split(',');
             List<MRPInfo> beans = new List<MRPInfo>();
-            foreach (string str in IDS) {
+            foreach (string str in IDS)
+            {
                 MRPInfo bean = new MRPInfo()
                 {
                     ID = int.Parse(str)
@@ -3064,7 +3144,8 @@ namespace luntuo.Controllers
         /// </summary>
         /// <param name="fc"></param>
         /// <returns></returns>
-        public string delUploadInfo(FormCollection fc) {
+        public string delUploadInfo(FormCollection fc)
+        {
             JObject msg = new JObject();
             #region 获取数据
             string OptUserCode = fc["OptUserCode"];
@@ -3078,11 +3159,12 @@ namespace luntuo.Controllers
             string sql = Common.del<UploadInfo>(bean);
             //只查一条消息
             List<string> sqls = new List<string>();
-            string logSql = InsertLog("删除调度单", "调度单ID：" + bean.ID+",文件名路径:"+bean.Path, OptUserCode);
+            string logSql = InsertLog("删除调度单", "调度单ID：" + bean.ID + ",文件名路径:" + bean.Path, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sql, ServerPath);
-            if (flg) {
+            if (flg)
+            {
                 System.IO.File.Delete(bean.Path);
             }
             #endregion
@@ -3125,11 +3207,11 @@ namespace luntuo.Controllers
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
             List<string> sqls = new List<string>();
             //删除调度单明细
-            
-            string sql = "DELETE DdOrder_Det WHERE DID="+bean.ID;
+
+            string sql = "DELETE DdOrder_Det WHERE DID=" + bean.ID;
             sqls.Add(sql);
             sql = Common.del<DdOrder>(bean);
-            string logSql = InsertLog("删除调度单", "调度单ID：" + bean.ID , OptUserCode);
+            string logSql = InsertLog("删除调度单", "调度单ID：" + bean.ID, OptUserCode);
             sqls.Add(sql);
             sqls.Add(logSql);
             bool flg = Common.OptCommond(sqls, ServerPath);
@@ -3160,7 +3242,8 @@ namespace luntuo.Controllers
 
         #region 文件上传 
         [HttpPost]
-        public string uploadfile(FormCollection fc) {
+        public string uploadfile(FormCollection fc)
+        {
             JObject msg = new JObject();
             string OptUserCode = fc["OptUserCode"];
             string ServerPath = Server.MapPath("/WebCfg/Db.json");
@@ -3175,7 +3258,7 @@ namespace luntuo.Controllers
                         UploadInfo bean = new UploadInfo();
                         HttpPostedFileBase file = Request.Files.Get(key);
                         string Full_FileName = FileName + Lw_Utils.GetFileSuf(file.FileName);
-                        file.SaveAs(url +"\\"+ Full_FileName);
+                        file.SaveAs(url + "\\" + Full_FileName);
                         bean.FileName = Full_FileName;
                         bean.Path = url + "\\" + Full_FileName;
                         bean.Budat = DateTime.Now.ToString("yyy-MM-dd HH:mm:ss");
@@ -3190,7 +3273,8 @@ namespace luntuo.Controllers
                 msg.Add("status", 0);
                 msg.Add("data", "OK");
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 msg.Add("status", 1);
                 msg.Add("data", "fail");
                 throw;
@@ -3203,7 +3287,8 @@ namespace luntuo.Controllers
 
         #region 日志操作
 
-        public string InsertLog(string TypeName,string Contents,string UserCode) {
+        public string InsertLog(string TypeName, string Contents, string UserCode)
+        {
             LogInfo log = new LogInfo()
             {
                 TypeName = TypeName,
@@ -3257,11 +3342,12 @@ namespace luntuo.Controllers
             return end;
         }
 
-        public string getDayStart() {
+        public string getDayStart()
+        {
             DateTime dt = DateTime.Now;
             int Month = dt.Month;
             int year = dt.Year;
-            return year + "-" + (Month < 10 ? "0" + Month : "" + Month) +"-01";
+            return year + "-" + (Month < 10 ? "0" + Month : "" + Month) + "-01";
         }
 
         public string GetDayEnd(DateTime dt)
@@ -3310,6 +3396,7 @@ namespace luntuo.Controllers
         }
 
         #endregion
+
 
     }
 }

@@ -151,8 +151,10 @@ export default class Mobile_DdOrderDet extends Component {
     const {
       BtmToolsShow,
       Datetime1,
-      LTOrder,
-      Series,
+      LTOrder,//订单号
+      Faline,//产线
+      TbCount,//版本号
+      Series,//系列
       FilterData,
       Count,
       loading,
@@ -192,7 +194,7 @@ export default class Mobile_DdOrderDet extends Component {
           </h2>
           <Item>
             <span style={{ fontWeight: 600 }}>
-              调度单:LT20200701,产线:南线,版本:01
+              调度单:{LTOrder},产线:{Faline},版本:{TbCount}
             </span>
           </Item>
           <DatePicker
